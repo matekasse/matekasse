@@ -10,14 +10,14 @@ on:
 
 jobs:
   build-frontend:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install yarn packages
-      run: cd api && yarn install
-    - name: lint
-      run: cd api && yarn build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install yarn packages
+        run: cd api && yarn install
+      - name: lint
+        run: cd api && yarn build
       
   # Runs all steps on the VM
   # The service containers will use host port binding instead of container networking so you access them via localhost
