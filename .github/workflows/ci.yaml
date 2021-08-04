@@ -1,4 +1,3 @@
-
 name: CI
 
 on:
@@ -36,7 +35,7 @@ jobs:
   # rather than the service name.
   tests:
     runs-on: ubuntu-latest
-    
+
     services:
       mongo:
         image: postgres:11
