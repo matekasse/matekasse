@@ -56,6 +56,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install yarn packages
-        run: cd app && yarn install
+        run: cd api && yarn install
       - name: test
-        run: cd app && export NODE_ENV=test && yarn test
+        run: cd api && export NODE_ENV=test && yarn test
