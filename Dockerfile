@@ -1,16 +1,28 @@
 FROM node:14-buster-slim as build-frontend
-WORKDIR /app
+
 COPY package.json ./
 COPY yarn.lock ./
+
+WORKDIR /app
+
+COPY ./app/package.json .
 RUN yarn install
+
 COPY ./app .
 RUN yarn build
 
+
 FROM node:14-buster-slim
-WORKDIR /api
+
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn install
+
+WORKDIR /api
+COPY ./api/package.json .
+RUN yarn install 
+
+COPY ./api .
 RUN yarn build
-COPY --from=build-stage /app/dist .
-ENTRYPOINT [ "yarn start" ]
+
+COPY --from=build-frontend /app/dist ./public
+ENTRYPOINT [ "yarn", "start" ]
