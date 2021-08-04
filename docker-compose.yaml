@@ -6,11 +6,7 @@ services:
     environment:
     - API_PORT=1337
     - API_HOST=http:/mate-backend
-    - DBDATABASE=mate-db
-    - DBHOST=mate-postgres
-    - DBPASSWORD=1234
-    - DBPORT=5432
-    - DBUSER=mate-user
+    - DATABASE_CONNECTION_URL=postgresql://mate-user:1234@mate-postgres:5432/mate-db
     - NODE_ENV=local
     - SECRET=SUPERSECRETKEY-CHANGEME
     ports:
