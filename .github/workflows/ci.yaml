@@ -35,12 +35,24 @@ jobs:
     #  - name: Run tests
     #    run: make test
 
-  lint:
+  lint-backend:
     runs-on: ubuntu-latest
 
     steps:
-      #- name: Install Go
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install yarn packages
+        run: cd api && yarn install
+      - name: lint
+        run: yarn lint
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install yarn packages
+        run: cd app && yarn install
       - name: lint
         run: yarn lint
