@@ -70,10 +70,10 @@ jobs:
         run: cd api && export NODE_ENV=test && yarn test
 
   build-production-backend:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Build docker image
-      run: docker build -t ghcr.io/matekasse/matekasse:$GITHUB_REF . >
-        docker push ghcr.io/matekasse/matekasse:$GITHUB_REF
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: docker build -t ghcr.io/matekasse/matekasse:$GITHUB_REF . >
+          docker push ghcr.io/matekasse/matekasse:$GITHUB_REF
