@@ -1,11 +1,7 @@
 name: build latest
 
 on:
-  # remove before merge
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
