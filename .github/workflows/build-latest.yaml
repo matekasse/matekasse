@@ -16,6 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build docker image
-        run: | 
-          docker build -t ghcr.io/matekasse/matekasse:latest .
-          docker push ghcr.io/matekasse/matekasse:latest
+        run: docker build -t ghcr.io/matekasse/matekasse:latest .
+      - name: Push docker image
+        run: docker push ghcr.io/matekasse/matekasse:latest
