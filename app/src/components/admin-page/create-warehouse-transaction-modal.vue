@@ -195,6 +195,8 @@ export default {
             );
             this.warehouseTransaction.productID = this.warehouseTransaction.product.id;
 
+            delete this.warehouseTransaction.product;
+
             try {
                 await postWarehouseTransactions(this.warehouseTransaction);
                 this.$emit('warehouseTransactionsChanged', this.warehouseTransaction);
