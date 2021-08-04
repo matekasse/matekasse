@@ -19,6 +19,7 @@ jobs:
       - name: lint
         run: cd api && yarn build
       
+      
   # Runs all steps on the VM
   # The service containers will use host port binding instead of container networking so you access them via localhost
   # rather than the service name.
