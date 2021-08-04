@@ -39,9 +39,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Go
+      #- name: Install Go
       - name: Checkout code
         uses: actions/checkout@v2
       - name: lint
         run: yarn lint
-        
