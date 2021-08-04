@@ -2,7 +2,7 @@ version: '3'
 services:
   mate-backend:
     image: node:13
-    container_name: mate-backend
+    container_name: ghcr.io/matekasse/matekasse:latest
     environment:
     - API_PORT=1337
     - API_HOST=http:/mate-backend
