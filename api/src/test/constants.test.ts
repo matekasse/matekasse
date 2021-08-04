@@ -7,6 +7,7 @@ import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { createTestUser, authenticateTestUser } from "./userUtils";
+import "mocha";
 
 config();
 
