@@ -1,0 +1,34 @@
+version: '3'
+services:
+  mate-backend:
+    image: node:13
+    container_name: mate-backend
+    environment:
+    - API_PORT=1337
+    - API_HOST=http:/mate-backend
+    - DBDATABASE=mate-db
+    - DBHOST=mate-postgres
+    - DBPASSWORD=1234
+    - DBPORT=5432
+    - DBUSER=mate-user
+    - NODE_ENV=local
+    - SECRET=SUPERSECRETKEY-CHANGEME
+    ports:
+      - 0.0.0.0:1337:1337
+    depends_on:
+      - mate-postgres
+
+  mate-postgres:
+    image: postgres:11
+    container_name: mate-postgres
+    environment:
+      - POSTGRES_USER=mate-user
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=mate-db
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
+
+volumes:
+  postgres-volume:
