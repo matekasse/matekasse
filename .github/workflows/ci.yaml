@@ -44,7 +44,7 @@ jobs:
       - name: Install yarn packages
         run: cd api && yarn install
       - name: lint
-        run: yarn lint
+        run: cd api && yarn lint
 
   lint-frontend:
     runs-on: ubuntu-latest
@@ -55,4 +55,4 @@ jobs:
       - name: Install yarn packages
         run: cd app && yarn install
       - name: lint
-        run: yarn lint
+        run: cd app && yarn lint
