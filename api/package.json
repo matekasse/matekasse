@@ -1,5 +1,5 @@
 {
-    "name": "matekasse",
+    "name": "api",
     "version": "1.0.0",
     "description": "Awesome project developed with Mate.",
     "license": "MIT",
@@ -31,8 +31,8 @@
         "typeorm": "0.2.20"
     },
     "scripts": {
-        "start": "API_PORT=1337 ts-node --files src/index.ts",
-        "server": "npm run watch && nodemon ./dist/server.js",
+        "start:dev": "API_PORT=1337 ts-node --files src/index.ts",
+        "start": "node ./dist/index.js",
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
         "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
