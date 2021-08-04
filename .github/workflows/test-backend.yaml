@@ -1,0 +1,49 @@
+name: test-backend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-frontend:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install yarn packages
+      run: cd api && yarn install
+    - name: lint
+      run: cd api && yarn build
+      
+  # Runs all steps on the VM
+  # The service containers will use host port binding instead of container networking so you access them via localhost
+  # rather than the service name.
+
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: postgres:11
+        env:
+            POSTGRES_DB: mate-db
+            POSTGRES_USER: mate-user
+            POSTGRES_PASSWORD: "1234"
+            DBPORT: "5432"
+            DBHOST: postgres
+            SECRET: "SECRETKEY"
+
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install yarn packages
+        run: cd api && yarn install
+      - name: test
+        run: cd api && export NODE_ENV=test && yarn test
