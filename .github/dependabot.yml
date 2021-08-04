@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/app'
+    open-pull-requests-limit: 20
+
+  - package-ecosystem: 'npm'
+    directory: '/api'
+    open-pull-requests-limit: 20
