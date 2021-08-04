@@ -14,6 +14,7 @@ import {
     authenticateNonAdminTestUser
 } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
+import "mocha";
 
 config();
 

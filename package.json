@@ -1,0 +1,21 @@
+{
+    "name": "matekasse",
+    "version": "1.0.0",
+    "description": "Awesome project developed with Mate.",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "api",
+        "app"
+      ],
+    "scripts": {
+        "start": "API_PORT=1337 ts-node --files src/index.ts",
+        "server": "npm run watch && nodemon ./dist/server.js",
+        "build": "tsc",
+        "watch": "tsc --sourceMap -w &",
+        "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
+        "test": "API_PORT_TEST=1337 TS_NODE_FILES=true mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
+        "lint": "prettier --write src/**/*.ts && prettier --write init-scripts/*.js",
+        "ci:lint": "prettier -c src/**/*.ts"
+    }
+}

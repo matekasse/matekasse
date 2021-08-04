@@ -9,6 +9,7 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
 import { ConstantsService } from "../services/constants-service";
+import "mocha";
 
 config();
 

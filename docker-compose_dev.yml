@@ -1,27 +1,5 @@
 version: '3'
 services:
-    mate-backend:
-      image: node:14
-      container_name: mate-backend
-      volumes:
-        - ./api:/api/:cached
-      working_dir: /api
-      environment:
-      - API_PORT=1337
-      - API_HOST=http:/mate-backend
-      - DBDATABASE=mate-db
-      - DBHOST=mate-postgres
-      - DBPASSWORD=1234
-      - DBPORT=5432
-      - DBUSER=mate-user
-      - NODE_ENV=local
-      - SECRET=SECRETKEY
-      command: ./run.sh
-      ports:
-        - 127.0.0.1:1337:1337
-      depends_on:
-        - mate-postgres
-
     mate-postgres:
       image: postgres:11
       container_name: mate-postgres
@@ -33,30 +11,6 @@ services:
         - postgres-volume:/var/lib/postgresql/data
       ports:
         - 127.0.0.1:5432:5432
-
-    mate-app:
-      image: node:14
-      container_name: mate-app
-      command: ./run.sh
-      volumes:
-        - "./app:/var/app"
-      working_dir: /var/app
-      ports:
-        - 127.0.0.1:3000:8080
-
-    adminer:
-      image: adminer:latest
-      depends_on:
-        - mate-postgres
-      environment:
-        ADMINER_DEFAULT_DB_DRIVER: postgres
-        ADMINER_DEFAULT_DB_HOST: mate-postgres
-        ADMINER_DEFAULT_DB_NAME: mate-db
-        ADMINER_DESIGN: nette
-      ports:
-        - 127.0.0.1:8000:8080
-      depends_on:
-        - mate-postgres
 
 volumes:
   postgres-volume:
