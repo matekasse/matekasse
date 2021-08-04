@@ -57,5 +57,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: cd app && yarn install
-      - name: lint
+      - name: test
         run: cd app && export NODE_ENV=test && yarn test
