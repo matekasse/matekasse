@@ -27,7 +27,7 @@
         "node-fetch": "2.6.1",
         "pg": "^8.3.0",
         "reflect-metadata": "^0.1.13",
-        "typeorm": "0.2.20"
+        "typeorm": "0.2.36"
     },
     "scripts": {
         "start": "API_PORT=1337 ts-node --files src/index.ts",
