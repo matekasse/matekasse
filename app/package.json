@@ -32,7 +32,7 @@
     "babel-eslint": "10.1.0",
     "chai": "4.3.4",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^6.2.2",
+    "eslint-plugin-vue": "^7.15.1",
     "sass": "^1.19.0",
     "sass-loader": "8.0.2",
     "vue-cli-plugin-vuetify": "^2.0.2",
