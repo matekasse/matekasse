@@ -9,28 +9,7 @@ on:
       - main
 
 jobs:
-  lint-backend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install yarn packages
-        run: yarn install
-      - name: lint
-        run: cd api && yarn lint
-
-  lint-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install yarn packages
-        run: yarn install
-      - name: lint
-        run: cd app && yarn lint
-
-  build-frontend:
+  build-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
