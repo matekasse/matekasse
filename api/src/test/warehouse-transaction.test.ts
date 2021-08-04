@@ -10,6 +10,7 @@ import { Connection } from "typeorm";
 import { startServer } from "..";
 import { createTestUser, authenticateTestUser } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
+import "mocha";
 
 config();
 

@@ -14,6 +14,7 @@ import {
     authenticateNonAdminTestUser
 } from "./userUtils";
 import { Product } from "../entity/product";
+import "mocha";
 
 config();
 
