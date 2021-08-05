@@ -38,7 +38,7 @@ export class ProductService {
         let previousProduct: Product;
         try {
             previousProduct = await productRepository.findOne({
-                where: { product: options.name, isDisabled: true }
+                where: { product: options.name, isDisabled: true },
             });
         } catch (error) {
             throw new Error("Could not get previousProduct");
@@ -46,7 +46,7 @@ export class ProductService {
 
         if (options.manufacturerID !== undefined) {
             manufacturer = await ManufacturerService.getManufacturerByID({
-                manufacturerID: options.manufacturerID
+                manufacturerID: options.manufacturerID,
             });
         }
 
@@ -54,9 +54,11 @@ export class ProductService {
 
         try {
             if (options.tags) {
-                let foundTags: Promise<Tag>[] = options.tags.map(async tag => {
-                    return await TagService.upsertTag({ name: tag });
-                });
+                let foundTags: Promise<Tag>[] = options.tags.map(
+                    async (tag) => {
+                        return await TagService.upsertTag({ name: tag });
+                    }
+                );
 
                 allFoundOrCreatedTags = await Promise.all(foundTags);
             }
@@ -90,7 +92,7 @@ export class ProductService {
                 manufacturer: manufacturer,
                 priceInCents: options.priceInCents,
                 isDisabled: options.isDisabled,
-                tags: allFoundOrCreatedTags
+                tags: allFoundOrCreatedTags,
             });
 
             return await productRepository.save(product);
@@ -124,9 +126,8 @@ export class ProductService {
     public static async deleteProductByID(options: { productID: string }) {
         const productRepository = this.getProductRepository();
         const transactionRepository = getRepository(Transaction);
-        const warehouseTransactionRepository = getRepository(
-            WarehouseTransaction
-        );
+        const warehouseTransactionRepository =
+            getRepository(WarehouseTransaction);
         let transactions: Transaction[];
         let warehouseTransactions: WarehouseTransaction[];
         let productToDelete: Product;
@@ -141,7 +142,7 @@ export class ProductService {
 
         try {
             transactions = await transactionRepository.find({
-                where: { product: options.productID }
+                where: { product: options.productID },
             });
         } catch (error) {
             throw new Error("Could not load transactions");
@@ -149,7 +150,7 @@ export class ProductService {
 
         try {
             warehouseTransactions = await warehouseTransactionRepository.find({
-                where: { product: options.productID }
+                where: { product: options.productID },
             });
         } catch (error) {
             throw new Error("Could not load warehouseTransactions");
@@ -159,14 +160,14 @@ export class ProductService {
             try {
                 const tagsOfProduct = productToDelete.tags;
 
-                let deleteTags = tagsOfProduct.map(async tag => {
+                let deleteTags = tagsOfProduct.map(async (tag) => {
                     const products = await tag.products;
                     if (
                         products.length === 1 &&
                         products[0].id === productToDelete.id
                     ) {
                         return await TagService.deleteTag({
-                            tagID: String(tag.id)
+                            tagID: String(tag.id),
                         });
                     }
                 });
@@ -204,7 +205,7 @@ export class ProductService {
         if (options.manufacturerID !== undefined) {
             try {
                 manufacturer = await ManufacturerService.getManufacturerByID({
-                    manufacturerID: options.manufacturerID
+                    manufacturerID: options.manufacturerID,
                 });
             } catch (error) {
                 return error;
@@ -237,9 +238,11 @@ export class ProductService {
                     : product.isDisabled;
 
             if (options.tags) {
-                let foundTags: Promise<Tag>[] = options.tags.map(async tag => {
-                    return await TagService.upsertTag({ name: tag });
-                });
+                let foundTags: Promise<Tag>[] = options.tags.map(
+                    async (tag) => {
+                        return await TagService.upsertTag({ name: tag });
+                    }
+                );
 
                 const allFoundTags = await Promise.all(foundTags);
                 product.tags = allFoundTags;
@@ -261,7 +264,7 @@ export class ProductService {
 
         try {
             foundProduct = await productRepository.findOneOrFail({
-                id: options.productID
+                id: options.productID,
             });
         } catch (error) {
             throw new Error("No product found");

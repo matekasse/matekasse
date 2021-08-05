@@ -14,7 +14,8 @@ export class WarehouseTransactionService {
     public static async getAllWarehouseTransactions(): Promise<
         WarehouseTransaction[]
     > {
-        const warehouseTransactionRepository = this.getWarehouseTransactionRepository();
+        const warehouseTransactionRepository =
+            this.getWarehouseTransactionRepository();
 
         return await warehouseTransactionRepository
             .createQueryBuilder("warehouseTransaction")
@@ -36,7 +37,7 @@ export class WarehouseTransactionService {
 
         try {
             product = await ProductService.getProductByID({
-                productID: options.productID
+                productID: options.productID,
             });
         } catch (error) {
             throw new Error("No product found!");
@@ -60,7 +61,7 @@ export class WarehouseTransactionService {
             options.depositPerItemInCents * options.quantity;
 
         const crateDeposit = await ConstantsService.getConstantByName({
-            constantName: "crateDeposit"
+            constantName: "crateDeposit",
         });
 
         if (options.withCrate) {
@@ -76,7 +77,7 @@ export class WarehouseTransactionService {
             depositPerItemInCents: options.depositPerItemInCents,
             totalInCents,
             totalDepositInCents,
-            withCrate: options.withCrate
+            withCrate: options.withCrate,
         });
 
         product.stock += options.quantity;
@@ -87,7 +88,7 @@ export class WarehouseTransactionService {
 
         let createdWarehouseTransaction: WarehouseTransaction;
 
-        await getManager().transaction(async transactionalEntityManager => {
+        await getManager().transaction(async (transactionalEntityManager) => {
             createdWarehouseTransaction = await transactionalEntityManager.save(
                 warehouseTransaction
             );
@@ -100,7 +101,8 @@ export class WarehouseTransactionService {
     public static async getWarehouseTransactionByID(options: {
         warehouseTransactionID: string;
     }): Promise<WarehouseTransaction> {
-        const warehouseTransactionRepository = this.getWarehouseTransactionRepository();
+        const warehouseTransactionRepository =
+            this.getWarehouseTransactionRepository();
         try {
             return await warehouseTransactionRepository.findOneOrFail(
                 options.warehouseTransactionID

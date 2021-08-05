@@ -48,7 +48,7 @@ export async function createNonAdminTestUser() {
 export async function authenticateTestUser(user: User) {
     const token = await Authentication.generateToken({
         id: user.id,
-        name: user.name
+        name: user.name,
     });
     return token;
 }
@@ -56,7 +56,7 @@ export async function authenticateTestUser(user: User) {
 export async function authenticateNonAdminTestUser(user: User) {
     const token = await Authentication.generateToken({
         id: user.id,
-        name: user.name
+        name: user.name,
     });
     return token;
 }

@@ -25,7 +25,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("Products", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -35,7 +35,7 @@ describe("Products", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -46,7 +46,7 @@ describe("Products", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const user = await createTestUser();
         token = await authenticateTestUser(user);
@@ -67,7 +67,7 @@ describe("Products", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createResponse = await chai
@@ -94,7 +94,7 @@ describe("Products", () => {
             bottleDepositInCents: 100,
             priceInCents: 150,
             description:
-                "A testdescription for testing a test with longer descriptions than just one or two words"
+                "A testdescription for testing a test with longer descriptions than just one or two words",
         });
 
         const createResponse = await chai
@@ -130,7 +130,7 @@ describe("Products", () => {
             bottleDepositInCents: 100,
             stock: 10,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const createResponse = await chai
@@ -175,7 +175,7 @@ describe("Products", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -191,7 +191,7 @@ describe("Products", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -206,7 +206,7 @@ describe("Products", () => {
         const updatedProduct = new Product({
             name: "TestProduct",
             bottleDepositInCents: 1337,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const updateResponse = await chai
             .request(baseUrl)
@@ -222,7 +222,7 @@ describe("Products", () => {
     });
     it("should create a product with manufacturer and get product by id", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -239,7 +239,7 @@ describe("Products", () => {
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         manufacturerResponse.should.have.status(200);
@@ -271,13 +271,13 @@ describe("Products", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const disabledProduct = new Product({
             name: "disabledProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            isDisabled: true
+            isDisabled: true,
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -311,13 +311,13 @@ describe("Products", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const disabledProduct = new Product({
             name: "disabledProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            isDisabled: true
+            isDisabled: true,
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -350,7 +350,7 @@ describe("Products", () => {
 
     it("should update (PATCH) a product by id including manufacturer", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -360,7 +360,7 @@ describe("Products", () => {
             .send(manufacturer);
 
         const manufacturer2 = new Manufacturer({
-            name: "Budweiser"
+            name: "Budweiser",
         });
 
         let manufacturerResponse2 = await chai
@@ -377,7 +377,7 @@ describe("Products", () => {
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         manufacturerResponse.should.have.status(200);
@@ -404,7 +404,7 @@ describe("Products", () => {
             .send({
                 name: "Light",
                 bottleDepositInCents: 1337,
-                manufacturerID: manufacturerResponse2.body.manufacturer.id
+                manufacturerID: manufacturerResponse2.body.manufacturer.id,
             });
 
         updateResponse.should.have.status(200);

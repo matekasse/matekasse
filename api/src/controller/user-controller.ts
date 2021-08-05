@@ -83,7 +83,7 @@ export class UserController {
                 isAdmin,
                 isSystemUser,
                 isDisabled,
-                password: hashedPassword
+                password: hashedPassword,
             });
 
             // Remove password from user to be able to return it to the caller.
@@ -198,7 +198,7 @@ export class UserController {
             );
             const updatedUser = await UserService.patchUserByID({
                 userID,
-                password: hashedPassword
+                password: hashedPassword,
             });
 
             // Remove password from user to be able to return it to the caller.

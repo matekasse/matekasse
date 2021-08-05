@@ -7,9 +7,7 @@ export class ConstantsService {
     }
 
     public static async getAllConstants() {
-        return await getConnection()
-            .getRepository(Constants)
-            .find();
+        return await getConnection().getRepository(Constants).find();
     }
 
     public static async getConstantByName(options: { constantName: string }) {

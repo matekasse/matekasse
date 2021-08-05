@@ -11,7 +11,7 @@ import {
     createTestUser,
     authenticateTestUser,
     createNonAdminTestUser,
-    authenticateNonAdminTestUser
+    authenticateNonAdminTestUser,
 } from "./userUtils";
 import { Product } from "../entity/product";
 import "mocha";
@@ -33,7 +33,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("Users", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -43,7 +43,7 @@ describe("Users", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -54,7 +54,7 @@ describe("Users", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         adminUser = await createTestUser();
         adminToken = await authenticateTestUser(adminUser);
@@ -92,7 +92,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const adminUser = new User({
@@ -101,7 +101,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const systemUser = new User({
@@ -110,7 +110,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -159,7 +159,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const adminUser = new User({
@@ -168,7 +168,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const systemUser = new User({
@@ -177,7 +177,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -226,7 +226,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const adminUser = new User({
@@ -235,7 +235,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const systemUser = new User({
@@ -244,7 +244,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -294,7 +294,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -322,7 +322,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -365,7 +365,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -385,7 +385,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "123456"
+            password: "123456",
         });
 
         const createResponse = await chai
@@ -406,7 +406,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -424,7 +424,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const updateResponse = await chai
             .request(baseUrl)
@@ -444,7 +444,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const user2 = new User({
             name: "NewUser2",
@@ -452,7 +452,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const user3 = new User({
             name: "NewUser3",
@@ -460,7 +460,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         await chai
             .request(baseUrl)
@@ -497,7 +497,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -515,7 +515,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const updateResponse = await chai
             .request(baseUrl)
@@ -532,7 +532,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -550,7 +550,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const updateResponse = await chai
             .request(baseUrl)
@@ -567,7 +567,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -597,7 +597,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -627,7 +627,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -659,7 +659,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: true,
-            password: "12345"
+            password: "12345",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -691,7 +691,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -700,7 +700,7 @@ describe("Users", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -712,7 +712,7 @@ describe("Users", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftTransactionResponse = await chai
@@ -724,7 +724,7 @@ describe("Users", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -734,7 +734,7 @@ describe("Users", () => {
             .send(product);
 
         const orderTransaction = {
-            productID: "1"
+            productID: "1",
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -802,7 +802,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "N00b"
+            password: "N00b",
         });
 
         const createUserResponse = await chai
@@ -839,7 +839,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "N00b"
+            password: "N00b",
         });
 
         const createUserResponse = await chai
@@ -876,7 +876,7 @@ describe("Users", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         let systemUserResponse = await chai
@@ -888,7 +888,7 @@ describe("Users", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftTransactionResponse = await chai
@@ -956,7 +956,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -979,7 +979,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai
@@ -1001,7 +1001,7 @@ describe("Users", () => {
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createResponse = await chai

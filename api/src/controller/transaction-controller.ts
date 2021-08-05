@@ -11,7 +11,8 @@ export class TransactionController {
         response: Response
     ): Promise<any> {
         try {
-            const transactions: Transaction[] = await TransactionService.getAllTransactions();
+            const transactions: Transaction[] =
+                await TransactionService.getAllTransactions();
 
             return response.status(200).send({ transactions });
         } catch (error) {
@@ -25,13 +26,12 @@ export class TransactionController {
     ): Promise<any> {
         const verifiedUser = request.body.verifiedUser;
         try {
-            const transactions: Transaction[] = await TransactionService.getAllTransactionsForUser(
-                {
-                    user: verifiedUser
-                }
-            );
+            const transactions: Transaction[] =
+                await TransactionService.getAllTransactionsForUser({
+                    user: verifiedUser,
+                });
 
-            transactions.forEach(transaction => {
+            transactions.forEach((transaction) => {
                 if (transaction.toUser.id !== verifiedUser.id) {
                     delete transaction.toUser.balance;
                     delete transaction.toUser.createdAt;
@@ -95,7 +95,7 @@ export class TransactionController {
                 !verifiedUser.isAdmin
             ) {
                 return response.status(401).send({
-                    status: "Not allowed to create transaction for other user"
+                    status: "Not allowed to create transaction for other user",
                 });
             }
 
@@ -107,16 +107,15 @@ export class TransactionController {
             }
 
             try {
-                const createdTransaction = await TransactionService.createOrderTransaction(
-                    {
+                const createdTransaction =
+                    await TransactionService.createOrderTransaction({
                         typeOfTransaction,
-                        ...request.body
-                    }
-                );
+                        ...request.body,
+                    });
 
                 return response.send({
                     status: "ok",
-                    createdTransaction
+                    createdTransaction,
                 });
             } catch (error) {
                 if (error.message === "Cannot order a disabled product!") {
@@ -135,19 +134,17 @@ export class TransactionController {
             typeOfTransaction = TransactionType.storno;
 
             try {
-                const previousTransaction = await TransactionService.getTransactionByID(
-                    {
-                        transactionID: request.body.stornoOfTransactionID
-                    }
-                );
+                const previousTransaction =
+                    await TransactionService.getTransactionByID({
+                        transactionID: request.body.stornoOfTransactionID,
+                    });
 
                 if (
                     previousTransaction.fromUser.id !== verifiedUserID &&
                     !verifiedUser.isAdmin
                 ) {
                     return response.status(401).send({
-                        status:
-                            "Not allowed to storno transaction for other user"
+                        status: "Not allowed to storno transaction for other user",
                     });
                 }
             } catch (error) {
@@ -155,17 +152,16 @@ export class TransactionController {
             }
 
             try {
-                const createdTransaction = await TransactionService.createStornoTransaction(
-                    {
+                const createdTransaction =
+                    await TransactionService.createStornoTransaction({
                         typeOfTransaction,
                         ...request.body,
-                        verifiedUser
-                    }
-                );
+                        verifiedUser,
+                    });
 
                 return response.send({
                     status: "ok",
-                    createdTransaction
+                    createdTransaction,
                 });
             } catch (error) {
                 return response.status(500).send({ status: error.message });
@@ -181,22 +177,20 @@ export class TransactionController {
 
             if (verifiedUserID !== fromUserID && !verifiedUser.isAdmin) {
                 return response.status(401).send({
-                    status:
-                        "Not allowed to create gift transaction for other user"
+                    status: "Not allowed to create gift transaction for other user",
                 });
             }
 
             try {
-                const createdTransaction = await TransactionService.createGiftTransaction(
-                    {
+                const createdTransaction =
+                    await TransactionService.createGiftTransaction({
                         typeOfTransaction,
-                        ...request.body
-                    }
-                );
+                        ...request.body,
+                    });
 
                 return response.send({
                     status: "ok",
-                    createdTransaction
+                    createdTransaction,
                 });
             } catch (error) {
                 return response.status(500).send({ status: error.message });
@@ -223,7 +217,7 @@ export class TransactionController {
 
         try {
             const transaction = await TransactionService.getTransactionByID({
-                transactionID
+                transactionID,
             });
 
             return response.send({ status: "ok", transaction });

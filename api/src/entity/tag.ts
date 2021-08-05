@@ -4,7 +4,7 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToMany
+    ManyToMany,
 } from "typeorm";
 
 import { Product } from "./product";
@@ -17,13 +17,9 @@ export class Tag {
     @Column({ unique: true })
     name: string;
 
-    @ManyToMany(
-        type => Product,
-        Product => Product.tags,
-        {
-            nullable: true
-        }
-    )
+    @ManyToMany((type) => Product, (Product) => Product.tags, {
+        nullable: true,
+    })
     products: Promise<Product[]>;
 
     @Column()

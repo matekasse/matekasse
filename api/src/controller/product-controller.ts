@@ -22,7 +22,8 @@ export class ProductController {
         response: Response
     ): Promise<void> {
         try {
-            const products: Product[] = await ProductService.getActiveProducts();
+            const products: Product[] =
+                await ProductService.getActiveProducts();
             response.status(200).send({ products });
         } catch (error) {
             response
@@ -97,7 +98,7 @@ export class ProductController {
 
         try {
             const product = await ProductService.deleteProductByID({
-                productID
+                productID,
             });
             response.send({ status: "ok", product });
         } catch (error) {
@@ -120,7 +121,7 @@ export class ProductController {
         try {
             const createdProduct = await ProductService.updateProductByID({
                 productID: productID,
-                ...request.body
+                ...request.body,
             });
 
             response.send({ status: "ok", product: createdProduct });
@@ -151,12 +152,12 @@ export class ProductController {
         try {
             const updateProduct = await ProductService.addPictureToProduct({
                 productID: productID,
-                pictureAsBase64: pictureInBase64
+                pictureAsBase64: pictureInBase64,
             });
 
             return response.send({
                 status: "file uploaded",
-                product: updateProduct
+                product: updateProduct,
             });
         } catch (error) {
             return response.status(400).send("No files were uploaded.");

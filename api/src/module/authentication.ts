@@ -16,7 +16,7 @@ export interface JWTToken extends JWTUserData {
 
 export class Authentication {
     private static JWT_OPTIONS: jwt.SignOptions = {
-        expiresIn: 86400
+        expiresIn: 86400,
     };
 
     private static SALT_ROUNDS: number = 10;
@@ -73,7 +73,7 @@ export class Authentication {
         let verifiedUser: User;
         try {
             verifiedUser = await UserService.getUserByID({
-                userID: decodedToken.payload.id
+                userID: decodedToken.payload.id,
             });
         } catch (error) {
             return res.status(401).send({ status: "unauthorized" });

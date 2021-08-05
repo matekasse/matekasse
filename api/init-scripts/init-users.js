@@ -1,6 +1,6 @@
 const post = require("./post");
 
-module.exports = async baseUrl => {
+module.exports = async (baseUrl) => {
     const userUrl = baseUrl + "/users";
 
     return Promise.all([
@@ -10,7 +10,7 @@ module.exports = async baseUrl => {
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
-            password: "123456789"
+            password: "123456789",
         }),
         post(userUrl, {
             name: "EinsUser",
@@ -18,7 +18,7 @@ module.exports = async baseUrl => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "mussmanwissen"
+            password: "mussmanwissen",
         }),
         post(userUrl, {
             name: "User",
@@ -26,7 +26,7 @@ module.exports = async baseUrl => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "i<3cats"
-        })
+            password: "i<3cats",
+        }),
     ]);
 };
