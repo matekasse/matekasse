@@ -19,7 +19,7 @@ COPY yarn.lock ./
 
 WORKDIR /api
 COPY ./api/package.json .
-RUN yarn install 
+RUN yarn install
 
 COPY ./api .
 RUN yarn build
