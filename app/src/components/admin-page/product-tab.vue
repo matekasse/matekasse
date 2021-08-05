@@ -172,7 +172,7 @@ export default {
     methods: {
         async loadProducts() {
             this.isLoading = true;
-            this.products = await getProducts("active");
+            this.products = await getProducts('active');
             this.products.sort(
                 (productA, productB) => productA.name.toLowerCase() > productB.name.toLowerCase(),
             );
