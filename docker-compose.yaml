@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mate-backend:
+    image: ghcr.io/matekasse/matekasse:latest
+    container_name: mate-server
+    environment:
+    - API_PORT=1337
+    - API_HOST=http:/mate-backend
+    - DATABASE_CONNECTION_URL=postgresql://mate-user:1234@mate-postgres:5432/mate-db
+    - NODE_ENV=local
+    - SECRET=SUPERSECRETKEY-CHANGEME
+    ports:
+      - 0.0.0.0:1337:1337
+    depends_on:
+      - mate-postgres
+
+  mate-postgres:
+    image: postgres:11
+    container_name: mate-postgres
+    environment:
+      - POSTGRES_USER=mate-user
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=mate-db
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
+
+volumes:
+  postgres-volume:

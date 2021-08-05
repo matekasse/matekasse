@@ -1,4 +1,4 @@
-name: CI
+name: test backend
 
 on:
   push:
@@ -9,18 +9,7 @@ on:
       - main
 
 jobs:
-  lint-backend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install yarn packages
-        run: yarn install
-      - name: lint
-        run: cd api && yarn lint
-
-  lint-frontend:
+  test-build-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,18 +17,8 @@ jobs:
       - name: Install yarn packages
         run: yarn install
       - name: lint
-        run: cd app && yarn lint
-
-  build-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install yarn packages
-        run: yarn install
-      - name: lint
-        run: cd app && yarn build
-
+        run: cd api && yarn build
+      
   # Runs all steps on the VM
   # The service containers will use host port binding instead of container networking so you access them via localhost
   # rather than the service name.
