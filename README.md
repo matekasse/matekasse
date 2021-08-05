@@ -6,6 +6,7 @@ It's intended usage is for shared student flats or small club or association.
 ## Run a stable release
 
 There is no stable release yet.
+
 ## Run the latest version
 
 1. Run `docker-compose up`.
