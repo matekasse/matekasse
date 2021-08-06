@@ -37,9 +37,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Prepare buildx
-        run: |
-        docker buildx create --name arm-builder
-        
+        run: docker buildx create --name arm-builder
       - name: Build Docker image
         run: |
         docker buildx use arm-builder
