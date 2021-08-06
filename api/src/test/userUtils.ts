@@ -1,7 +1,7 @@
 import { Repository, getRepository } from "typeorm";
 import { User } from "../entity/user";
 import { Authentication } from "../module/authentication";
-export async function createTestUser() {
+export async function createAdminTestUser() {
     const userRepository: Repository<User> = getRepository(User);
     const hashedPassword: string = await Authentication.hashPassword(
         "wowSuchPassword"

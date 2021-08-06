@@ -8,7 +8,7 @@ import { Connection } from "typeorm";
 import { startServer } from "../index";
 import { ConstantsService } from "../services/constants-service";
 import {
-    createTestUser,
+    createAdminTestUser,
     authenticateTestUser,
     createNonAdminTestUser
 } from "./userUtils";
@@ -26,7 +26,7 @@ const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
 let userToken = "";
 let adminUser: User;
-let normalUser: User;
+let nonAdminUser: User;
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -55,10 +55,10 @@ describe("Users", () => {
             stornoTime: 10000,
             crateDeposit: 150
         });
-        adminUser = await createTestUser();
+        adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
-        normalUser = await createNonAdminTestUser();
-        userToken = await authenticateTestUser(normalUser);
+        nonAdminUser = await createNonAdminTestUser();
+        userToken = await authenticateTestUser(nonAdminUser);
     });
 
     it("should GET all users (1)", async () => {
@@ -285,7 +285,6 @@ describe("Users", () => {
         response.body.users.length.should.be.eql(2);
     });
 
-    /** Test delete user*/
     it("should DELETE a user by id", async () => {
         const user = new User({
             name: "NewUser",
@@ -710,7 +709,7 @@ describe("Users", () => {
 
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
-            toUserID: normalUser.id,
+            toUserID: nonAdminUser.id,
             amountOfMoneyInCents: 2000
         };
 
@@ -762,7 +761,7 @@ describe("Users", () => {
             giftTransaction.amountOfMoneyInCents
         );
         giftTransactionResponse.body.createdTransaction.toUser.id.should.be.eql(
-            normalUser.id
+            nonAdminUser.id
         );
         giftTransactionResponse.body.createdTransaction.fromUser.balance.should.be.eql(
             -giftTransaction.amountOfMoneyInCents
@@ -886,7 +885,7 @@ describe("Users", () => {
 
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
-            toUserID: normalUser.id,
+            toUserID: nonAdminUser.id,
             amountOfMoneyInCents: 2000
         };
 
@@ -908,7 +907,7 @@ describe("Users", () => {
             giftTransaction.amountOfMoneyInCents
         );
         giftTransactionResponse.body.createdTransaction.toUser.id.should.be.eql(
-            normalUser.id
+            nonAdminUser.id
         );
         giftTransactionResponse.body.createdTransaction.fromUser.balance.should.be.eql(
             -giftTransaction.amountOfMoneyInCents
