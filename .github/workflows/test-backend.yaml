@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: yarn install
-      - name: lint
+      - name: build app
         run: cd api && yarn build
       
   # Runs all steps on the VM
