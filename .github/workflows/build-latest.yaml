@@ -42,5 +42,3 @@ jobs:
         run: docker buildx use arm-builder
       - name: Build Docker image
         run: docker buildx build --platform linux/amd64,linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest_multiarch -f Dockerfile_arm . --push
-      - name: Push Docker image
-        run: docker push ghcr.io/matekasse/matekasse:latest_multiarch
