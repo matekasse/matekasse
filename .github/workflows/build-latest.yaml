@@ -21,9 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Build Docker image
-        run: docker build -t ghcr.io/matekasse/matekasse:latest .
+        run: docker build -t ghcr.io/matekasse/matekasse:latest_test .
       - name: Push Docker image
-        run: docker push ghcr.io/matekasse/matekasse:latest
+        run: docker push ghcr.io/matekasse/matekasse:latest_test
 
   build-latest-image-ARM:
     runs-on: ubuntu-latest
@@ -41,6 +41,6 @@ jobs:
       - name: Prepare buildx 2
         run: docker buildx use arm-builder
       - name: Build Docker image
-        run: docker buildx build --platform linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest -f Dockerfile_arm .
+        run: docker buildx build --platform linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest_arm -f Dockerfile_arm .
       - name: Push Docker image
-        run: docker push ghcr.io/matekasse/matekasse:latest
+        run: docker push ghcr.io/matekasse/matekasse:latest_arm
