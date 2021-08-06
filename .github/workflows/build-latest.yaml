@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-production-image:
+  build-latest-image:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry
