@@ -53,7 +53,7 @@ describe("Products", () => {
         const user = await createTestUser();
         const nonAdminUser = await createNonAdminTestUser();
         token = await authenticateTestUser(user);
-        nonAdmintoken = await authenticateTestUser(nonAdminuser);
+        nonAdminToken = await authenticateTestUser(nonAdminUser);
     });
 
     it("should GET all products (empty array)", async () => {
