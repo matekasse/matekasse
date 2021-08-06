@@ -51,7 +51,7 @@ describe("Products", () => {
             crateDeposit: 150
         });
         const user = await createTestUser();
-        const nonAdminuser = await createNonAdminTestUser();
+        const nonAdminUser = await createNonAdminTestUser();
         token = await authenticateTestUser(user);
         nonAdmintoken = await authenticateTestUser(nonAdminuser);
     });
