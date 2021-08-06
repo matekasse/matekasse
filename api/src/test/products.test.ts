@@ -420,6 +420,7 @@ describe("Products", () => {
             "Budweiser"
         );
     });
+
     it("should not GET a disabled product by id only as normal user", async () => {
         const product = new Product({
             name: "TestProduct",
