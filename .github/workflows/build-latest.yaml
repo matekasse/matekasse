@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install some stuff
+      - name: Install buildx dependencies
         run: sudo apt-get update && sudo apt-get install qemu qemu-user-static binfmt-support debootstrap -y
       - name: Create buildx builder
         run: docker buildx create --name arm-builder
