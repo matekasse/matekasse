@@ -21,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install some stuff
-        run: apt-get update && apt-get install qemu qemu-user-static binfmt-support debootstrap -y
+        run: sudo apt-get update && sudo apt-get install qemu qemu-user-static binfmt-support debootstrap -y
       - name: Create buildx builder
         run: docker buildx create --name arm-builder
       - name: Use buildx builder
