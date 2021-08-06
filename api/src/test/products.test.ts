@@ -460,6 +460,6 @@ describe("Products", () => {
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
             .set("Authorization", nonAdmintoken);
-        getResponse.should.have.status(200);
+        getResponse.should.have.status(404);
     });
 });
