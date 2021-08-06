@@ -1,28 +1,28 @@
 const post = require("./post");
 
-module.exports = async baseUrl => {
+module.exports = async (baseUrl) => {
     const manufacturerUrl = baseUrl + "/manufacturers";
     manufacturer = [];
 
     manufacturer.push(
         await post(manufacturerUrl, {
-            name: "Brauerei Meier"
+            name: "Brauerei Meier",
         })
     );
 
     manufacturer.push(
         await post(manufacturerUrl, {
-            name: "Bier Manufaktur"
+            name: "Bier Manufaktur",
         })
     );
 
     manufacturer.push(
         await post(manufacturerUrl, {
-            name: "Softdrink-Hersteller"
+            name: "Softdrink-Hersteller",
         })
     );
 
-    let createdManufacturerIDs = manufacturer.map(async manufacturer => {
+    let createdManufacturerIDs = manufacturer.map(async (manufacturer) => {
         parsedBody = await manufacturer.json();
 
         return parsedBody.manufacturer.id;

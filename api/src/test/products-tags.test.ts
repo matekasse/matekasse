@@ -24,7 +24,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("Product-Tag", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -34,7 +34,7 @@ describe("Product-Tag", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -45,7 +45,7 @@ describe("Product-Tag", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const user = await createTestUser();
         token = await authenticateTestUser(user);
@@ -55,7 +55,7 @@ describe("Product-Tag", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -72,7 +72,7 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const updateResponse = await chai
@@ -95,7 +95,7 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const createdProductResponse = await chai
@@ -112,10 +112,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -141,14 +141,14 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const productToCreate2 = {
             name: "TestProduct2",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1"]
+            tags: ["tag1"],
         };
 
         const createdProductResponse = await chai
@@ -165,10 +165,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -195,7 +195,7 @@ describe("Product-Tag", () => {
         getTagsResponse.should.have.status(200);
         getTagsResponse.body.tags.length.should.be.eql(1);
         getTagsResponse.body.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
     });
 
@@ -204,7 +204,7 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const createdProductResponse = await chai
@@ -221,10 +221,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -261,7 +261,7 @@ describe("Product-Tag", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -270,7 +270,7 @@ describe("Product-Tag", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createUserResponse = await chai
@@ -285,7 +285,7 @@ describe("Product-Tag", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -297,7 +297,7 @@ describe("Product-Tag", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: createUserResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const postResponse = await chai
@@ -309,12 +309,12 @@ describe("Product-Tag", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const orderTransaction = {
             fromUserID: createUserResponse.body.user.id,
-            productID: "1"
+            productID: "1",
         };
 
         const createProductResponse = await chai

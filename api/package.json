@@ -4,8 +4,11 @@
     "description": "Awesome project developed with Mate.",
     "license": "MIT",
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
         "@types/body-parser": "^1.19.1",
+        "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.1",
+        "@types/jsonwebtoken": "^8.5.4",
         "@types/mocha": "^9.0.0",
         "@types/node": "16.4.13",
         "chai": "4.3.4",

@@ -13,7 +13,7 @@ export class DatabaseConnection {
             database: process.env.DBDATABASE,
             logging: false,
             entities: [__dirname + "../../entity/*.ts"],
-            synchronize: true
+            synchronize: true,
         });
     }
 
@@ -28,7 +28,7 @@ export class DatabaseConnection {
             database: process.env.DBDATABASE,
             entities: [__dirname + "../../entity/*.ts"],
             synchronize: true,
-            logging: false
+            logging: false,
         });
     }
 }

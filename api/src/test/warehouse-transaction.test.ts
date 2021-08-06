@@ -26,7 +26,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("WarehouseTransactions", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -36,7 +36,7 @@ describe("WarehouseTransactions", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -47,7 +47,7 @@ describe("WarehouseTransactions", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const user = await createTestUser();
         token = await authenticateTestUser(user);
@@ -71,13 +71,13 @@ describe("WarehouseTransactions", () => {
             quantity: 10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const user = new User({
@@ -86,7 +86,7 @@ describe("WarehouseTransactions", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createProductResponse = await chai
@@ -165,7 +165,7 @@ describe("WarehouseTransactions", () => {
             quantity: 10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -183,7 +183,7 @@ describe("WarehouseTransactions", () => {
             quantity: 10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const warehouseTransactionRemoveStock = {
@@ -192,13 +192,13 @@ describe("WarehouseTransactions", () => {
             quantity: -10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const user = new User({
@@ -207,7 +207,7 @@ describe("WarehouseTransactions", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createProductResponse = await chai
@@ -287,13 +287,13 @@ describe("WarehouseTransactions", () => {
             quantity: -10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const user = new User({
@@ -302,7 +302,7 @@ describe("WarehouseTransactions", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createProductResponse = await chai
@@ -343,13 +343,13 @@ describe("WarehouseTransactions", () => {
             quantity: 10,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: true
+            withCrate: true,
         };
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const user = new User({
@@ -358,7 +358,7 @@ describe("WarehouseTransactions", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createProductResponse = await chai
@@ -437,13 +437,13 @@ describe("WarehouseTransactions", () => {
             quantity: 0,
             pricePerItemInCents: 150,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const user = new User({
@@ -452,7 +452,7 @@ describe("WarehouseTransactions", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createProductResponse = await chai

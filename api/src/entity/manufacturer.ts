@@ -2,9 +2,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany
+    OneToMany,
 } from "typeorm";
 
 import { Product } from "./product";
@@ -17,14 +15,10 @@ export class Manufacturer {
     @Column({ unique: true })
     name: string;
 
-    @OneToMany(
-        type => Product,
-        product => product.manufacturer,
-        {
-            nullable: true,
-            cascade: true
-        }
-    )
+    @OneToMany((type) => Product, (product) => product.manufacturer, {
+        nullable: true,
+        cascade: true,
+    })
     products: Product[];
 
     @Column()

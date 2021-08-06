@@ -2,9 +2,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne
+    ManyToOne,
 } from "typeorm";
 
 import { Product } from "./product";
@@ -15,10 +13,10 @@ export class WarehouseTransaction {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(type => Product)
+    @ManyToOne((type) => Product)
     product: Product;
 
-    @ManyToOne(type => User)
+    @ManyToOne((type) => User)
     user: User;
 
     @Column()
