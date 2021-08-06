@@ -38,9 +38,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Prepare buildx
         run: docker buildx create --name arm-builder
+      - name: Prepare buildx 2
+        run: docker buildx use arm-builder
       - name: Build Docker image
-        run: |
-        docker buildx use arm-builder
-        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest -f Dockerfile_arm .
+        run: docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest -f Dockerfile_arm .
       - name: Push Docker image
         run: docker push ghcr.io/matekasse/matekasse:latest
