@@ -458,7 +458,7 @@ describe("Products", () => {
         getResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
-            .set("Authorization", nonAdmintoken);
+            .set("Authorization", nonAdminToken);
         getResponse.should.have.status(404);
     });
 });
