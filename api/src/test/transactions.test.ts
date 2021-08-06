@@ -8,7 +8,7 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
 import {
-    createTestUser,
+    createAdminTestUser,
     authenticateTestUser,
     createNonAdminTestUser
 } from "./userUtils";
@@ -24,7 +24,7 @@ chai.should();
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
-let userToken = "";
+let nonAdminToken = "";
 let adminUser: User;
 let normalUser: User;
 let serverTest: Server;
@@ -54,10 +54,10 @@ describe("Transaction", () => {
             stornoTime: 10000,
             crateDeposit: 150
         });
-        adminUser = await createTestUser();
+        adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
         normalUser = await createNonAdminTestUser();
-        userToken = await authenticateTestUser(normalUser);
+        nonAdminToken = await authenticateTestUser(normalUser);
     });
 
     it("should GET all transactions (empty array)", async () => {
@@ -532,7 +532,7 @@ describe("Transaction", () => {
         const orderResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(orderTransaction);
 
         const stornoTransaction = {
@@ -544,7 +544,7 @@ describe("Transaction", () => {
         const stornoResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(stornoTransaction);
 
         createWarehouseTransactionResponse.should.have.status(200);
@@ -766,7 +766,7 @@ describe("Transaction", () => {
         const orderResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(orderTransaction);
 
         createWarehouseTransactionResponse.should.have.status(200);
@@ -923,7 +923,7 @@ describe("Transaction", () => {
         const giftResponse2 = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(giftTransaction2);
 
         const stornoTransaction = {
