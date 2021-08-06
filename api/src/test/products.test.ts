@@ -20,7 +20,7 @@ chai.should();
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let token = "";
-let nonAdmintoken = "";
+let nonAdminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
