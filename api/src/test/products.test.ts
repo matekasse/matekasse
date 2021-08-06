@@ -43,7 +43,7 @@ describe("Products", () => {
 
     beforeEach(async () => {
         token = "";
-        nonAdmintoken = "";
+        nonAdminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
