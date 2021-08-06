@@ -1,4 +1,5 @@
-FROM arm32v7/node:14-buster-slim as build-frontend
+FROM node:14-buster-slim as build-frontend
+#arm32v7/
 
 COPY package.json ./
 COPY yarn.lock ./
