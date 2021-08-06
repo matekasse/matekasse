@@ -426,7 +426,7 @@ describe("Products", () => {
             bottleDepositInCents: 100,
             priceInCents: 150,
             isDisabled: true,
-            description: "Onfortunately this cool new product is disabled"
+            description: "Unfortunately this cool new product is disabled"
         });
 
         const createResponse = await chai
