@@ -455,7 +455,6 @@ describe("Products", () => {
             createdProduct.description
         );
 
-        //non admin user request
         getResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
