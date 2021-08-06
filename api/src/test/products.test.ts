@@ -420,13 +420,39 @@ describe("Products", () => {
             "Budweiser"
         );
     });
-    it("should GET a disabled product by id only as admin", async () => {
+    it("should not GET a disabled product by id only as normal user", async () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
             isDisabled: true,
-            description: "Unfortunately this cool new product is disabled"
+            description: "Onfortunately this cool new product is disabled"
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", token)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        let getResponse = await chai
+            .request(baseUrl)
+            .get("/api/products/" + createdProduct.id)
+            .set("Authorization", nonAdminToken);
+        getResponse.should.have.status(404);
+    });
+    it("should GET a disabled product by id as admin", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+            isDisabled: true,
+            description: "Onfortunately this cool new product is disabled"
         });
 
         const createResponse = await chai
@@ -454,11 +480,5 @@ describe("Products", () => {
         getResponse.body.product.description.should.be.eql(
             createdProduct.description
         );
-
-        getResponse = await chai
-            .request(baseUrl)
-            .get("/api/products/" + createdProduct.id)
-            .set("Authorization", nonAdminToken);
-        getResponse.should.have.status(404);
     });
 });
