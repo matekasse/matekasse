@@ -23,7 +23,7 @@ jobs:
   # The service containers will use host port binding instead of container networking so you access them via localhost
   # rather than the service name.
 
-  tests:
+  integration-test:
     runs-on: ubuntu-latest
 
     services:
