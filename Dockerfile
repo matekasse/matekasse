@@ -6,7 +6,7 @@ COPY yarn.lock ./
 WORKDIR /app
 
 COPY ./app/package.json .
-RUN yarn install
+RUN yarn install --network-timeout 600000
 
 COPY ./app .
 RUN yarn build
@@ -22,7 +22,7 @@ COPY yarn.lock ./
 
 WORKDIR /api
 COPY ./api/package.json .
-RUN yarn install
+RUN yarn install --network-timeout 600000
 
 COPY ./api .
 RUN yarn build
