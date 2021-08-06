@@ -41,6 +41,6 @@ jobs:
       - name: Prepare buildx 2
         run: docker buildx use arm-builder
       - name: Build Docker image
-        run: docker buildx build --platform linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest_arm -f Dockerfile_arm .
+        run: docker buildx build --platform linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest_arm -f Dockerfile_arm . --push
       - name: Push Docker image
         run: docker push ghcr.io/matekasse/matekasse:latest_arm
