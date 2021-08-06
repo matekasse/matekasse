@@ -4,7 +4,7 @@ import chaiHttp from "chai-http";
 import { Product } from "../entity/product";
 import { Manufacturer } from "../entity/manufacturer";
 import { config } from "dotenv";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createTestUser, createNonAdminTestUser, authenticateTestUser } from "./userUtils";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
@@ -20,6 +20,7 @@ chai.should();
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let token = "";
+let nonAdminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -42,6 +43,7 @@ describe("Products", () => {
 
     beforeEach(async () => {
         token = "";
+        nonAdminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
@@ -49,7 +51,9 @@ describe("Products", () => {
             crateDeposit: 150
         });
         const user = await createTestUser();
+        const nonAdminUser = await createNonAdminTestUser();
         token = await authenticateTestUser(user);
+        nonAdminToken = await authenticateTestUser(nonAdminUser);
     });
 
     it("should GET all products (empty array)", async () => {
@@ -414,6 +418,68 @@ describe("Products", () => {
         updateResponse.body.product.priceInCents.should.be.eql(150);
         updateResponse.body.product.manufacturer.name.should.be.eql(
             "Budweiser"
+        );
+    });
+
+    it("should not GET a disabled product by id only as normal user", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+            isDisabled: true,
+            description: "Onfortunately this cool new product is disabled"
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", token)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        let getResponse = await chai
+            .request(baseUrl)
+            .get("/api/products/" + createdProduct.id)
+            .set("Authorization", nonAdminToken);
+        getResponse.should.have.status(404);
+    });
+    it("should GET a disabled product by id as admin", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+            isDisabled: true,
+            description: "Onfortunately this cool new product is disabled"
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", token)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        let getResponse = await chai
+            .request(baseUrl)
+            .get("/api/products/" + createdProduct.id)
+            .set("Authorization", token);
+        getResponse.should.have.status(200);
+        getResponse.body.should.include.key("product");
+        getResponse.body.product.should.be.a("object");
+        getResponse.body.product.should.have.property("name");
+        getResponse.body.product.should.have
+            .property("id")
+            .eql(createdProduct.id);
+        getResponse.body.product.description.should.be.eql(
+            createdProduct.description
         );
     });
 });

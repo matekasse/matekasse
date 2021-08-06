@@ -52,11 +52,3 @@ export async function authenticateTestUser(user: User) {
     });
     return token;
 }
-
-export async function authenticateNonAdminTestUser(user: User) {
-    const token = await Authentication.generateToken({
-        id: user.id,
-        name: user.name
-    });
-    return token;
-}

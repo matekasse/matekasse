@@ -10,8 +10,7 @@ import { ConstantsService } from "../services/constants-service";
 import {
     createTestUser,
     authenticateTestUser,
-    createNonAdminTestUser,
-    authenticateNonAdminTestUser
+    createNonAdminTestUser
 } from "./userUtils";
 import { Product } from "../entity/product";
 import "mocha";
@@ -59,7 +58,7 @@ describe("Users", () => {
         adminUser = await createTestUser();
         adminToken = await authenticateTestUser(adminUser);
         normalUser = await createNonAdminTestUser();
-        userToken = await authenticateNonAdminTestUser(normalUser);
+        userToken = await authenticateTestUser(normalUser);
     });
 
     it("should GET all users (1)", async () => {

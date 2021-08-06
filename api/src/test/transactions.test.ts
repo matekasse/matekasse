@@ -10,8 +10,7 @@ import { startServer } from "../index";
 import {
     createTestUser,
     authenticateTestUser,
-    createNonAdminTestUser,
-    authenticateNonAdminTestUser
+    createNonAdminTestUser
 } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
 import "mocha";
@@ -58,7 +57,7 @@ describe("Transaction", () => {
         adminUser = await createTestUser();
         adminToken = await authenticateTestUser(adminUser);
         normalUser = await createNonAdminTestUser();
-        userToken = await authenticateNonAdminTestUser(normalUser);
+        userToken = await authenticateTestUser(normalUser);
     });
 
     it("should GET all transactions (empty array)", async () => {
