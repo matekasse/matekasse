@@ -20,8 +20,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Checkout info
-        run: cat /proc/cpuinfo
       - name: Create buildx builder
         run: docker buildx create --name arm-builder
       - name: Use buildx builder
