@@ -4,7 +4,7 @@ import chaiHttp from "chai-http";
 import { Product } from "../entity/product";
 import { Manufacturer } from "../entity/manufacturer";
 import { config } from "dotenv";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createTestUser, createNonAdminTestUser, authenticateTestUser } from "./userUtils";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
@@ -51,7 +51,7 @@ describe("Products", () => {
             crateDeposit: 150
         });
         const user = await createTestUser();
-        const nonAdminuser = await createTestUser();
+        const nonAdminuser = await createNonAdminTestUser();
         token = await authenticateTestUser(user);
         nonAdmintoken = await authenticateTestUser(nonAdminuser);
     });
