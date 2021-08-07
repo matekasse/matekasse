@@ -9,7 +9,7 @@ RUN apt update && \
     apt upgrade -y
 
 RUN apt update && \
-    apt install python3 -y
+    apt install python2 -y
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ RUN apt update && \
     apt upgrade -y
 
 RUN apt update && \
-    apt install python3 -y
+    apt install python2 -y
 
 COPY package.json ./
 COPY yarn.lock ./
