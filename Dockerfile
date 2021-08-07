@@ -3,6 +3,8 @@ FROM node:14-buster-slim as build-frontend
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN node --version
+
 WORKDIR /app
 
 COPY ./app/package.json .
