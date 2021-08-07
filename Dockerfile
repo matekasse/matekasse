@@ -6,6 +6,9 @@ COPY yarn.lock ./
 RUN node --version
 
 RUN apt update && \
+    apt upgrade -y
+
+RUN apt update && \
     apt install python3 -y
 
 WORKDIR /app
@@ -21,6 +24,9 @@ FROM node:14-buster-slim
 
 RUN apt update && \
     apt upgrade -y
+
+RUN apt update && \
+    apt install python3 -y
 
 COPY package.json ./
 COPY yarn.lock ./
