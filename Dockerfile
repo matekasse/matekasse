@@ -5,6 +5,9 @@ COPY yarn.lock ./
 
 RUN node --version
 
+RUN apt update && \
+    apt install python3 -y
+
 WORKDIR /app
 
 COPY ./app/package.json .
