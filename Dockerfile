@@ -8,6 +8,8 @@ COPY yarn.lock ./
 RUN apt update && \
     apt upgrade -y
 
+RUN apt-get install -y build-essential python
+
 #RUN apt update && \
 #    apt install python2 -y
 
@@ -25,6 +27,7 @@ FROM node:14-buster-slim
 RUN apt update && \
     apt upgrade -y
 
+RUN apt-get install -y build-essential python
 #RUN apt update && \
 #    apt install python2 -y
 
