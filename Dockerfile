@@ -4,7 +4,6 @@ COPY package.json ./
 COPY yarn.lock ./
 
 RUN node --version
-RUN ping -c 4 dandelion.schark.eu
 
 WORKDIR /app
 

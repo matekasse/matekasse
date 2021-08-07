@@ -23,12 +23,12 @@ jobs:
       - name: Install buildx dependencies
         run: sudo apt-get update && sudo apt-get install qemu qemu-user-static binfmt-support debootstrap -y
       - name: Install other stuff
-        run: sudo apt-get update && sudo apt-get install python python3 -y
+        run: sudo apt-get update && sudo apt-get install python -y
       - name: Create buildx builder
         run: docker buildx create --name arm-builder
       - name: Use buildx builder
         run: docker buildx use arm-builder
       - name: Build Docker image
-        run: docker buildx build --platform linux/amd64 -t ghcr.io/matekasse/matekasse:latest_multiarch -f Dockerfile . --push
+        run: docker buildx build --platform linux/arm/v7 -t ghcr.io/matekasse/matekasse:latest_multiarch -f Dockerfile . --push
 
 #,linux/amd64,linux/arm64
