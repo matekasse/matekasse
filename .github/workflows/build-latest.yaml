@@ -23,7 +23,7 @@ jobs:
       - name: Install buildx dependencies
         run: sudo apt-get update && sudo apt-get install qemu qemu-user-static binfmt-support debootstrap -y
       - name: Install other stuff
-        run: sudo apt-get update && sudo apt-get install python3 -y && ping -c 4 dandelion.schark.eu
+        run: sudo apt-get update && sudo apt-get install python3 -y
       - name: Create buildx builder
         run: docker buildx create --name arm-builder
       - name: Use buildx builder
