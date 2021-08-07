@@ -3,15 +3,10 @@ FROM node:14-buster-slim as build-frontend
 COPY package.json ./
 COPY yarn.lock ./
 
-#RUN node --version
-
 RUN apt update && \
     apt upgrade -y
 
 RUN apt-get install -y build-essential python
-
-#RUN apt update && \
-#    apt install python2 -y
 
 WORKDIR /app
 
@@ -28,8 +23,6 @@ RUN apt update && \
     apt upgrade -y
 
 RUN apt-get install -y build-essential python
-#RUN apt update && \
-#    apt install python2 -y
 
 COPY package.json ./
 COPY yarn.lock ./
