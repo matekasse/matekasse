@@ -34,7 +34,5 @@ RUN yarn install --network-timeout 6000000
 COPY ./api .
 RUN yarn build
 
-RUN apt-get purge -y build-essential python
-
 COPY --from=build-frontend /app/dist ./public
 ENTRYPOINT [ "yarn", "start" ]
