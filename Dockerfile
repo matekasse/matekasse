@@ -6,7 +6,7 @@ COPY yarn.lock ./
 RUN apt update && \
     apt upgrade -y
 
-RUN apt-get install -y build-essential python
+#RUN apt-get install -y build-essential python
 
 WORKDIR /app
 
