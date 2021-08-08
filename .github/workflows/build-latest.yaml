@@ -29,6 +29,7 @@ jobs:
       - name: Use buildx builder
         run: docker buildx use arm-builder
       - name: Build Docker image
-        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm/v8,linux/arm64 -t ghcr.io/matekasse/matekasse:latest_test -f Dockerfile . --push
+        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 -t ghcr.io/matekasse/matekasse:latest_test -f Dockerfile . --push
 
 #,linux/amd64,linux/arm/v7
+#,linux/arm/v8
