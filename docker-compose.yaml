@@ -1,7 +1,7 @@
 version: '3'
 services:
   mate-backend:
-    image: ghcr.io/matekasse/matekasse:latest_multiarch_slim_purge
+    image: ghcr.io/matekasse/matekasse:latest
     container_name: mate-server
     environment:
     - API_PORT=1337
