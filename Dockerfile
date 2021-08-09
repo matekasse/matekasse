@@ -29,7 +29,7 @@ COPY yarn.lock ./
 
 WORKDIR /api
 COPY ./api/package.json .
-RUN yarn install --network-timeout 6000000
+RUN yarn install --network-timeout 600000
 
 COPY ./api .
 RUN yarn build
