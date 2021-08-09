@@ -14,8 +14,9 @@ RUN yarn build
 
 FROM node:14-buster-slim
 
-RUN apt update && \
-    apt upgrade -y
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get autoremove -y
 
 COPY package.json ./
 COPY yarn.lock ./
