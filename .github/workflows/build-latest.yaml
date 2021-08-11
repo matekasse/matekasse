@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 
 jobs:
@@ -28,4 +25,4 @@ jobs:
       - name: Use buildx builder
         run: docker buildx use arm-x86-multi-builder
       - name: Build Docker image
-        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 -t ghcr.io/matekasse/matekasse:latest_test -f Dockerfile . --push
+        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 -t ghcr.io/matekasse/matekasse:latest -f Dockerfile . --push
