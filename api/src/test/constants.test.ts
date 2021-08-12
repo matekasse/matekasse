@@ -63,6 +63,7 @@ describe("Constants", () => {
         response.body.constants.length.should.be.eql(1);
         response.body.constants[0].stornoTime.should.be.eql(10000);
         response.body.constants[0].crateDeposit.should.be.eql(150);
+        response.body.constants[0].currencySymbol.should.be.eql("€");
     });
 
     it("should PATCH all constants", async () => {
@@ -70,7 +71,7 @@ describe("Constants", () => {
             .request(baseUrl)
             .patch("/api/constants")
             .set("Authorization", adminToken)
-            .send({ stornoTime: 15000, crateDeposit: 200 });
+            .send({ stornoTime: 15000, crateDeposit: 200, currencySymbol: "Gulden"});
 
         updateResponse.should.have.status(200);
         updateResponse.body.should.include.key("constants");
@@ -86,5 +87,6 @@ describe("Constants", () => {
         getResponse.body.constants.length.should.be.eql(1);
         getResponse.body.constants[0].stornoTime.should.be.eql(15000);
         getResponse.body.constants[0].crateDeposit.should.be.eql(200);
+        getResponse.body.constants[0].currencySymbol.should.be.eql("Gulden");
     });
 });
