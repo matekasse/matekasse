@@ -13,7 +13,7 @@ jobs:
       - name: Test naming
         run: |
         echo $GITHUB_REF
-        tag=${$GITHUB_REF#refs/tags/}
+        tag=${GITHUB_REF#refs/tags/}
         echo $tag
       #- name: Login to GitHub Container Registry
       #  uses: docker/login-action@v1
