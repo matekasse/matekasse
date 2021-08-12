@@ -11,10 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test naming
-        run: |
-        echo $GITHUB_REF
-        tag=${GITHUB_REF#refs/tags/}
-        echo $tag
+        run: echo $GITHUB_REF && tag=${GITHUB_REF#refs/tags/} && echo $tag
       #- name: Login to GitHub Container Registry
       #  uses: docker/login-action@v1
       #  with:
