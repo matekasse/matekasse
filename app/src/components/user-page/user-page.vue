@@ -11,7 +11,7 @@
             </v-list-item>
 
             <v-card-actions>
-                <v-btn color="primary" @click="editNames" >Change Names</v-btn>
+                <v-btn color="primary" @click="editNames" >Change Name</v-btn>
                 <v-btn color="primary" @click="editPassword" >Change Password</v-btn>
             </v-card-actions>
         </v-card>
