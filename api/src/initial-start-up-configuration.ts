@@ -20,7 +20,7 @@ export const firstStartupInit = async () => {
 
     try {
         const hashedPassword: string = await Authentication.hashPassword(
-            "admin"
+            "Admin"
         );
         await UserService.createNewUser({
             name: "Admin",
@@ -30,7 +30,7 @@ export const firstStartupInit = async () => {
             isDisabled: false
         });
         console.log(
-            "The default user 'Admin' was created. The password is 'admin', please change it immediately!"
+            "The default user 'Admin' was created. The password is 'Admin', please change it immediately!"
         );
     } catch (error) {
         if (error.name === "QueryFailedError") {
