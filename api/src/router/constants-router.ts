@@ -12,5 +12,6 @@ constantsRouter.get(
 constantsRouter.patch(
     "/",
     Authentication.verifyAccess,
+    Authentication.verifyAdminAccess,
     ConstantsController.updateConstants
 );

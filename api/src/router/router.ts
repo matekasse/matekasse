@@ -35,6 +35,5 @@ globalRouter.use(
 globalRouter.use(
     "/constants",
     Authentication.verifyAccess,
-    Authentication.verifyAdminAccess,
     constantsRouter
 );
