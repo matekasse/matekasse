@@ -289,8 +289,6 @@ export const getConstants = async () => {
     try {
         const response = await http.get('/constants');
 
-        console.log(response);
-
         return response.data.constants[0];
     } catch (error) {
         if (!error.response) {
@@ -302,9 +300,7 @@ export const getConstants = async () => {
 
 export const patchConstants = async (constants) => {
     try {
-        const response = await http.patch('/constants', constants);
-
-        console.log(response.data);
+        await http.patch('/constants', constants);
     } catch (error) {
         if (!error.response) {
             throw new Error('couldn\'t update constants');

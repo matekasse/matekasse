@@ -111,7 +111,6 @@ export default {
             }
 
             await this.$store.dispatch('setConstants', updatedConstants);
-            console.log(updatedConstants);
         },
     },
 
