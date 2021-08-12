@@ -1,7 +1,7 @@
 # matekasse
 
 Matekasse is a project to track your current drinks and costs per user.
-It's intended usage is for shared student flats or small club or association.
+It's intended usage is for shared student flats, a small club, associations or similar.
 
 ## Run a stable release
 
@@ -11,6 +11,8 @@ There is no stable release yet.
 
 1. Run `docker-compose up`.
 2. Access the frontend via `http://localhost:1337`.
+
+Currently supported are amd64, arm64 and arm/v7.
 
 ## Developer getting started
 
