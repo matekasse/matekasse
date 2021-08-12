@@ -44,7 +44,7 @@
                                     <v-text-field
                                         v-model="warehouseTransaction.pricePerItem"
                                         label="Price per item"
-                                        :suffix=this.constants.currencySymbol
+                                        :suffix=constants.currencySymbol
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
                                     />
@@ -54,7 +54,7 @@
                                     <v-text-field
                                         v-model="warehouseTransaction.depositPerItem"
                                         label="Deposit per item"
-                                        :suffix=this.constants.currencySymbol
+                                        :suffix=constants.currencySymbol
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
                                     />

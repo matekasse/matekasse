@@ -27,7 +27,7 @@
                                     <v-text-field
                                         v-model="editProduct.price"
                                         label="Price"
-                                        :suffix="this.constants.currencySymbol"
+                                        :suffix="constants.currencySymbol"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
                                     />
@@ -37,7 +37,7 @@
                                     <v-text-field
                                         v-model="editProduct.bottleDeposit"
                                         label="Deposit"
-                                        :suffix="this.constants.currencySymbol"
+                                        :suffix="constants.currencySymbol"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
                                     />

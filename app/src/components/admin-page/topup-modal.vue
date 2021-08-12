@@ -19,7 +19,7 @@
                         <v-text-field
                             v-model="amount"
                             label="Amount"
-                            :suffix="this.constants.currencySymbol"
+                            :suffix="constants.currencySymbol"
                             :rules="rules"
                             autofocus
                             @keydown="validateAndTopUp"

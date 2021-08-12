@@ -31,11 +31,11 @@
             </template>
 
             <template v-slot:item.price="{ item }">
-                {{ item.price }} {{this.constants.currencySymbol}}
+                {{ item.price }} {{constants.currencySymbol}}
             </template>
 
             <template v-slot:item.bottleDeposit="{ item }">
-                {{ item.bottleDeposit }} {{this.constants.currencySymbol}}
+                {{ item.bottleDeposit }} {{constants.currencySymbol}}
             </template>
 
             <template v-slot:item.tags="{ item }">
@@ -53,11 +53,11 @@
             </template>
 
             <template v-slot:item.price="{ item }">
-                {{ item.price }} {{this.constants.currencySymbol}}
+                {{ item.price }} {{constants.currencySymbol}}
             </template>
 
             <template v-slot:item.bottleDeposit="{ item }">
-                {{ item.bottleDeposit }} {{this.constants.currencySymbol}}
+                {{ item.bottleDeposit }} {{constants.currencySymbol}}
             </template>
 
             <template v-slot:item.action="{ item }">
