@@ -7,6 +7,11 @@ It's intended usage is for shared student flats, a small club, associations or s
 
 There is no stable release yet.
 
+## Run latest testing version
+
+The tag `latest_testing` contains the latest build from the `main` branch. This means that it contains the newest code and features but is not as tested as the latest stable release. Only use it, if you know what you are doing. For the beste experience of matekasse use the latest stable release. 
+Note: The `latest_testing` is only available for x86_64 and not for arm.
+
 ## Run the latest version
 
 1. Run `docker-compose up`.
