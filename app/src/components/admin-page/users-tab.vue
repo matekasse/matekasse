@@ -111,10 +111,6 @@ export default {
             userToTopUp: {},
             headers: [
                 {
-                    text: 'Id',
-                    value: 'id',
-                },
-                {
                     text: 'Name',
                     value: 'name',
                 },
