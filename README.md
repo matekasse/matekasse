@@ -17,7 +17,7 @@ Note: The `latest_testing` is only available for x86_64 and not for arm.
 1. Run `docker-compose up`.
 2. Access the frontend via `http://localhost:1337`.
 
-Currently supported are amd64, arm64 and arm/v7.
+Currently supported are amd64 (x86), arm64 and arm/v7.
 
 ## Developer getting started
 
@@ -35,4 +35,4 @@ More docs about all routes, tests, ... can be found [here](api/README.md).
 
 ## APP
 
-More docs about all routes, tests, ... can be found [here](app/README.md).
+More docs about the frontend SPA can be found [here](app/README.md).
