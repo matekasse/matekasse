@@ -182,6 +182,7 @@ export default {
             fileRules: [
                 value => maxFileSize(value),
             ],
+            editProduct: {},
         };
     },
 
@@ -202,12 +203,10 @@ export default {
             }
             return URL.createObjectURL(this.uploadedFile);
         },
-        editProduct() {
-            return Object.assign({}, this.product);
-        },
     },
 
     created() {
+        this.editProduct = Object.assign({}, this.product);
         this.loadManufacturers();
         this.loadTags();
     },
