@@ -11,6 +11,9 @@ export class Constants {
     @Column({ default: 150 })
     crateDeposit: number;
 
+    @Column({ default: "€" })
+    currencySymbol: string;
+
     @Column()
     createdAt: string;
 
@@ -20,12 +23,14 @@ export class Constants {
     public constructor(options?: {
         stornoTime?: number;
         crateDeposit?: number;
+        currencySymbol?: string;
     }) {
         if (!options) {
             return;
         }
         this.stornoTime = options.stornoTime;
         this.crateDeposit = options.crateDeposit;
+        this.currencySymbol = options.currencySymbol;
         this.createdAt = String(Date.now());
         this.updatedAt = String(Date.now());
     }
