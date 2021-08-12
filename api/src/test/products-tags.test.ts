@@ -257,7 +257,6 @@ describe("Product-Tag", () => {
     it("should disable (not delete) product if a transaction with it exists", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -266,7 +265,6 @@ describe("Product-Tag", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,

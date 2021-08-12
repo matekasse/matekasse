@@ -74,7 +74,6 @@ describe("Transaction", () => {
     it("should create a giftTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -83,7 +82,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -157,7 +155,6 @@ describe("Transaction", () => {
     it("should create a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -245,7 +242,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -254,7 +250,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -370,7 +365,6 @@ describe("Transaction", () => {
     it("should not create a orderTransaction when product is disabled", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -388,7 +382,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -472,7 +465,6 @@ describe("Transaction", () => {
     it("should not create a stornoTransaction after 10 seconds", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -570,7 +562,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction after 10 seconds when you are admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -579,7 +570,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -691,7 +681,6 @@ describe("Transaction", () => {
     it("should not create a transaction for another user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -700,7 +689,6 @@ describe("Transaction", () => {
 
         const notAdminUser = new User({
             name: "Peter",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -790,7 +778,6 @@ describe("Transaction", () => {
     it("should create a orderTransaction for another user as admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -799,7 +786,6 @@ describe("Transaction", () => {
 
         const notAdminUser = new User({
             name: "Peter",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -889,7 +875,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a giftTransaction as user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -988,7 +973,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a giftTransaction as admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -997,7 +981,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -1069,7 +1052,6 @@ describe("Transaction", () => {
     it("should not  create a giftTransaction to a disabled user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -1078,7 +1060,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: true,
@@ -1118,7 +1099,6 @@ describe("Transaction", () => {
     it("should not include password in user in a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
