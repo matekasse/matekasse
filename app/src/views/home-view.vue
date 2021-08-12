@@ -63,7 +63,7 @@
             <v-spacer />
 
             <span>
-                Balance: {{ user.balance }} €
+                Balance: {{ user.balance }} {{this.constants.currencySymbol}}
             </span>
 
             <v-spacer/>
@@ -100,7 +100,10 @@ export default {
         isAdmin: false,
     }),
 
-    computed: mapState(['user']),
+    computed: {
+        ...mapState(['user']),
+        ...mapState(['constants']),
+    },
 
 
     created() {

@@ -302,7 +302,7 @@ export const getConstants = async () => {
 
 export const patchConstants = async (constants) => {
     try {
-        const response = await http.put('/constants', constants);
+        const response = await http.patch('/constants', constants);
 
         console.log(response.data);
     } catch (error) {

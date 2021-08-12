@@ -19,7 +19,7 @@
                         <v-text-field
                             v-model="amount"
                             label="Amount"
-                            suffix="€"
+                            :suffix="this.constants.currencySymbol"
                             :rules="rules"
                             autofocus
                             @keydown="validateAndTopUp"
@@ -53,6 +53,7 @@
 <script>
 import { isNumber, isPositive } from '@/plugins/validation-rules';
 import { getUsers, postTransaction } from '@/utils/api-connector';
+import { mapState } from 'vuex';
 
 
 export default {
@@ -84,6 +85,7 @@ export default {
     },
 
     computed: {
+        ...mapState(['constants']),
         showDialog: {
             get() { return this.value; },
             set(showDialog) { this.$emit('input', showDialog); },

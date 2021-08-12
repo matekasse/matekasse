@@ -42,7 +42,7 @@ export default new Vuex.Store({
         setJwt({ commit }, jwt) {
             commit('changeJwt', jwt);
         },
-        setConstants({ commit }, constants) {
+        async setConstants({ commit }, constants) {
             commit('changeConstants', constants);
         },
     },

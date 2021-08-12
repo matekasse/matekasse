@@ -8,6 +8,29 @@
                 :items="constantsAsArray"
               >
 
+                <template v-slot:item.value="{item}">
+                    <template v-if="constantsToEdit.includes(item.key)">
+                        <v-text-field
+                            v-model="item.value"
+                            :append-outer-icon="item.value ? 'mdi-check' : ''"
+                            @click:append-outer="updateItem(item)"
+                        />
+                    </template>
+                    <template v-else>
+                        {{item.value}}
+                    </template>
+                </template>
+
+              <template v-slot:item.action="{item}">
+                <v-icon
+                    small
+                    class="mr-2"
+                    @click="editConstant(item)"
+                >
+                    mdi-pencil
+                </v-icon>
+              </template>
+
               </v-data-table>
           </v-card-title>
       </v-card>
@@ -16,12 +39,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import { patchConstants } from '../../utils/api-connector';
 
 export default {
     name: 'constants-tab',
 
     data() {
         return {
+            constantsToEdit: [],
             constantsAsArray: [],
             headers: [
                 {
@@ -34,7 +59,7 @@ export default {
                 },
                 {
                     text: 'Edit',
-                    value: 'actions',
+                    value: 'action',
                     align: 'right',
                 },
             ],
@@ -58,13 +83,35 @@ export default {
             const tempConstantsArray = [];
             const entries = Object.entries(this.constants);
             entries.forEach(([key, constantValue]) => {
-                tempConstantsArray.push({
-                    key,
-                    value: constantValue,
-                });
+                if (key !== 'createdAt' && key !== 'updatedAt' && key !== 'id') {
+                    tempConstantsArray.push({
+                        key,
+                        value: constantValue,
+                    });
+                }
             });
-            console.log(tempConstantsArray);
             this.constantsAsArray = tempConstantsArray;
+        },
+
+        editConstant(item) {
+            this.constantsToEdit.push(item.key);
+        },
+
+        async updateItem(item) {
+            const { key, value } = item;
+
+            const updatedConstants = {
+                ...this.constants,
+                [key]: value,
+            };
+            await patchConstants(updatedConstants);
+            const index = this.constantsToEdit.findIndex(element => element === key);
+            if (index !== -1) {
+                this.constantsToEdit.splice(index, 1);
+            }
+
+            await this.$store.dispatch('setConstants', updatedConstants);
+            console.log(updatedConstants);
         },
     },
 

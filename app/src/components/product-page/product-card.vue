@@ -49,7 +49,7 @@
                                     @click="buyProduct"
                                     :disabled="product.stock === 0"
                                 >
-                                    Buy for {{ product.price }} €
+                                    Buy for {{ product.price }} {{this.constants.currencySymbol}}
                                 </v-btn>
                             </v-card-text>
                     </v-col>
@@ -61,6 +61,7 @@
 
 <script>
 import { postTransaction } from '@/utils/api-connector';
+import { mapState } from 'vuex';
 
 export default {
     name: 'product-card',
@@ -78,6 +79,10 @@ export default {
 
     created() {
         this.user = this.$store.getters.user;
+    },
+
+    computed: {
+        ...mapState(['constants']),
     },
 
     methods: {
