@@ -92,6 +92,14 @@ export default {
         },
     },
 
+    watch: {
+        showDialog(value) {
+            if (value) {
+                this.amount = 1;
+            }
+        },
+    },
+
     methods: {
         async topUp() {
             try {
@@ -125,9 +133,6 @@ export default {
             }
 
             this.showDialog = false;
-            setTimeout(() => {
-                this.amount = 1;
-            }, 300);
         },
 
         validateAndTopUp(event) {
