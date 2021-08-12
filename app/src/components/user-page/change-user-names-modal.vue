@@ -85,6 +85,14 @@ export default {
         this.defaultUser = this.user;
     },
 
+    watch: {
+        showDialog(value) {
+            if (value) {
+                this.defaultUser = this.user;
+            }
+        },
+    },
+
     methods: {
         async save() {
             try {

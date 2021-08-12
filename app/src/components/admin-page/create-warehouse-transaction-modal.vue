@@ -17,7 +17,7 @@
                             <v-row>
                                 <v-col cols="12" sm="12" md="12">
                                     <v-autocomplete
-                                        v-model="warehouseTransaction.product"
+                                        v-model="selectedProduct"
                                         :items="products"
                                         item-text="name"
                                         item-value="id"
@@ -118,11 +118,11 @@ export default {
             valid: false,
             products: [],
             warehouseTransaction: {},
+            selectedProduct: {},
             defaultWarehouseTransaction: {
                 productID: '',
                 userID: '',
                 quantity: 0,
-                product: {},
                 pricePerItem: 0.00,
                 depositPerItem: 0.00,
                 withCrate: false,
@@ -146,6 +146,18 @@ export default {
         showDialog: {
             get() { return this.value; },
             set(showDialog) { this.$emit('input', showDialog); },
+        },
+    },
+
+    watch: {
+        showDialog(value) {
+            if (value) {
+                this.warehouseTransaction = Object.assign({}, this.defaultWarehouseTransaction);
+                this.selectedProduct = {};
+                if (this.$refs.form) {
+                    this.$refs.form.resetValidation();
+                }
+            }
         },
     },
 
@@ -175,12 +187,13 @@ export default {
         },
 
         updateDefaults() {
-            if (this.warehouseTransaction.product) {
+            if (this.selectedProduct) {
                 this.warehouseTransaction.pricePerItem = Number.parseFloat(
-                    this.warehouseTransaction.product.price,
+                    this.selectedProduct.price,
                 ).toFixed(2);
-                // eslint-disable-next-line
-                this.warehouseTransaction.depositPerItem = Number.parseFloat(this.warehouseTransaction.product.bottleDeposit).toFixed(2);
+                this.warehouseTransaction.depositPerItem = Number.parseFloat(
+                    this.selectedProduct.bottleDeposit,
+                ).toFixed(2);
             }
         },
 
@@ -193,9 +206,7 @@ export default {
             this.warehouseTransaction.depositPerItemInCents = Number(
                 (this.warehouseTransaction.depositPerItem * 100).toFixed(),
             );
-            this.warehouseTransaction.productID = this.warehouseTransaction.product.id;
-
-            delete this.warehouseTransaction.product;
+            this.warehouseTransaction.productID = this.selectedProduct.id;
 
             try {
                 await postWarehouseTransactions(this.warehouseTransaction);
@@ -208,9 +219,6 @@ export default {
                 });
 
                 this.showDialog = false;
-                setTimeout(() => {
-                    this.warehouseTransaction = Object.assign({}, this.defaultWarehouseTransaction);
-                }, 300);
             } catch (error) {
                 this.$notify({
                     title: 'Error',
@@ -230,9 +238,6 @@ export default {
 
         close() {
             this.showDialog = false;
-            setTimeout(() => {
-                this.warehouseTransaction = Object.assign({}, this.defaultWarehouseTransaction);
-            }, 300);
         },
     },
 };
