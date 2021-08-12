@@ -107,26 +107,4 @@ export const firstStartupInit = async () => {
             );
         }
     }
-
-    try {
-        const hashedPassword: string = await Authentication.hashPassword(
-            "cantlogin"
-        );
-        await UserService.createNewUser({
-            name: "Paypal",
-            password: hashedPassword,
-            isAdmin: false,
-            isSystemUser: true,
-            isDisabled: false
-        });
-        console.log("Creating some needed database entries... Success!");
-    } catch (error) {
-        if (error.name === "QueryFailedError") {
-            console.log("Checking some needed database entries... Success!");
-        } else {
-            console.log(
-                "An unexpected error occurred while creating the 'Paypal' user."
-            );
-        }
-    }
 };

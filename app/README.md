@@ -16,6 +16,6 @@ Filter for specific tags or your favorite manufacturer.
 ### Profile
 
 1. Get an overview about all your transactions.
-2. Change your username oder paypalname.
+2. Change your username.
 3. Change your password.
 

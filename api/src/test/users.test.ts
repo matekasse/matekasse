@@ -87,7 +87,6 @@ describe("Users", () => {
     it("should GET all real users", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -96,7 +95,6 @@ describe("Users", () => {
 
         const adminUser = new User({
             name: "adminUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
@@ -105,7 +103,6 @@ describe("Users", () => {
 
         const systemUser = new User({
             name: "systemUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -154,7 +151,6 @@ describe("Users", () => {
     it("should GET all admin users", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -163,7 +159,6 @@ describe("Users", () => {
 
         const adminUser = new User({
             name: "adminUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
@@ -172,7 +167,6 @@ describe("Users", () => {
 
         const systemUser = new User({
             name: "systemUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -221,7 +215,6 @@ describe("Users", () => {
     it("should GET all system users", async () => {
         const user = new User({
             name: "systemUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -230,7 +223,6 @@ describe("Users", () => {
 
         const adminUser = new User({
             name: "adminUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
@@ -239,7 +231,6 @@ describe("Users", () => {
 
         const systemUser = new User({
             name: "alsoSystemUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -288,7 +279,6 @@ describe("Users", () => {
     it("should DELETE a user by id", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -316,7 +306,6 @@ describe("Users", () => {
     it("should GET a user by id", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -359,7 +348,6 @@ describe("Users", () => {
     it("should create a user", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -377,30 +365,9 @@ describe("Users", () => {
         createResponse.body.user.name.should.be.eql("NewUser");
     });
 
-    it("should create a user without paypal", async () => {
-        const user = new User({
-            name: "NewUser42",
-            isAdmin: false,
-            isSystemUser: false,
-            isDisabled: false,
-            password: "123456"
-        });
-
-        const createResponse = await chai
-            .request(baseUrl)
-            .post("/api/users")
-            .set("Authorization", adminToken)
-            .send(user);
-
-        createResponse.should.have.status(200);
-        createResponse.body.user.should.include.key("name");
-        createResponse.body.user.name.should.be.eql("NewUser42");
-    });
-
     it("should update (patch) a user by id", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -418,7 +385,6 @@ describe("Users", () => {
         const createdUser: User = createResponse.body.user;
         const updatedUser = new User({
             name: "NewUser2",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -438,7 +404,6 @@ describe("Users", () => {
     it("should GET all users (not empty array)", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -446,7 +411,6 @@ describe("Users", () => {
         });
         const user2 = new User({
             name: "NewUser2",
-            paypalName: "something2@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -454,7 +418,6 @@ describe("Users", () => {
         });
         const user3 = new User({
             name: "NewUser3",
-            paypalName: "something2@someother.de",
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
@@ -491,7 +454,6 @@ describe("Users", () => {
     it("user should not be allowed to update (patch) another user by id", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -509,7 +471,6 @@ describe("Users", () => {
         const createdUser: User = createResponse.body.user;
         const updatedUser = new User({
             name: "NewUser2",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -526,7 +487,6 @@ describe("Users", () => {
     it("user should not be allowed to update (patch) another user by id", async () => {
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -544,7 +504,6 @@ describe("Users", () => {
         const createdUser: User = createResponse.body.user;
         const updatedUser = new User({
             name: "NewUser2",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -561,7 +520,6 @@ describe("Users", () => {
     it("user should be allowed to log into a account with correct credentials", async () => {
         const user = new User({
             name: "LoginUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -591,7 +549,6 @@ describe("Users", () => {
     it("user should not be allowed to log into a account with incorrect credentials", async () => {
         const user = new User({
             name: "LoginUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -621,7 +578,6 @@ describe("Users", () => {
     it("user should not be allowed to log into a systemUser", async () => {
         const user = new User({
             name: "SystemUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -653,7 +609,6 @@ describe("Users", () => {
     it("user should not be allowed to log into a disabled account", async () => {
         const user = new User({
             name: "DisabledUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: true,
@@ -685,7 +640,6 @@ describe("Users", () => {
     it("should get all transaction of user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -796,7 +750,6 @@ describe("Users", () => {
     it("user should be able to update his password", async () => {
         const user = new User({
             name: "BestUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -833,7 +786,6 @@ describe("Users", () => {
     it("admin should be able to update a users password", async () => {
         const user = new User({
             name: "BestUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -870,7 +822,6 @@ describe("Users", () => {
     it("all transaction of user should not contain private information about other users", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -928,9 +879,6 @@ describe("Users", () => {
             "id"
         );
         transactionsResponse.body.transactions[0].fromUser.should.not.contain.key(
-            "paypalName"
-        );
-        transactionsResponse.body.transactions[0].fromUser.should.not.contain.key(
             "idAdmin"
         );
         transactionsResponse.body.transactions[0].fromUser.should.not.contain.key(
@@ -950,7 +898,6 @@ describe("Users", () => {
     it("should not create an admin/system user without valid admin token.", async () => {
         const user = new User({
             name: "AdminSysUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,
@@ -973,7 +920,6 @@ describe("Users", () => {
     it("should not create an admin/system user without token.", async () => {
         const user = new User({
             name: "AdminSysUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,
@@ -995,7 +941,6 @@ describe("Users", () => {
     it("should create an admin/system user with valid admin token.", async () => {
         const user = new User({
             name: "AdminSysUser",
-            paypalName: "something@someother.de",
             isAdmin: true,
             isSystemUser: true,
             isDisabled: false,

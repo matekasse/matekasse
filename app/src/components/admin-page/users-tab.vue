@@ -123,10 +123,6 @@ export default {
                     value: 'balance',
                 },
                 {
-                    text: 'Paypal-Name',
-                    value: 'paypalName',
-                },
-                {
                     text: 'Status',
                     value: 'isDisabled',
                 },

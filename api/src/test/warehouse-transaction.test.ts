@@ -82,7 +82,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -203,7 +202,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -298,7 +296,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -354,7 +351,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -448,7 +444,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,

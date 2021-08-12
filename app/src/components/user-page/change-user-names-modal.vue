@@ -22,14 +22,6 @@
                                     @keydown="validateAndSave"
                                 />
                             </v-col>
-
-                            <v-col>
-                                <v-text-field
-                                    label="Paypal Name"
-                                    v-model="defaultUser.paypalName"
-                                    @keydown="validateAndSave"
-                                />
-                            </v-col>
                         </v-form>
                     </v-row>
                 </v-container>

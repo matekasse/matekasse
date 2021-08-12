@@ -9,7 +9,6 @@ export async function createAdminTestUser() {
     const testUser = new User();
     testUser.name = "Pferdinand";
     testUser.password = hashedPassword;
-    testUser.paypalName = "something@someother.de";
     testUser.isAdmin = true;
     testUser.isSystemUser = false;
     testUser.isDisabled = false;
@@ -31,7 +30,6 @@ export async function createNonAdminTestUser() {
     const testUser = new User();
     testUser.name = "nonAdminUser";
     testUser.password = hashedPassword;
-    testUser.paypalName = "something@someother.de";
     testUser.isAdmin = false;
     testUser.isSystemUser = false;
     testUser.isDisabled = false;
