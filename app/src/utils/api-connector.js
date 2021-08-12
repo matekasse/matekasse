@@ -284,3 +284,31 @@ export const postWarehouseTransactions = async (warehouseTransaction) => {
         throw new Error(error.response.data.status);
     }
 };
+
+export const getConstants = async () => {
+    try {
+        const response = await http.get('/constants');
+
+        console.log(response);
+
+        return response.data.constants[0];
+    } catch (error) {
+        if (!error.response) {
+            throw new Error('couldn\'t get constants');
+        }
+        throw new Error(error.response.data.status);
+    }
+};
+
+export const patchConstants = async (constants) => {
+    try {
+        const response = await http.put('/constants', constants);
+
+        console.log(response.data);
+    } catch (error) {
+        if (!error.response) {
+            throw new Error('couldn\'t update constants');
+        }
+        throw new Error(error.response.data.status);
+    }
+};

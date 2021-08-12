@@ -211,6 +211,15 @@ export default {
         this.loadTags();
     },
 
+    watch: {
+        showDialog(value) {
+            if (value) {
+                this.editProduct = Object.assign({}, this.product);
+                this.$refs.form.resetValidation();
+            }
+        },
+    },
+
     methods: {
         async loadTags() {
             this.isLoading = true;
