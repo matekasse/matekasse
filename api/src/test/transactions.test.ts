@@ -8,7 +8,7 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
 import {
-    createTestUser,
+    createAdminTestUser,
     authenticateTestUser,
     createNonAdminTestUser,
 } from "./userUtils";
@@ -24,7 +24,7 @@ chai.should();
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
-let userToken = "";
+let nonAdminToken = "";
 let adminUser: User;
 let normalUser: User;
 let serverTest: Server;
@@ -54,10 +54,10 @@ describe("Transaction", () => {
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        adminUser = await createTestUser();
+        adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
         normalUser = await createNonAdminTestUser();
-        userToken = await authenticateTestUser(normalUser);
+        nonAdminToken = await authenticateTestUser(normalUser);
     });
 
     it("should GET all transactions (empty array)", async () => {
@@ -74,7 +74,6 @@ describe("Transaction", () => {
     it("should create a giftTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -83,7 +82,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -157,7 +155,6 @@ describe("Transaction", () => {
     it("should create a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -245,7 +242,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -254,7 +250,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -370,7 +365,6 @@ describe("Transaction", () => {
     it("should not create a orderTransaction when product is disabled", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -388,7 +382,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -472,7 +465,6 @@ describe("Transaction", () => {
     it("should not create a stornoTransaction after 10 seconds", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -532,7 +524,7 @@ describe("Transaction", () => {
         const orderResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(orderTransaction);
 
         const stornoTransaction = {
@@ -544,7 +536,7 @@ describe("Transaction", () => {
         const stornoResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(stornoTransaction);
 
         createWarehouseTransactionResponse.should.have.status(200);
@@ -570,7 +562,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction after 10 seconds when you are admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -579,7 +570,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -691,7 +681,6 @@ describe("Transaction", () => {
     it("should not create a transaction for another user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -700,7 +689,6 @@ describe("Transaction", () => {
 
         const notAdminUser = new User({
             name: "Peter",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -766,7 +754,7 @@ describe("Transaction", () => {
         const orderResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(orderTransaction);
 
         createWarehouseTransactionResponse.should.have.status(200);
@@ -790,7 +778,6 @@ describe("Transaction", () => {
     it("should create a orderTransaction for another user as admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -799,7 +786,6 @@ describe("Transaction", () => {
 
         const notAdminUser = new User({
             name: "Peter",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -889,7 +875,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a giftTransaction as user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -923,7 +908,7 @@ describe("Transaction", () => {
         const giftResponse2 = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", userToken)
+            .set("Authorization", nonAdminToken)
             .send(giftTransaction2);
 
         const stornoTransaction = {
@@ -988,7 +973,6 @@ describe("Transaction", () => {
     it("should create a stornoTransaction of a giftTransaction as admin", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -997,7 +981,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -1069,7 +1052,6 @@ describe("Transaction", () => {
     it("should not  create a giftTransaction to a disabled user", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
@@ -1078,7 +1060,6 @@ describe("Transaction", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: true,
@@ -1118,7 +1099,6 @@ describe("Transaction", () => {
     it("should not include password in user in a orderTransaction", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,

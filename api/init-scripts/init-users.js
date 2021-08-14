@@ -6,7 +6,6 @@ module.exports = async (baseUrl) => {
     return Promise.all([
         post(userUrl, {
             name: "Peter",
-            paypalName: "peter@lustig.de",
             isAdmin: true,
             isSystemUser: false,
             isDisabled: false,
@@ -14,7 +13,6 @@ module.exports = async (baseUrl) => {
         }),
         post(userUrl, {
             name: "EinsUser",
-            paypalName: "lul",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -22,7 +20,6 @@ module.exports = async (baseUrl) => {
         }),
         post(userUrl, {
             name: "User",
-            paypalName: "user1337",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,

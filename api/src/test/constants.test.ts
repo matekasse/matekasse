@@ -6,7 +6,7 @@ import { config } from "dotenv";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import "mocha";
 
 config();
@@ -17,7 +17,7 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -40,22 +40,22 @@ describe("Constants", () => {
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
     });
 
     it("should GET all constants", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/constants")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         response.should.have.status(200);
         response.body.should.include.key("constants");
@@ -69,7 +69,7 @@ describe("Constants", () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({ stornoTime: 15000, crateDeposit: 200 });
 
         updateResponse.should.have.status(200);
@@ -78,7 +78,7 @@ describe("Constants", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/constants")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("constants");

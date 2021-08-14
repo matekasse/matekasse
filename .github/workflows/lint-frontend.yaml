@@ -16,5 +16,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: cd app && yarn install
-      - name: lint
+      - name: Lint
         run: cd app && yarn lint

@@ -7,7 +7,7 @@ import { config } from "dotenv";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import "mocha";
 
 config();
@@ -18,7 +18,7 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -40,22 +40,22 @@ describe("Tags", () => {
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
     });
 
     it("should GET all tags (empty array)", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/tags")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("tags");
         response.body.tags.should.be.a("array");
@@ -71,7 +71,7 @@ describe("Tags", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/tags")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(tag);
 
         createResponse.should.have.status(200);
@@ -82,7 +82,7 @@ describe("Tags", () => {
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/tags/" + createdTag.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         deleteResponse.should.have.status(200);
     });
 
@@ -94,7 +94,7 @@ describe("Tags", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/tags")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(tag);
 
         createResponse.should.have.status(200);
@@ -105,7 +105,7 @@ describe("Tags", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/tags/" + createdTag.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("tag");
         getResponse.body.tag.should.be.a("object");
@@ -118,7 +118,7 @@ describe("Tags", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/tags")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(testTag);
         createResponse.should.have.status(404);
         createResponse.body.status.should.be.eql("Arguments missing");
@@ -131,7 +131,7 @@ describe("Tags", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/tags")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(tag);
         createResponse.should.have.status(200);
         createResponse.body.tag.should.include.key("name");
@@ -145,7 +145,7 @@ describe("Tags", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/tags")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(tag);
         createResponse.should.have.status(200);
         createResponse.body.tag.should.include.key("name");
@@ -158,7 +158,7 @@ describe("Tags", () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/tags/" + createdTag.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(updatedTag);
         updateResponse.should.have.status(200);
         updateResponse.body.tag.should.include.key("name");

@@ -6,7 +6,7 @@ import { config } from "dotenv";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
 import "mocha";
 
@@ -18,7 +18,7 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -41,22 +41,22 @@ describe("Manufacturers", () => {
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
     });
 
     it("should GET all manufacturers (empty array)", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("manufacturers");
         response.body.manufacturers.should.be.a("array");
@@ -71,7 +71,7 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);
@@ -88,13 +88,13 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "TestProduct",
                 bottleDepositInCents: 100,
@@ -120,13 +120,13 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
@@ -140,7 +140,7 @@ describe("Manufacturers", () => {
                 "/api/manufacturers/" +
                     manufacturerResponse.body.manufacturer.id
             )
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         productResponse.should.have.status(200);
@@ -162,7 +162,7 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const deleteManufacturerResponse = await chai
@@ -171,7 +171,7 @@ describe("Manufacturers", () => {
                 "/api/manufacturers/" +
                     manufacturerResponse.body.manufacturer.id
             )
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         deleteManufacturerResponse.should.have.status(200);
@@ -180,6 +180,7 @@ describe("Manufacturers", () => {
             manufacturer.name
         );
     });
+
     it("should create three manufacturers and get all manufacturers", async () => {
         const manufacturer = new Manufacturer({
             name: "Braustübl",
@@ -196,25 +197,25 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         let manufacturerResponse3 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer3);
 
         const getManufacturersResponse = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);
@@ -254,7 +255,7 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(404);
@@ -271,13 +272,13 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         manufacturerResponse.should.have.status(200);
@@ -303,25 +304,25 @@ describe("Manufacturers", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         let manufacturerResponse3 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer3);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
@@ -332,7 +333,7 @@ describe("Manufacturers", () => {
         const productResponse2 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Schwarzbier",
                 bottleDepositInCents: 100,
@@ -344,7 +345,7 @@ describe("Manufacturers", () => {
         const productResponse3 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Pisswasser",
                 bottleDepositInCents: 100,
@@ -356,7 +357,7 @@ describe("Manufacturers", () => {
         const productResponse4 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Pils",
                 bottleDepositInCents: 100,
@@ -367,7 +368,7 @@ describe("Manufacturers", () => {
         const getManufacturersResponse = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);

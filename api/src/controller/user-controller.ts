@@ -50,7 +50,6 @@ export class UserController {
         next: NextFunction
     ): Promise<Response> {
         const name = request.body.name;
-        const paypalName = request.body.paypalName;
         const password = request.body.password;
         let isAdmin = request.body.isAdmin;
         let isSystemUser = request.body.isSystemUser;
@@ -79,7 +78,6 @@ export class UserController {
             );
             const createdUser = await UserService.createNewUser({
                 name,
-                paypalName,
                 isAdmin,
                 isSystemUser,
                 isDisabled,

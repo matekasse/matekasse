@@ -16,5 +16,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: cd app && yarn install
-      - name: build app
+      - name: Build app
         run: cd app && yarn build

@@ -37,7 +37,6 @@ export class TransactionController {
                     delete transaction.toUser.id;
                     delete transaction.toUser.isAdmin;
                     delete transaction.toUser.isDisabled;
-                    delete transaction.toUser.paypalName;
                 } else if (transaction.fromUser.id !== verifiedUser.id) {
                     delete transaction.fromUser.balance;
                     delete transaction.fromUser.createdAt;
@@ -45,7 +44,6 @@ export class TransactionController {
                     delete transaction.fromUser.id;
                     delete transaction.fromUser.isAdmin;
                     delete transaction.fromUser.isDisabled;
-                    delete transaction.fromUser.paypalName;
                 }
             });
 
