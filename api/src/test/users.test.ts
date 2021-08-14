@@ -664,7 +664,7 @@ describe("Users", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: nonAdminUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftTransactionResponse = await chai
@@ -837,7 +837,7 @@ describe("Users", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: nonAdminUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftTransactionResponse = await chai
