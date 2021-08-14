@@ -6,11 +6,9 @@ export const constantsRouter: Router = Router({ mergeParams: true });
 
 constantsRouter.get(
     "/",
-    Authentication.verifyAccess,
     ConstantsController.getAllConstants
 );
 constantsRouter.patch(
     "/",
-    Authentication.verifyAccess,
     ConstantsController.updateConstants
 );
