@@ -28,7 +28,6 @@ productRouter.patch(
 );
 productRouter.post(
     "/:productID/picture",
-    Authentication.verifyAccess,
     Authentication.verifyAdminAccess,
     ProductController.uploadProfilePicture
 );
