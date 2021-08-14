@@ -1,6 +1,6 @@
 name: build latest docker image
 
-on:  
+on:
   push:
     tags:
       - '*'
