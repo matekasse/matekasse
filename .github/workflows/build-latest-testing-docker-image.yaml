@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  build-latest-testing-image-multiarch:
+  build-latest-testing-image-amd64:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry
