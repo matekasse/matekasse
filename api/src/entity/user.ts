@@ -9,17 +9,17 @@ export class User {
     name: string;
 
     @Column({
-        default: false
+        default: false,
     })
     isAdmin: boolean;
 
     @Column({
-        default: false
+        default: false,
     })
     isSystemUser: boolean;
 
     @Column({
-        default: false
+        default: false,
     })
     isDisabled: boolean;
 

@@ -25,7 +25,7 @@ let connectionTest: Connection;
 /** Tests */
 describe("Manufacturers", () => {
     /** Clear transactions table before each test to have a clean start */
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -35,7 +35,7 @@ describe("Manufacturers", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -46,7 +46,7 @@ describe("Manufacturers", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
@@ -65,7 +65,7 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -82,7 +82,7 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer and a product", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -99,7 +99,7 @@ describe("Manufacturers", () => {
                 name: "TestProduct",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         productResponse.should.have.status(200);
@@ -114,7 +114,7 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer, a product and get manufacturer by id", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -131,7 +131,7 @@ describe("Manufacturers", () => {
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const getManufacturerResponse = await chai
@@ -156,7 +156,7 @@ describe("Manufacturers", () => {
 
     it("should delete a manufacturer, if no product exists", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
@@ -183,15 +183,15 @@ describe("Manufacturers", () => {
 
     it("should create three manufacturers and get all manufacturers", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Pfungstädter"
+            name: "Pfungstädter",
         });
 
         const manufacturer3 = new Manufacturer({
-            name: "Warsteiner"
+            name: "Warsteiner",
         });
 
         let manufacturerResponse = await chai
@@ -249,7 +249,7 @@ describe("Manufacturers", () => {
 
     it("should not create nameless manufacturer", async () => {
         const manufacturer = new Manufacturer({
-            name: ""
+            name: "",
         });
 
         let manufacturerResponse = await chai
@@ -263,11 +263,11 @@ describe("Manufacturers", () => {
 
     it("should not create manufacturer if name exists", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
         let manufacturerResponse = await chai
             .request(baseUrl)
@@ -290,15 +290,15 @@ describe("Manufacturers", () => {
 
     it("should create three manufacturers, products for the manufacturers and get all manufacturers", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Pfungstädter"
+            name: "Pfungstädter",
         });
 
         const manufacturer3 = new Manufacturer({
-            name: "Warsteiner"
+            name: "Warsteiner",
         });
 
         let manufacturerResponse = await chai
@@ -327,7 +327,7 @@ describe("Manufacturers", () => {
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const productResponse2 = await chai
@@ -339,7 +339,7 @@ describe("Manufacturers", () => {
                 bottleDepositInCents: 100,
                 priceInCents: 350,
                 describptions: "Gutes Schwarzbier",
-                manufacturerID: manufacturerResponse2.body.manufacturer.id
+                manufacturerID: manufacturerResponse2.body.manufacturer.id,
             });
 
         const productResponse3 = await chai
@@ -351,7 +351,7 @@ describe("Manufacturers", () => {
                 bottleDepositInCents: 100,
                 priceInCents: 100,
                 describptions: "Wer hat ein Warsteiner bestellt?",
-                manufacturerID: manufacturerResponse3.body.manufacturer.id
+                manufacturerID: manufacturerResponse3.body.manufacturer.id,
             });
 
         const productResponse4 = await chai
@@ -362,7 +362,7 @@ describe("Manufacturers", () => {
                 name: "Pils",
                 bottleDepositInCents: 100,
                 priceInCents: 170,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const getManufacturersResponse = await chai

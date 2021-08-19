@@ -9,7 +9,8 @@ export class ManufacturerController {
         response: Response
     ): Promise<void> {
         try {
-            const manufacturers: Manufacturer[] = await ManufacturerService.getAllManufacturers();
+            const manufacturers: Manufacturer[] =
+                await ManufacturerService.getAllManufacturers();
             response.status(200).send({ manufacturers: manufacturers });
         } catch (error) {
             response
@@ -31,14 +32,13 @@ export class ManufacturerController {
             return;
         }
         try {
-            const createdManufacturer = await ManufacturerService.createManufacturer(
-                request.body
-            );
+            const createdManufacturer =
+                await ManufacturerService.createManufacturer(request.body);
 
             response.send({ status: "ok", manufacturer: createdManufacturer });
         } catch (error) {
             response.status(409).send({
-                status: "A manufacturer with this name already exists"
+                status: "A manufacturer with this name already exists",
             });
         }
     }
@@ -58,7 +58,7 @@ export class ManufacturerController {
 
         try {
             const manufacturer = await ManufacturerService.getManufacturerByID({
-                manufacturerID: manufacturerID
+                manufacturerID: manufacturerID,
             });
             response.send({ status: "ok", manufacturer: manufacturer });
         } catch (error) {
@@ -80,16 +80,14 @@ export class ManufacturerController {
         }
 
         try {
-            const manufacturer = await ManufacturerService.deleteManufacturerByID(
-                {
-                    manufacturerID: manufacturerID
-                }
-            );
+            const manufacturer =
+                await ManufacturerService.deleteManufacturerByID({
+                    manufacturerID: manufacturerID,
+                });
             response.send({ status: "ok", manufacturer });
         } catch (error) {
             response.status(404).send({
-                status:
-                    "Could not delete manufacturer. Probably there does not exist a manufacturer with this id or there are still products by this manufacturer left."
+                status: "Could not delete manufacturer. Probably there does not exist a manufacturer with this id or there are still products by this manufacturer left.",
             });
         }
     }
@@ -107,17 +105,16 @@ export class ManufacturerController {
             return;
         }
         try {
-            const createdManufacturer = await ManufacturerService.updateManufacturerByID(
-                {
+            const createdManufacturer =
+                await ManufacturerService.updateManufacturerByID({
                     manifacturerID: manufacturerID,
-                    ...request.body
-                }
-            );
+                    ...request.body,
+                });
 
             response.send({ status: "ok", manufacturer: createdManufacturer });
         } catch (error) {
             response.status(409).send({
-                status: "A manufacturer with this name already exists"
+                status: "A manufacturer with this name already exists",
             });
         }
     }

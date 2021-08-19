@@ -9,7 +9,8 @@ export class WarehouseTransactionController {
         response: Response
     ): Promise<void> {
         try {
-            const warehouseTransactions: WarehouseTransaction[] = await WarehouseTransactionService.getAllWarehouseTransactions();
+            const warehouseTransactions: WarehouseTransaction[] =
+                await WarehouseTransactionService.getAllWarehouseTransactions();
             response.status(200).send({ warehouseTransactions });
         } catch (error) {
             response
@@ -43,13 +44,14 @@ export class WarehouseTransactionController {
             return;
         }
         try {
-            const createdWarehouseTransaction = await WarehouseTransactionService.createWarehouseTransaction(
-                request.body
-            );
+            const createdWarehouseTransaction =
+                await WarehouseTransactionService.createWarehouseTransaction(
+                    request.body
+                );
 
             response.send({
                 status: "ok",
-                warehouseTransaction: createdWarehouseTransaction
+                warehouseTransaction: createdWarehouseTransaction,
             });
         } catch (error) {
             response.status(500).send({ status: error.message });
@@ -72,11 +74,10 @@ export class WarehouseTransactionController {
         }
 
         try {
-            const warehouseTransaction = await WarehouseTransactionService.getWarehouseTransactionByID(
-                {
-                    warehouseTransactionID: warehouseTransactionID
-                }
-            );
+            const warehouseTransaction =
+                await WarehouseTransactionService.getWarehouseTransactionByID({
+                    warehouseTransactionID: warehouseTransactionID,
+                });
             response.send({ status: "ok", warehouseTransaction });
         } catch (error) {
             response.status(404).send({ status: error.message });

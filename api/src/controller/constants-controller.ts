@@ -9,7 +9,8 @@ export class ConstantsController {
         response: Response
     ): Promise<void> {
         try {
-            const constants: Constants[] = await ConstantsService.getAllConstants();
+            const constants: Constants[] =
+                await ConstantsService.getAllConstants();
             response.status(200).send({ constants: constants });
         } catch (error) {
             response.status(500).send({ status: "Could not load constants" });
@@ -39,13 +40,13 @@ export class ConstantsController {
     ): Promise<void> {
         try {
             const updatedConstants = await ConstantsService.updateConstants({
-                ...request.body
+                ...request.body,
             });
 
             response.send({ status: "ok", constants: updatedConstants });
         } catch (error) {
             response.status(409).send({
-                status: error.message
+                status: error.message,
             });
         }
     }

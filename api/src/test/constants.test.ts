@@ -24,7 +24,7 @@ let connectionTest: Connection;
 /** Tests */
 describe("Constants", () => {
     /** Clear transactions table before each test to have a clean start */
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -34,7 +34,7 @@ describe("Constants", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -45,7 +45,7 @@ describe("Constants", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);

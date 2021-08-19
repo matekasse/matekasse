@@ -13,7 +13,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
             manufacturerID:
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
-                ]
+                ],
         })
     );
 
@@ -26,7 +26,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[0], tagNames[1]]
+            tags: [tagNames[0], tagNames[1]],
         })
     );
 
@@ -39,7 +39,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[0], tagNames[2]]
+            tags: [tagNames[0], tagNames[2]],
         })
     );
 
@@ -52,7 +52,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[2], tagNames[3]]
+            tags: [tagNames[2], tagNames[3]],
         })
     );
 
@@ -65,7 +65,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]]
+            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]],
         })
     );
 
@@ -78,7 +78,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]]
+            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]],
         })
     );
 
@@ -91,7 +91,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]]
+            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]],
         })
     );
 
@@ -104,7 +104,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]]
+            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]],
         })
     );
 
@@ -117,7 +117,7 @@ module.exports = async (baseUrl, manufacturerIDs, tagNames) => {
                 manufacturerIDs[
                     Math.floor(Math.random() * manufacturerIDs.length)
                 ],
-            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]]
+            tags: [tagNames[Math.floor(Math.random() * tagNames.length)]],
         })
     );
 

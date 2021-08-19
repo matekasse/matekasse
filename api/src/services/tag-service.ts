@@ -1,4 +1,4 @@
-import { Repository, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { Tag } from "../entity/tag";
 
@@ -55,7 +55,7 @@ export class TagService {
 
     public static async updateSingleTag(options: {
         tagID: string;
-        name;
+        name: string;
     }): Promise<Tag> {
         const tagRepository = this.getTagRepository();
         try {

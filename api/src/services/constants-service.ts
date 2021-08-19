@@ -1,22 +1,26 @@
 import { getRepository, getConnection } from "typeorm";
 import { Constants } from "../entity/constants";
 
+enum Contants {
+    stornoTime = "stornoTime",
+    crateDeposit = "crateDeposit",
+}
+
 export class ConstantsService {
     private static getConstantsRepository() {
         return getRepository(Constants);
     }
 
     public static async getAllConstants() {
-        return await getConnection()
-            .getRepository(Constants)
-            .find();
+        return await getConnection().getRepository(Constants).find();
     }
 
     public static async getConstantByName(options: { constantName: string }) {
         const constantsRepository = this.getConstantsRepository();
         const constants = await constantsRepository.find();
+        const constant: Contants = (<any>Contants)[options.constantName];
 
-        return constants[0][options.constantName];
+        return constants[0][constant];
     }
 
     public static async createConstants(options?: {

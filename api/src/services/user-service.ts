@@ -1,4 +1,4 @@
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { User } from "../entity/user";
 import { Authentication } from "../module/authentication";
@@ -64,17 +64,18 @@ export class UserService {
             throw new Error("Cannot log in to a systemUser account");
         }
 
-        const matchingPasswords: boolean = await Authentication.comparePasswordWithHash(
-            options.password,
-            user.password
-        );
+        const matchingPasswords: boolean =
+            await Authentication.comparePasswordWithHash(
+                options.password,
+                user.password
+            );
         if (!matchingPasswords) {
             throw new Error("wrong username or password");
         }
 
         const token = await Authentication.generateToken({
             id: user.id,
-            name: user.name
+            name: user.name,
         });
 
         return token;
@@ -160,7 +161,7 @@ export class UserService {
         const userRepository = this.getUserRepository();
         try {
             const foundUser = await userRepository.findOneOrFail({
-                id: userID
+                id: userID,
             });
             if (foundUser.isAdmin === false) {
                 return false;
