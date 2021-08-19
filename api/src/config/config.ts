@@ -49,9 +49,7 @@ export class Config {
                 User,
                 WarehouseTransaction,
             ],
-            migrations: [
-                "src/migration/**/*.*"
-            ],
+            migrations: ["src/migration/**/*.*"],
             synchronize: false,
             logging: [],
             cli: {
