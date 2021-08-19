@@ -8,7 +8,7 @@ import { User } from "../entity/user";
 import { WarehouseTransaction } from "../entity/warehouse-transaction";
 import {
     EnvVariableNames,
-    getEnvironmentVariable
+    getEnvironmentVariable,
 } from "./environment-variables";
 
 export class Config {
@@ -47,14 +47,14 @@ export class Config {
                 Tag,
                 Transaction,
                 User,
-                WarehouseTransaction
+                WarehouseTransaction,
             ],
             migrations: [this.getPrefix("migration/**/*.*")],
             synchronize: false,
             logging: [],
             cli: {
-                migrationsDir: "src/migrations"
-            }
+                migrationsDir: "src/migrations",
+            },
         };
     }
 }

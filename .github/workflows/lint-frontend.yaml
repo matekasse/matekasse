@@ -1,0 +1,20 @@
+name: lint frontend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install yarn packages
+        run: cd app && yarn install
+      - name: Lint
+        run: cd app && yarn lint

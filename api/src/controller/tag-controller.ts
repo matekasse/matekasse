@@ -89,7 +89,7 @@ export class TagController {
         try {
             const tag = await TagService.updateSingleTag({
                 tagID: tagID,
-                ...request.body
+                ...request.body,
             });
 
             response.send({ status: "ok", tag });

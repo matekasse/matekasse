@@ -4,7 +4,7 @@ import {
     Column,
     ManyToOne,
     ManyToMany,
-    JoinTable
+    JoinTable,
 } from "typeorm";
 
 import { Manufacturer } from "./manufacturer";
@@ -20,47 +20,43 @@ export class Product {
     name: string;
 
     @Column({
-        default: 0
+        default: 0,
     })
     bottleDepositInCents: number;
 
-    @ManyToOne(type => Manufacturer, { nullable: true, eager: true })
+    @ManyToOne((type) => Manufacturer, { nullable: true, eager: true })
     manufacturer: Manufacturer;
 
     @Column({
-        default: 0
+        default: 0,
     })
     stock: number;
 
     @Column({
-        default: 0
+        default: 0,
     })
     priceInCents: number;
 
     @Column({
-        default: ""
+        default: "",
     })
     description: string;
 
     @Column({
-        default: false
+        default: false,
     })
     isDisabled: boolean;
 
-    @ManyToMany(
-        type => Tag,
-        Tag => Tag.products,
-        {
-            eager: true,
-            // This does only work with mysql.
-            onDelete: "CASCADE"
-        }
-    )
+    @ManyToMany((type) => Tag, (Tag) => Tag.products, {
+        eager: true,
+        // This does only work with mysql.
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     tags: Tag[];
 
     @Column({
-        nullable: true
+        nullable: true,
     })
     picture: string;
 

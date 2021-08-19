@@ -4,7 +4,7 @@ import chaiHttp from "chai-http";
 import { Product } from "../entity/product";
 import { User } from "../entity/user";
 import { config } from "dotenv";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
@@ -18,13 +18,13 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
 /** Tests */
 describe("Product-Tag", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -34,33 +34,33 @@ describe("Product-Tag", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const AdminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(AdminUser);
     });
 
     it("should add new tags to a exisiting product", async () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
         createResponse.should.have.status(200);
         createResponse.body.product.should.include.key("name");
@@ -72,13 +72,13 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/products/" + createdProduct.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(updatedProduct);
         updateResponse.should.have.status(200);
         updateResponse.body.product.should.include.key("name");
@@ -95,13 +95,13 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const createdProductResponse = await chai
             .request(baseUrl)
             .post("/api/products/")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(productToCreate);
         createdProductResponse.should.have.status(200);
         createdProductResponse.body.product.should.include.key("name");
@@ -112,10 +112,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -123,14 +123,14 @@ describe("Product-Tag", () => {
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         deleteResponse.should.have.status(200);
 
         const getTagsResponse = await chai
             .request(baseUrl)
             .get("/api/tags")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getTagsResponse.should.have.status(200);
         getTagsResponse.body.tags.should.be.eql([]);
@@ -141,20 +141,20 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const productToCreate2 = {
             name: "TestProduct2",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1"]
+            tags: ["tag1"],
         };
 
         const createdProductResponse = await chai
             .request(baseUrl)
             .post("/api/products/")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(productToCreate);
         createdProductResponse.should.have.status(200);
         createdProductResponse.body.product.should.include.key("name");
@@ -165,10 +165,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -176,26 +176,26 @@ describe("Product-Tag", () => {
         const createdProductResponse2 = await chai
             .request(baseUrl)
             .post("/api/products/")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(productToCreate2);
         createdProductResponse2.should.have.status(200);
 
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         deleteResponse.should.have.status(200);
 
         const getTagsResponse = await chai
             .request(baseUrl)
             .get("/api/tags")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getTagsResponse.should.have.status(200);
         getTagsResponse.body.tags.length.should.be.eql(1);
         getTagsResponse.body.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
     });
 
@@ -204,13 +204,13 @@ describe("Product-Tag", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            tags: ["tag1", "tag2"]
+            tags: ["tag1", "tag2"],
         };
 
         const createdProductResponse = await chai
             .request(baseUrl)
             .post("/api/products/")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(productToCreate);
         createdProductResponse.should.have.status(200);
         createdProductResponse.body.product.should.include.key("name");
@@ -221,10 +221,10 @@ describe("Product-Tag", () => {
             productToCreate.bottleDepositInCents
         );
         createdProductResponse.body.product.tags[0].should.contain({
-            name: "tag1"
+            name: "tag1",
         });
         createdProductResponse.body.product.tags[1].should.contain({
-            name: "tag2"
+            name: "tag2",
         });
 
         const createdProduct: Product = createdProductResponse.body.product;
@@ -232,14 +232,14 @@ describe("Product-Tag", () => {
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         deleteResponse.should.have.status(200);
 
         const getTagsResponse = await chai
             .request(baseUrl)
             .get("/api/tags")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getTagsResponse.should.have.status(200);
         getTagsResponse.body.tags.should.be.eql([]);
@@ -247,7 +247,7 @@ describe("Product-Tag", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/products")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("products");
         getResponse.body.products.should.be.a("array");
@@ -257,26 +257,24 @@ describe("Product-Tag", () => {
     it("should disable (not delete) product if a transaction with it exists", async () => {
         const bankUser = new User({
             name: "Bank",
-            paypalName: "",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
 
         const warehouseTransaction = {
@@ -285,54 +283,54 @@ describe("Product-Tag", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(bankUser);
 
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: createUserResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const postResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(giftTransaction);
 
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const orderTransaction = {
             fromUserID: createUserResponse.body.user.id,
-            productID: "1"
+            productID: "1",
         };
 
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
 
         const orderResponse = await chai
             .request(baseUrl)
             .post("/api/transactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(orderTransaction);
 
         createWarehouseTransactionResponse.should.have.status(200);
@@ -359,14 +357,14 @@ describe("Product-Tag", () => {
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/products/" + createProductResponse.body.product.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         deleteResponse.should.have.status(200);
 
         const getTagsResponse = await chai
             .request(baseUrl)
             .get("/api/tags")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getTagsResponse.should.have.status(200);
         getTagsResponse.body.tags.should.be.eql([]);
@@ -374,7 +372,7 @@ describe("Product-Tag", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/products")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("products");
         getResponse.body.products.should.be.a("array");

@@ -111,20 +111,12 @@ export default {
             userToTopUp: {},
             headers: [
                 {
-                    text: 'Id',
-                    value: 'id',
-                },
-                {
                     text: 'Name',
                     value: 'name',
                 },
                 {
                     text: 'Balance',
                     value: 'balance',
-                },
-                {
-                    text: 'Paypal-Name',
-                    value: 'paypalName',
                 },
                 {
                     text: 'Status',

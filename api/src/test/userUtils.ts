@@ -1,7 +1,7 @@
 import { Repository, getRepository } from "typeorm";
 import { User } from "../entity/user";
 import { Authentication } from "../module/authentication";
-export async function createTestUser() {
+export async function createAdminTestUser() {
     const userRepository: Repository<User> = getRepository(User);
     const hashedPassword: string = await Authentication.hashPassword(
         "wowSuchPassword"
@@ -9,7 +9,6 @@ export async function createTestUser() {
     const testUser = new User();
     testUser.name = "Pferdinand";
     testUser.password = hashedPassword;
-    testUser.paypalName = "something@someother.de";
     testUser.isAdmin = true;
     testUser.isSystemUser = false;
     testUser.isDisabled = false;
@@ -31,7 +30,6 @@ export async function createNonAdminTestUser() {
     const testUser = new User();
     testUser.name = "nonAdminUser";
     testUser.password = hashedPassword;
-    testUser.paypalName = "something@someother.de";
     testUser.isAdmin = false;
     testUser.isSystemUser = false;
     testUser.isDisabled = false;
@@ -48,15 +46,7 @@ export async function createNonAdminTestUser() {
 export async function authenticateTestUser(user: User) {
     const token = await Authentication.generateToken({
         id: user.id,
-        name: user.name
-    });
-    return token;
-}
-
-export async function authenticateNonAdminTestUser(user: User) {
-    const token = await Authentication.generateToken({
-        id: user.id,
-        name: user.name
+        name: user.name,
     });
     return token;
 }

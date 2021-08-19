@@ -1,5 +1,5 @@
 export enum EnvVariableNames {
-    DatabaseConnectionUrl = "DATABASE_CONNECTION_URL"
+    DatabaseConnectionUrl = "DATABASE_CONNECTION_URL",
 }
 
 export const getEnvironmentVariable = (

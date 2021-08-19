@@ -1,4 +1,4 @@
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { User } from "../entity/user";
 import { Authentication } from "../module/authentication";
@@ -26,7 +26,6 @@ export class UserService {
 
     public static async createNewUser(options: {
         name: string;
-        paypalName?: string;
         isAdmin?: boolean;
         isSystemUser?: boolean;
         isDisabled?: boolean;
@@ -65,17 +64,18 @@ export class UserService {
             throw new Error("Cannot log in to a systemUser account");
         }
 
-        const matchingPasswords: boolean = await Authentication.comparePasswordWithHash(
-            options.password,
-            user.password
-        );
+        const matchingPasswords: boolean =
+            await Authentication.comparePasswordWithHash(
+                options.password,
+                user.password
+            );
         if (!matchingPasswords) {
             throw new Error("wrong username or password");
         }
 
         const token = await Authentication.generateToken({
             id: user.id,
-            name: user.name
+            name: user.name,
         });
 
         return token;
@@ -106,7 +106,6 @@ export class UserService {
     public static async patchUserByID(options: {
         userID: number;
         name?: string;
-        paypalName?: string;
         isAdmin?: boolean;
         isSystemUser?: boolean;
         isDisabled?: boolean;
@@ -117,9 +116,6 @@ export class UserService {
         let user = await userRepository.findOneOrFail(options.userID);
 
         user.name = options.name ? options.name : user.name;
-        user.paypalName = options.paypalName
-            ? options.paypalName
-            : user.paypalName;
         user.isAdmin = options.isAdmin ? options.isAdmin : user.isAdmin;
         user.isSystemUser = options.isSystemUser
             ? options.isSystemUser
@@ -161,20 +157,11 @@ export class UserService {
         }
     }
 
-    public static async getPaypalUser(): Promise<User> {
-        const userRepository = this.getUserRepository();
-        try {
-            return await userRepository.findOneOrFail({ name: "Paypal" });
-        } catch (error) {
-            throw new Error("Paypal user not found");
-        }
-    }
-
     public static async isAdmin(userID: number): Promise<boolean> {
         const userRepository = this.getUserRepository();
         try {
             const foundUser = await userRepository.findOneOrFail({
-                id: userID
+                id: userID,
             });
             if (foundUser.isAdmin === false) {
                 return false;

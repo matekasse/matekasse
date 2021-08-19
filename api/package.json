@@ -1,20 +1,23 @@
 {
-    "name": "matekasse",
+    "name": "api",
     "version": "1.0.0",
     "description": "Awesome project developed with Mate.",
     "license": "MIT",
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
         "@types/body-parser": "^1.19.1",
+        "@types/dotenv": "^8.2.0",
         "@types/express": "^4.17.1",
-        "@types/mocha": "9.0.0",
-        "@types/node": "14.17.7",
+        "@types/jsonwebtoken": "^8.5.4",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "16.6.1",
         "chai": "4.3.4",
         "chai-http": "^4.3.0",
         "mocha": "9.0.3",
         "nodemon": "2.0.12",
         "nyc": "15.1.0",
         "prettier": "^2.3.2",
-        "ts-node": "10.1.0",
+        "ts-node": "10.2.0",
         "typescript": "3.9.10"
     },
     "dependencies": {
@@ -28,11 +31,11 @@
         "node-fetch": "2.6.1",
         "pg": "^8.3.0",
         "reflect-metadata": "^0.1.13",
-        "typeorm": "0.2.20"
+        "typeorm": "0.2.37"
     },
     "scripts": {
-        "start": "API_PORT=1337 ts-node --files src/index.ts",
-        "server": "npm run watch && nodemon ./dist/server.js",
+        "start:dev": "API_PORT=1337 ts-node --files src/index.ts",
+        "start": "node ./dist/index.js",
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
         "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",

@@ -54,6 +54,7 @@ export const startServer = async (port: string) => {
 
             /** Routes */
             app.use("/api", globalRouter);
+            app.use(express.static('public'))
 
             const server = app.listen(port, () => {
                 console.log(`Server is running on port ${port}...`);

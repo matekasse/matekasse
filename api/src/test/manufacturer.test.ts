@@ -6,8 +6,9 @@ import { config } from "dotenv";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
+import "mocha";
 
 config();
 
@@ -17,14 +18,14 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
 /** Tests */
 describe("Manufacturers", () => {
     /** Clear transactions table before each test to have a clean start */
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -34,28 +35,28 @@ describe("Manufacturers", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
     });
 
     it("should GET all manufacturers (empty array)", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("manufacturers");
         response.body.manufacturers.should.be.a("array");
@@ -64,13 +65,13 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);
@@ -81,31 +82,31 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer and a product", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "TestProduct",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
-        productResponse.should.have.status(200);
         manufacturerResponse.should.have.status(200);
         manufacturerResponse.body.manufacturer.name.should.be.eql(
             manufacturer.name
         );
+        productResponse.should.have.status(200);
         productResponse.body.product.manufacturer.name.should.be.eql(
             manufacturer.name
         );
@@ -113,24 +114,24 @@ describe("Manufacturers", () => {
 
     it("should create a manufacturer, a product and get manufacturer by id", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const getManufacturerResponse = await chai
@@ -139,11 +140,11 @@ describe("Manufacturers", () => {
                 "/api/manufacturers/" +
                     manufacturerResponse.body.manufacturer.id
             )
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
-        productResponse.should.have.status(200);
         manufacturerResponse.should.have.status(200);
+        productResponse.should.have.status(200);
         getManufacturerResponse.should.have.status(200);
         manufacturerResponse.body.manufacturer.name.should.be.eql(
             manufacturer.name
@@ -155,13 +156,13 @@ describe("Manufacturers", () => {
 
     it("should delete a manufacturer, if no product exists", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const deleteManufacturerResponse = await chai
@@ -170,7 +171,7 @@ describe("Manufacturers", () => {
                 "/api/manufacturers/" +
                     manufacturerResponse.body.manufacturer.id
             )
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         deleteManufacturerResponse.should.have.status(200);
@@ -179,41 +180,42 @@ describe("Manufacturers", () => {
             manufacturer.name
         );
     });
+
     it("should create three manufacturers and get all manufacturers", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Pfungstädter"
+            name: "Pfungstädter",
         });
 
         const manufacturer3 = new Manufacturer({
-            name: "Warsteiner"
+            name: "Warsteiner",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         let manufacturerResponse3 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer3);
 
         const getManufacturersResponse = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);
@@ -247,13 +249,13 @@ describe("Manufacturers", () => {
 
     it("should not create nameless manufacturer", async () => {
         const manufacturer = new Manufacturer({
-            name: ""
+            name: "",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(404);
@@ -261,22 +263,22 @@ describe("Manufacturers", () => {
 
     it("should not create manufacturer if name exists", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         manufacturerResponse.should.have.status(200);
@@ -288,85 +290,85 @@ describe("Manufacturers", () => {
 
     it("should create three manufacturers, products for the manufacturers and get all manufacturers", async () => {
         const manufacturer = new Manufacturer({
-            name: "Braustübl"
+            name: "Braustübl",
         });
 
         const manufacturer2 = new Manufacturer({
-            name: "Pfungstädter"
+            name: "Pfungstädter",
         });
 
         const manufacturer3 = new Manufacturer({
-            name: "Warsteiner"
+            name: "Warsteiner",
         });
 
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         let manufacturerResponse3 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer3);
 
         const productResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
                 priceInCents: 150,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const productResponse2 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Schwarzbier",
                 bottleDepositInCents: 100,
                 priceInCents: 350,
                 describptions: "Gutes Schwarzbier",
-                manufacturerID: manufacturerResponse2.body.manufacturer.id
+                manufacturerID: manufacturerResponse2.body.manufacturer.id,
             });
 
         const productResponse3 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Pisswasser",
                 bottleDepositInCents: 100,
                 priceInCents: 100,
                 describptions: "Wer hat ein Warsteiner bestellt?",
-                manufacturerID: manufacturerResponse3.body.manufacturer.id
+                manufacturerID: manufacturerResponse3.body.manufacturer.id,
             });
 
         const productResponse4 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Pils",
                 bottleDepositInCents: 100,
                 priceInCents: 170,
-                manufacturerID: manufacturerResponse.body.manufacturer.id
+                manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
         const getManufacturersResponse = await chai
             .request(baseUrl)
             .get("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         manufacturerResponse.should.have.status(200);

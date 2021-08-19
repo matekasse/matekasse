@@ -6,8 +6,8 @@ async function getAuthToken() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             name: "Admin",
-            password: "admin"
-        })
+            password: "admin",
+        }),
     });
 }
 
@@ -20,8 +20,8 @@ module.exports = async (url, data) => {
         method: "POST",
         headers: {
             Authorization: token,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     });
 };
