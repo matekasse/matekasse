@@ -1,15 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column } from "typeorm";
 
 @Entity()
 export class Constants {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn()
+    key: string;
 
-    @Column({ default: 10000 })
-    stornoTime: number;
-
-    @Column({ default: 150 })
-    crateDeposit: number;
+    @Column()
+    value: string;;
 
     @Column()
     createdAt: string;
@@ -18,14 +15,14 @@ export class Constants {
     updatedAt: string;
 
     public constructor(options?: {
-        stornoTime?: number;
-        crateDeposit?: number;
+        key?: string;
+        value?: string;
     }) {
         if (!options) {
             return;
         }
-        this.stornoTime = options.stornoTime;
-        this.crateDeposit = options.crateDeposit;
+        this.key = options.key;
+        this.value = options.value;
         this.createdAt = String(Date.now());
         this.updatedAt = String(Date.now());
     }
