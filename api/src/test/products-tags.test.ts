@@ -8,7 +8,7 @@ import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { ConstantsService } from "../services/constants-service";
+import { ConstantService } from "../services/constant-service";
 
 config();
 
@@ -43,7 +43,7 @@ describe("Product-Tag", () => {
         adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
-        await ConstantsService.createConstants({
+        await ConstantService.createConstant({
             stornoTime: 10000,
             crateDeposit: 150,
         });

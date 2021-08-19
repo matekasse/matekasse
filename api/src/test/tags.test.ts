@@ -1,7 +1,7 @@
 /** Package imports */
 import chai from "chai";
 import chaiHttp from "chai-http";
-import { ConstantsService } from "../services/constants-service";
+import { ConstantService } from "../services/constant-service";
 import { Tag } from "../entity/tag";
 import { config } from "dotenv";
 import { Server } from "http";
@@ -43,7 +43,7 @@ describe("Tags", () => {
         adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
-        await ConstantsService.createConstants({
+        await ConstantService.createConstant({
             stornoTime: 10000,
             crateDeposit: 150,
         });

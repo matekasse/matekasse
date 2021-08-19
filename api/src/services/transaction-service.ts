@@ -4,7 +4,7 @@ import { Product } from "../entity/product";
 import { User } from "../entity/user";
 import { ProductService } from "./product-service";
 import { UserService } from "./user-service";
-import { ConstantsService } from "./constants-service";
+import { ConstantService } from "./constant-service";
 
 export class TransactionService {
     private static getTransactionRepository() {
@@ -174,11 +174,11 @@ export class TransactionService {
         }
 
         // Storno only allowed if not longer than a defined number of seconds ago.
-        let stornoTime: Number;
+        let stornoTime: string;
         try {
-            stornoTime = await ConstantsService.getConstantByName({
-                constantName: "stornoTime",
-            });
+            stornoTime = await ConstantService.getConstantByName({
+                key: "stornoTime",
+            }).value;
         } catch (error) {
             throw new Error("Error getting constants");
         }

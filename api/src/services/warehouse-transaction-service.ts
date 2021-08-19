@@ -4,7 +4,7 @@ import { Product } from "../entity/product";
 import { User } from "../entity/user";
 import { ProductService } from "./product-service";
 import { UserService } from "./user-service";
-import { ConstantsService } from "./constants-service";
+import { ConstantService } from "./constant-service";
 
 export class WarehouseTransactionService {
     private static getWarehouseTransactionRepository() {
@@ -60,8 +60,8 @@ export class WarehouseTransactionService {
         let totalDepositInCents =
             options.depositPerItemInCents * options.quantity;
 
-        const crateDeposit = await ConstantsService.getConstantByName({
-            constantName: "crateDeposit",
+        const crateDeposit = await ConstantService.getConstantByName({
+            key: "crateDeposit",
         });
 
         if (options.withCrate) {

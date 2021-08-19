@@ -12,7 +12,7 @@ import {
     authenticateTestUser,
     createNonAdminTestUser,
 } from "./userUtils";
-import { ConstantsService } from "../services/constants-service";
+import { ConstantService } from "../services/constant-service";
 import "mocha";
 
 config();
@@ -50,7 +50,7 @@ describe("Transaction", () => {
     beforeEach(async () => {
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
-        await ConstantsService.createConstants({
+        await ConstantService.createConstant({
             stornoTime: 10000,
             crateDeposit: 150,
         });

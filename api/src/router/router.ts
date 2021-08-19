@@ -6,7 +6,7 @@ import { userRouter } from "./user-router";
 import { warehouseTransactionRouter } from "./warehouse-transaction-router";
 import { transactionRouter } from "./transaction-router";
 import { manufacturerRouter } from "./manufacturer-router";
-import { constantsRouter } from "./constants-router";
+import { constantRouter } from "./constant-router";
 import { Authentication } from "../module/authentication";
 
 /** Variables */
@@ -33,8 +33,8 @@ globalRouter.use(
     transactionRouter
 );
 globalRouter.use(
-    "/constants",
+    "/constant",
     Authentication.verifyAccess,
     Authentication.verifyAdminAccess,
-    constantsRouter
+    constantRouter
 );

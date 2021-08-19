@@ -1,7 +1,11 @@
 import { Entity, PrimaryColumn, Column } from "typeorm";
 
+export enum Contant {
+    stornoTime = "stornoTime",
+    crateDeposit = "crateDeposit",
+}
 @Entity()
-export class Constants {
+export class Constant {
     @PrimaryColumn()
     key: string;
 

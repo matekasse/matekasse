@@ -1,12 +1,16 @@
 import { Authentication } from "./module/authentication";
-import { ConstantsService } from "./services/constants-service";
+import { ConstantService } from "./services/constant-service";
 import { UserService } from "./services/user-service";
 
 export const firstStartupInit = async () => {
     try {
-        await ConstantsService.createConstants({
-            stornoTime: 10000,
-            crateDeposit: 150
+        await ConstantService.createConstant({
+            key: "stornoTime",
+            value: "10000",
+        });
+        await ConstantService.createConstant({
+            key: "crateDeposit",
+            value: "150",
         });
     } catch (error) {
         if (error.name === "QueryFailedError") {

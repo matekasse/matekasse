@@ -9,7 +9,7 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "..";
 import { createAdminTestUser, authenticateTestUser } from "./userUtils";
-import { ConstantsService } from "../services/constants-service";
+import { ConstantService } from "../services/constant-service";
 import "mocha";
 
 config();
@@ -45,7 +45,7 @@ describe("WarehouseTransactions", () => {
         adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
-        await ConstantsService.createConstants({
+        await ConstantService.createConstant({
             stornoTime: 10000,
             crateDeposit: 150,
         });

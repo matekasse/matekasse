@@ -1,49 +1,49 @@
 import { Request, Response, NextFunction } from "express";
 
-import { Constants } from "../entity/constants";
-import { ConstantsService } from "../services/constants-service";
+import { Constant } from "../entity/constant";
+import { ConstantService } from "../services/constant-service";
 
-export class ConstantsController {
+export class ConstantController {
     public static async getAllConstants(
         request: Request,
         response: Response
     ): Promise<void> {
         try {
-            const constants: Constants[] =
-                await ConstantsService.getAllConstants();
+            const constants: Constant[] =
+                await ConstantService.getAllConstants();
             response.status(200).send({ constants: constants });
         } catch (error) {
             response.status(500).send({ status: "Could not load constants" });
         }
     }
 
-    public static async createConstants(
+    public static async createConstant(
         request: Request,
         response: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const createdConstants = await ConstantsService.createConstants(
+            const createdConstant = await ConstantService.createConstant(
                 request.body
             );
 
-            response.send({ status: "ok", constants: createdConstants });
+            response.send({ status: "ok", constants: createdConstant });
         } catch (error) {
             response.status(409).send({ status: error.message });
         }
     }
 
-    public static async updateConstants(
+    public static async updateConstant(
         request: Request,
         response: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const updatedConstants = await ConstantsService.updateConstants({
+            const updatedConstant = await ConstantService.updateConstant({
                 ...request.body,
             });
 
-            response.send({ status: "ok", constants: updatedConstants });
+            response.send({ status: "ok", constants: updatedConstant });
         } catch (error) {
             response.status(409).send({
                 status: error.message,
