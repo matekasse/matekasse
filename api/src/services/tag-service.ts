@@ -63,9 +63,13 @@ export class TagService {
             tag.name = options.name;
             tag.updatedAt = String(Date.now());
 
+            // Fetch products as save will fail if this is a dangling promise.
+            // Eager loading is not possible as tag is in product already eager.
+            await tag.products;
+
             return await tagRepository.save(tag);
         } catch (error) {
-            throw new Error();
+            throw new Error(error);
         }
     }
 }
