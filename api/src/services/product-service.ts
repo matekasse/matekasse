@@ -38,7 +38,7 @@ export class ProductService {
         let previousProduct: Product;
         try {
             previousProduct = await productRepository.findOne({
-                where: { product: options.name, isDisabled: true },
+                where: { name: options.name, isDisabled: true },
             });
         } catch (error) {
             throw new Error("Could not get previousProduct");
