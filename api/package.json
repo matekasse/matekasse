@@ -18,7 +18,7 @@
         "nyc": "15.1.0",
         "prettier": "^2.3.2",
         "ts-node": "10.2.1",
-        "typescript": "3.9.10"
+        "typescript": "4.3.5"
     },
     "dependencies": {
         "@types/express-fileupload": "1.1.7",

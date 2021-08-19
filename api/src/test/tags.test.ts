@@ -153,13 +153,14 @@ describe("Tags", () => {
 
         const createdTag: Tag = createResponse.body.tag;
         const updatedTag = new Tag({
-            name: "TestTag",
+            name: "MyFancyTag",
         });
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/tags/" + createdTag.id)
             .set("Authorization", adminToken)
             .send(updatedTag);
+
         updateResponse.should.have.status(200);
         updateResponse.body.tag.should.include.key("name");
         updateResponse.body.tag.name.should.be.eql(updatedTag.name);
