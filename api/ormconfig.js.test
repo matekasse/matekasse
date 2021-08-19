@@ -1,0 +1,11 @@
+module.exports = {
+    type: "postgres",
+    url: "postgresql://mate-user:1234@127.0.0.1:5432/mate-db",
+    entities: ["dist/entity/**/*{.js,.ts}"],
+    migrations: ["dist/migrations/**/*{.js,.ts}"],
+    synchronize: true,
+    logging: [],
+    cli: {
+        migrationsDir: "src/migrations",
+    },
+};

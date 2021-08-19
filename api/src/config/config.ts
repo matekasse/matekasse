@@ -20,21 +20,21 @@ export class Config {
         );
     }
 
-    private getPrefix(path: string) {
-        let prefix = "";
-        switch (process.env.NODE_ENV) {
-            case "test":
-                prefix = "src";
-                break;
-            case "development":
-            case "production":
-            default:
-                prefix = "dist";
-                break;
-        }
+    // private getPrefix(path: string) {
+    //     let prefix = "";
+    //     switch (process.env.NODE_ENV) {
+    //         case "test":
+    //             prefix = "src";
+    //             break;
+    //         case "development":
+    //         case "production":
+    //         default:
+    //             prefix = "dist";
+    //             break;
+    //     }
 
-        return `${prefix}/${path}`;
-    }
+    //     return `${prefix}/${path}`;
+    // }
 
     public getOrmConfiguration(): ConnectionOptions {
         return {
@@ -49,7 +49,9 @@ export class Config {
                 User,
                 WarehouseTransaction,
             ],
-            migrations: [this.getPrefix("migration/**/*.*")],
+            migrations: [
+                "src/migration/**/*.*"
+            ],
             synchronize: false,
             logging: [],
             cli: {
