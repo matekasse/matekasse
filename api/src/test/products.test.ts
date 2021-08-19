@@ -96,6 +96,58 @@ describe("Products", () => {
         deleteResponse.should.have.status(200);
     });
 
+    it("should recreate a disabled product by enabling old product again", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", adminToken)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        const warehouseTransaction = {
+            productID: 1,
+            userID: 1,
+            quantity: 10,
+            pricePerItemInCents: 15,
+            depositPerItemInCents: 10,
+            withCrate: false,
+        };
+        const createWarehouseTransactionResponse = await chai
+            .request(baseUrl)
+            .post("/api/warehousetransactions")
+            .set("Authorization", adminToken)
+            .send(warehouseTransaction);
+
+        createWarehouseTransactionResponse.should.have.status(200);
+
+        const deleteResponse = await chai
+            .request(baseUrl)
+            .delete("/api/products/" + createdProduct.id)
+            .set("Authorization", adminToken);
+        deleteResponse.should.have.status(200);
+
+        const createResponse2 = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", adminToken)
+            .send(product);
+
+        createResponse2.should.have.status(200);
+        createResponse2.body.product.should.include.key("name");
+        createResponse2.body.product.name.should.be.eql("TestProduct");
+        createResponse2.body.product.id.should.be.eql(createdProduct.id);
+    });
+
     it("should GET a product by id", async () => {
         const product = new Product({
             name: "TestProduct",

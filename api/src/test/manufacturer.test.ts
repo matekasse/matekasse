@@ -102,11 +102,11 @@ describe("Manufacturers", () => {
                 manufacturerID: manufacturerResponse.body.manufacturer.id,
             });
 
-        productResponse.should.have.status(200);
         manufacturerResponse.should.have.status(200);
         manufacturerResponse.body.manufacturer.name.should.be.eql(
             manufacturer.name
         );
+        productResponse.should.have.status(200);
         productResponse.body.product.manufacturer.name.should.be.eql(
             manufacturer.name
         );
@@ -143,8 +143,8 @@ describe("Manufacturers", () => {
             .set("Authorization", adminToken)
             .send(manufacturer);
 
-        productResponse.should.have.status(200);
         manufacturerResponse.should.have.status(200);
+        productResponse.should.have.status(200);
         getManufacturerResponse.should.have.status(200);
         manufacturerResponse.body.manufacturer.name.should.be.eql(
             manufacturer.name
