@@ -101,10 +101,9 @@ export default {
                 const token = await loginUser(user);
                 this.$store.commit('changeJwt', token);
 
-                const decodedToken = await jwt.decode(token, { complete: true });
+                const decodedToken = jwt.decode(token, { complete: true });
 
                 const userRes = await getUserById(decodedToken.payload.id);
-                userRes.password = this.password;
                 this.$store.commit('initUser', userRes);
                 if (token) {
                     this.$router.push('/menu');

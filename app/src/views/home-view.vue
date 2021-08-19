@@ -85,7 +85,7 @@
 
         <v-footer app>
             <span>
-                &copy; 2020
+                &copy; 2021
             </span>
         </v-footer>
     </v-app>
