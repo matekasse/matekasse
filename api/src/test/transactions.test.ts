@@ -1049,7 +1049,7 @@ describe("Transaction", () => {
         );
     });
 
-    it("should not  create a giftTransaction to a disabled user", async () => {
+    it("should not create a giftTransaction to a disabled user", async () => {
         const bankUser = new User({
             name: "Bank",
             isAdmin: false,
