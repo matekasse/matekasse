@@ -18,7 +18,7 @@ jobs:
         run: yarn install
       - name: Build app
         run: cd api && yarn build
-      
+
   # Runs all steps on the VM
   # The service containers will use host port binding instead of container networking so you access them via localhost
   # rather than the service name.
@@ -28,7 +28,7 @@ jobs:
 
     services:
       mongo:
-        image: postgres:11
+        image: postgres:13
         env:
             POSTGRES_DB: mate-db
             POSTGRES_USER: mate-user

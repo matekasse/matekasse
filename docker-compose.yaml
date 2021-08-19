@@ -15,7 +15,7 @@ services:
       - mate-postgres
 
   mate-postgres:
-    image: postgres:11
+    image: postgres:13
     container_name: mate-postgres
     environment:
       - POSTGRES_USER=mate-user
