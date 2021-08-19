@@ -6,7 +6,7 @@ export class Constants {
     key: string;
 
     @Column()
-    value: string;;
+    value: string;
 
     @Column()
     createdAt: string;
@@ -14,10 +14,7 @@ export class Constants {
     @Column()
     updatedAt: string;
 
-    public constructor(options?: {
-        key?: string;
-        value?: string;
-    }) {
+    public constructor(options?: { key?: string; value?: string }) {
         if (!options) {
             return;
         }
