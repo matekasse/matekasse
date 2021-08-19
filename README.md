@@ -32,6 +32,16 @@ Currently supported are amd64 (x86), arm64 and arm/v7.
 6. Use the [init-script](api/init-scripts) or create products and add stock with a warehouse-transaction.
 7. Create yourself a user account, top-up your balance with the admin and get yourself a drink.
 
+## What does admin user exactly mean?
+
+An admin user in the matekasse is allowed to do nearly anything.
+We implemented this user type with the assumption that he is managing the server and could theoretically just change values in the database.
+That means, that he is able to break some things on the api level if he wants.
+However, the frontend will prevent harmfull things by not having a button for it or displaying a warning.
+So if you are an admin and don't want to break the app, just use our "official" site and not use the api directly. :)
+However, normal users are NOT allowed to do things via the api they should not do.
+If you are able to do things as a user you think you should not be allowed to, please open a pr.
+
 ## API
 
 More docs about all routes, tests, ... can be found [here](api/README.md).
