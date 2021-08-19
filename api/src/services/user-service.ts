@@ -1,4 +1,4 @@
-import { getRepository, getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { User } from "../entity/user";
 import { Authentication } from "../module/authentication";
@@ -26,7 +26,6 @@ export class UserService {
 
     public static async createNewUser(options: {
         name: string;
-        paypalName?: string;
         isAdmin?: boolean;
         isSystemUser?: boolean;
         isDisabled?: boolean;
@@ -107,7 +106,6 @@ export class UserService {
     public static async patchUserByID(options: {
         userID: number;
         name?: string;
-        paypalName?: string;
         isAdmin?: boolean;
         isSystemUser?: boolean;
         isDisabled?: boolean;
@@ -118,9 +116,6 @@ export class UserService {
         let user = await userRepository.findOneOrFail(options.userID);
 
         user.name = options.name ? options.name : user.name;
-        user.paypalName = options.paypalName
-            ? options.paypalName
-            : user.paypalName;
         user.isAdmin = options.isAdmin ? options.isAdmin : user.isAdmin;
         user.isSystemUser = options.isSystemUser
             ? options.isSystemUser
@@ -159,15 +154,6 @@ export class UserService {
             return await userRepository.findOneOrFail({ name: "Cash" });
         } catch (error) {
             throw new Error("Cash user not found");
-        }
-    }
-
-    public static async getPaypalUser(): Promise<User> {
-        const userRepository = this.getUserRepository();
-        try {
-            return await userRepository.findOneOrFail({ name: "Paypal" });
-        } catch (error) {
-            throw new Error("Paypal user not found");
         }
     }
 

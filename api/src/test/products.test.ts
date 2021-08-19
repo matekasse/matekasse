@@ -4,7 +4,11 @@ import chaiHttp from "chai-http";
 import { Product } from "../entity/product";
 import { Manufacturer } from "../entity/manufacturer";
 import { config } from "dotenv";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import {
+    createAdminTestUser,
+    createNonAdminTestUser,
+    authenticateTestUser,
+} from "./userUtils";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "../index";
@@ -19,7 +23,8 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
+let nonAdminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -41,22 +46,25 @@ describe("Products", () => {
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
+        nonAdminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        const nonAdminUser = await createNonAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
+        nonAdminToken = await authenticateTestUser(nonAdminUser);
     });
 
     it("should GET all products (empty array)", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/products")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("products");
         response.body.products.should.be.a("array");
@@ -73,7 +81,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createResponse.should.have.status(200);
@@ -84,7 +92,7 @@ describe("Products", () => {
         const deleteResponse = await chai
             .request(baseUrl)
             .delete("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         deleteResponse.should.have.status(200);
     });
 
@@ -100,7 +108,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createResponse.should.have.status(200);
@@ -111,7 +119,7 @@ describe("Products", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("product");
         getResponse.body.product.should.be.a("object");
@@ -136,7 +144,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createResponse.should.have.status(200);
@@ -147,7 +155,7 @@ describe("Products", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("product");
@@ -165,7 +173,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(testProduct);
         createResponse.should.have.status(400);
         createResponse.body.status.should.be.eql("Arguments missing");
@@ -180,7 +188,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
         createResponse.should.have.status(200);
         createResponse.body.product.should.include.key("name");
@@ -196,7 +204,7 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
         createResponse.should.have.status(200);
         createResponse.body.product.should.include.key("name");
@@ -211,7 +219,7 @@ describe("Products", () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/products/" + createdProduct.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(updatedProduct);
         updateResponse.should.have.status(200);
         updateResponse.body.product.should.include.key("name");
@@ -220,6 +228,7 @@ describe("Products", () => {
             updatedProduct.bottleDepositInCents
         );
     });
+
     it("should create a product with manufacturer and get product by id", async () => {
         const manufacturer = new Manufacturer({
             name: "Braustübl",
@@ -228,13 +237,13 @@ describe("Products", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
@@ -257,7 +266,7 @@ describe("Products", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createdProduct.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("product");
         getResponse.body.product.should.be.a("object");
@@ -282,12 +291,12 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
         const createResponse2 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(disabledProduct);
 
         createResponse.should.have.status(200);
@@ -300,7 +309,7 @@ describe("Products", () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/products")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("products");
         response.body.products.should.be.a("array");
@@ -322,12 +331,12 @@ describe("Products", () => {
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
         const createResponse2 = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(disabledProduct);
 
         createResponse.should.have.status(200);
@@ -340,7 +349,7 @@ describe("Products", () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/products/active")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
 
         response.should.have.status(200);
         response.body.should.include.key("products");
@@ -356,7 +365,7 @@ describe("Products", () => {
         let manufacturerResponse = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer);
 
         const manufacturer2 = new Manufacturer({
@@ -366,13 +375,13 @@ describe("Products", () => {
         let manufacturerResponse2 = await chai
             .request(baseUrl)
             .post("/api/manufacturers")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(manufacturer2);
 
         const createResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Helles",
                 bottleDepositInCents: 100,
@@ -400,7 +409,7 @@ describe("Products", () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/products/" + createdProduct.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send({
                 name: "Light",
                 bottleDepositInCents: 1337,
@@ -414,6 +423,69 @@ describe("Products", () => {
         updateResponse.body.product.priceInCents.should.be.eql(150);
         updateResponse.body.product.manufacturer.name.should.be.eql(
             "Budweiser"
+        );
+    });
+
+    it("should not GET a disabled product by id only as normal user", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+            isDisabled: true,
+            description: "Onfortunately this cool new product is disabled",
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", adminToken)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        let getResponse = await chai
+            .request(baseUrl)
+            .get("/api/products/" + createdProduct.id)
+            .set("Authorization", nonAdminToken);
+        getResponse.should.have.status(404);
+    });
+
+    it("should GET a disabled product by id as admin", async () => {
+        const product = new Product({
+            name: "TestProduct",
+            bottleDepositInCents: 100,
+            priceInCents: 150,
+            isDisabled: true,
+            description: "Onfortunately this cool new product is disabled",
+        });
+
+        const createResponse = await chai
+            .request(baseUrl)
+            .post("/api/products")
+            .set("Authorization", adminToken)
+            .send(product);
+
+        createResponse.should.have.status(200);
+        createResponse.body.product.should.include.key("name");
+        createResponse.body.product.name.should.be.eql("TestProduct");
+        const createdProduct: Product = createResponse.body.product;
+
+        let getResponse = await chai
+            .request(baseUrl)
+            .get("/api/products/" + createdProduct.id)
+            .set("Authorization", adminToken);
+        getResponse.should.have.status(200);
+        getResponse.body.should.include.key("product");
+        getResponse.body.product.should.be.a("object");
+        getResponse.body.product.should.have.property("name");
+        getResponse.body.product.should.have
+            .property("id")
+            .eql(createdProduct.id);
+        getResponse.body.product.description.should.be.eql(
+            createdProduct.description
         );
     });
 });

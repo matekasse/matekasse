@@ -8,9 +8,6 @@ export class User {
     @Column({ unique: true })
     name: string;
 
-    @Column({ nullable: true })
-    paypalName: string;
-
     @Column({
         default: false,
     })
@@ -40,7 +37,6 @@ export class User {
 
     public constructor(options?: {
         name: string;
-        paypalName?: string;
         isAdmin?: boolean;
         isSystemUser?: boolean;
         isDisabled?: boolean;
@@ -50,7 +46,6 @@ export class User {
             return;
         }
         this.name = options.name;
-        this.paypalName = options.paypalName;
         this.isAdmin = options.isAdmin;
         this.isSystemUser = options.isSystemUser;
         this.isDisabled = options.isDisabled;

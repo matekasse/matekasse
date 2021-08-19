@@ -7,16 +7,11 @@
                         <span class="headline mb-1">  Username: </span>
                         {{ user.name }}
                     </v-list-item-title>
-
-                    <v-list-item-title >
-                        <span class="headline mb-1"> Paypal name:</span>
-                        {{ user.paypalName }}
-                    </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
             <v-card-actions>
-                <v-btn color="primary" @click="editNames" >Change Names</v-btn>
+                <v-btn color="primary" @click="editNames" >Change Name</v-btn>
                 <v-btn color="primary" @click="editPassword" >Change Password</v-btn>
             </v-card-actions>
         </v-card>

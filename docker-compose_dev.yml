@@ -12,5 +12,16 @@ services:
       ports:
         - 127.0.0.1:5432:5432
 
+    adminer:
+      image: adminer:latest
+      depends_on:
+        - mate-postgres
+      environment:
+        ADMINER_DESIGN: nette
+      ports:
+        - 127.0.0.1:8000:8080
+      depends_on:
+        - mate-postgres
+
 volumes:
   postgres-volume:

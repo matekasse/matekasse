@@ -1,12 +1,13 @@
-name: build latest
+name: build latest testing docker image
 
 on:
   push:
     branches:
       - main
 
+
 jobs:
-  build-production-backend:
+  build-latest-testing-image-amd64:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry
@@ -17,7 +18,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build docker image
-        run: docker build -t ghcr.io/matekasse/matekasse:latest .
-      - name: Push docker image
-        run: docker push ghcr.io/matekasse/matekasse:latest
+      - name: Build Docker image
+        run: docker build -t ghcr.io/matekasse/matekasse:latest_testing -f Dockerfile .
+      - name: Push Docker image
+        run: docker push ghcr.io/matekasse/matekasse:latest_testing

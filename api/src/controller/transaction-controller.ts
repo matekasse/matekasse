@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 
 import { Transaction, TransactionType } from "../entity/transaction";
 import { TransactionService } from "../services/transaction-service";
-import { UserService } from "../services/user-service";
-import { User } from "../entity/user";
 
 export class TransactionController {
     public static async getAllTransactions(
@@ -39,7 +37,6 @@ export class TransactionController {
                     delete transaction.toUser.id;
                     delete transaction.toUser.isAdmin;
                     delete transaction.toUser.isDisabled;
-                    delete transaction.toUser.paypalName;
                 } else if (transaction.fromUser.id !== verifiedUser.id) {
                     delete transaction.fromUser.balance;
                     delete transaction.fromUser.createdAt;
@@ -47,7 +44,6 @@ export class TransactionController {
                     delete transaction.fromUser.id;
                     delete transaction.fromUser.isAdmin;
                     delete transaction.fromUser.isDisabled;
-                    delete transaction.fromUser.paypalName;
                 }
             });
 

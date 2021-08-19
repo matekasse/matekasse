@@ -16,14 +16,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: yarn install
-      - name: lint
+      - name: Build app
         run: cd api && yarn build
       
   # Runs all steps on the VM
   # The service containers will use host port binding instead of container networking so you access them via localhost
   # rather than the service name.
 
-  tests:
+  integration-test:
     runs-on: ubuntu-latest
 
     services:
@@ -45,5 +45,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Install yarn packages
         run: yarn install
-      - name: test
+      - name: Run tests
         run: cd api && export NODE_ENV=test && yarn test

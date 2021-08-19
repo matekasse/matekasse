@@ -74,13 +74,23 @@ export class ProductController {
 
             return;
         }
+        let product: Product;
 
         try {
-            const product = await ProductService.getProductByID({ productID });
-            response.send({ status: "ok", product });
+            product = await ProductService.getProductByID({ productID });
         } catch (error) {
             response.status(404).send({ status: "No product found" });
         }
+
+        if (product.isDisabled) {
+            const verifiedUser = request.body.verifiedUser;
+
+            if (!verifiedUser.isAdmin) {
+                response.status(404).send({ status: "No product found" });
+            }
+        }
+
+        response.send({ status: "ok", product });
     }
 
     public static async deleteProductByID(

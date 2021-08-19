@@ -22,14 +22,6 @@
                                     @keydown="validateAndSave"
                                 />
                             </v-col>
-
-                            <v-col>
-                                <v-text-field
-                                    label="Paypal Name"
-                                    v-model="defaultUser.paypalName"
-                                    @keydown="validateAndSave"
-                                />
-                            </v-col>
                         </v-form>
                     </v-row>
                 </v-container>
@@ -91,6 +83,14 @@ export default {
 
     create() {
         this.defaultUser = this.user;
+    },
+
+    watch: {
+        showDialog(value) {
+            if (value) {
+                this.defaultUser = this.user;
+            }
+        },
     },
 
     methods: {

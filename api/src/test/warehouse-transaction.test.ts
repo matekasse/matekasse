@@ -8,7 +8,7 @@ import { Product } from "../entity/product";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { startServer } from "..";
-import { createTestUser, authenticateTestUser } from "./userUtils";
+import { createAdminTestUser, authenticateTestUser } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
 import "mocha";
 
@@ -20,7 +20,7 @@ chai.should();
 
 /** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
-let token = "";
+let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -42,22 +42,22 @@ describe("WarehouseTransactions", () => {
     });
 
     beforeEach(async () => {
-        token = "";
+        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
         });
-        const user = await createTestUser();
-        token = await authenticateTestUser(user);
+        const adminUser = await createAdminTestUser();
+        adminToken = await authenticateTestUser(adminUser);
     });
 
     it("should GET all warehouse transactions (empty array)", async () => {
         const response = await chai
             .request(baseUrl)
             .get("/api/warehousetransactions")
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         response.should.have.status(200);
         response.body.should.include.key("warehouseTransactions");
         response.body.warehouseTransactions.should.be.a("array");
@@ -82,7 +82,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -92,7 +91,7 @@ describe("WarehouseTransactions", () => {
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createProductResponse.should.have.status(200);
@@ -102,7 +101,7 @@ describe("WarehouseTransactions", () => {
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
         createUserResponse.should.have.status(200);
         createUserResponse.body.user.should.include.key("name");
@@ -111,7 +110,7 @@ describe("WarehouseTransactions", () => {
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
         createWarehouseTransactionResponse.should.have.status(200);
         createWarehouseTransactionResponse.body.warehouseTransaction.should.include.key(
@@ -133,7 +132,7 @@ describe("WarehouseTransactions", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/warehousetransactions/" + createdWarehouseTransaction.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("warehouseTransaction");
         getResponse.body.warehouseTransaction.should.be.a("object");
@@ -150,7 +149,7 @@ describe("WarehouseTransactions", () => {
         const updatedProductResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createProductResponse.body.product.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         updatedProductResponse.should.have.status(200);
@@ -171,7 +170,7 @@ describe("WarehouseTransactions", () => {
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
         createWarehouseTransactionResponse.should.have.status(500);
     });
@@ -203,7 +202,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -213,7 +211,7 @@ describe("WarehouseTransactions", () => {
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createProductResponse.should.have.status(200);
@@ -223,7 +221,7 @@ describe("WarehouseTransactions", () => {
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
         createUserResponse.should.have.status(200);
         createUserResponse.body.user.should.include.key("name");
@@ -232,14 +230,14 @@ describe("WarehouseTransactions", () => {
         const createWarehouseTransactionRemoveResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransactionAddStock);
         createWarehouseTransactionRemoveResponse.should.have.status(200);
 
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransactionRemoveStock);
         createWarehouseTransactionResponse.should.have.status(200);
         createWarehouseTransactionResponse.body.warehouseTransaction.should.include.key(
@@ -261,7 +259,7 @@ describe("WarehouseTransactions", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/warehousetransactions/" + createdWarehouseTransaction.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("warehouseTransaction");
         getResponse.body.warehouseTransaction.should.be.a("object");
@@ -272,7 +270,7 @@ describe("WarehouseTransactions", () => {
         const updatedProductResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createProductResponse.body.product.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         updatedProductResponse.should.have.status(200);
@@ -298,7 +296,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -308,7 +305,7 @@ describe("WarehouseTransactions", () => {
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createProductResponse.should.have.status(200);
@@ -318,7 +315,7 @@ describe("WarehouseTransactions", () => {
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
         createUserResponse.should.have.status(200);
         createUserResponse.body.user.should.include.key("name");
@@ -327,7 +324,7 @@ describe("WarehouseTransactions", () => {
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
 
         createWarehouseTransactionResponse.should.have.status(500);
@@ -354,7 +351,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -364,7 +360,7 @@ describe("WarehouseTransactions", () => {
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createProductResponse.should.have.status(200);
@@ -374,7 +370,7 @@ describe("WarehouseTransactions", () => {
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
         createUserResponse.should.have.status(200);
         createUserResponse.body.user.should.include.key("name");
@@ -383,7 +379,7 @@ describe("WarehouseTransactions", () => {
         const createWarehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
         createWarehouseTransactionResponse.should.have.status(200);
         createWarehouseTransactionResponse.body.warehouseTransaction.should.include.key(
@@ -405,7 +401,7 @@ describe("WarehouseTransactions", () => {
         const getResponse = await chai
             .request(baseUrl)
             .get("/api/warehousetransactions/" + createdWarehouseTransaction.id)
-            .set("Authorization", token);
+            .set("Authorization", adminToken);
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("warehouseTransaction");
         getResponse.body.warehouseTransaction.should.be.a("object");
@@ -422,7 +418,7 @@ describe("WarehouseTransactions", () => {
         const updatedProductResponse = await chai
             .request(baseUrl)
             .get("/api/products/" + createProductResponse.body.product.id)
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         updatedProductResponse.should.have.status(200);
@@ -448,7 +444,6 @@ describe("WarehouseTransactions", () => {
 
         const user = new User({
             name: "NewUser",
-            paypalName: "something@someother.de",
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
@@ -458,7 +453,7 @@ describe("WarehouseTransactions", () => {
         const createProductResponse = await chai
             .request(baseUrl)
             .post("/api/products")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(product);
 
         createProductResponse.should.have.status(200);
@@ -468,7 +463,7 @@ describe("WarehouseTransactions", () => {
         const createUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(user);
         createUserResponse.should.have.status(200);
         createUserResponse.body.user.should.include.key("name");
@@ -477,7 +472,7 @@ describe("WarehouseTransactions", () => {
         const warehouseTransactionResponse = await chai
             .request(baseUrl)
             .post("/api/warehousetransactions")
-            .set("Authorization", token)
+            .set("Authorization", adminToken)
             .send(warehouseTransaction);
         warehouseTransactionResponse.should.have.status(500);
         warehouseTransactionResponse.body.status.should.be.eql(
