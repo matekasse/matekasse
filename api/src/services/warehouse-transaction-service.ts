@@ -60,9 +60,7 @@ export class WarehouseTransactionService {
         let totalDepositInCents =
             options.depositPerItemInCents * options.quantity;
 
-        const crateDeposit = await ConstantService.getConstantByName({
-            key: "crateDeposit",
-        });
+        const crateDeposit = await ConstantService.getCrateDeposit();
 
         if (options.withCrate) {
             totalInCents += crateDeposit;

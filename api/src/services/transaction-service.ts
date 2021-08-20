@@ -174,11 +174,9 @@ export class TransactionService {
         }
 
         // Storno only allowed if not longer than a defined number of seconds ago.
-        let stornoTime: string;
+        let stornoTime: number;
         try {
-            stornoTime = await ConstantService.getConstantByName({
-                key: "stornoTime",
-            }).value;
+            stornoTime = await ConstantService.getStornoTime();
         } catch (error) {
             throw new Error("Error getting constants");
         }
