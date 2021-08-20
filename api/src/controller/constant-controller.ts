@@ -27,13 +27,12 @@ export class ConstantController {
                 status: "constant key not valid",
             });
         }
-
         try {
-            const updatedConstant = await ConstantService.updateConstant({
+            await ConstantService.updateConstant({
                 ...request.body,
             });
 
-            response.send({ status: "ok", constants: updatedConstant });
+            response.send({ status: "ok" });
         } catch (error) {
             response.status(409).send({
                 status: error.message,

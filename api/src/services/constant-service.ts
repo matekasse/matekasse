@@ -64,7 +64,7 @@ export class ConstantService {
         }
     }
 
-    private static async updateConstant(options: {
+    public static async updateConstant(options: {
         key: string;
         value: string;
     }): Promise<Constant> {
