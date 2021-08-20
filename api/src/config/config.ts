@@ -1,5 +1,5 @@
 import { ConnectionOptions } from "typeorm";
-import { Constants } from "../entity/constants";
+import { Constant } from "../entity/constant";
 import { Manufacturer } from "../entity/manufacturer";
 import { Product } from "../entity/product";
 import { Tag } from "../entity/tag";
@@ -41,7 +41,7 @@ export class Config {
             type: "postgres",
             url: this.databaseConnectionUrl,
             entities: [
-                Constants,
+                Constant,
                 Manufacturer,
                 Product,
                 Tag,
@@ -50,7 +50,7 @@ export class Config {
                 WarehouseTransaction,
             ],
             migrations: [this.getPrefix("migration/**/*.*")],
-            synchronize: false,
+            synchronize: true,
             logging: [],
             cli: {
                 migrationsDir: "src/migrations",

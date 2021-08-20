@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, Column } from "typeorm";
 
-export enum Contant {
+export enum ConstantType {
     stornoTime = "stornoTime",
     crateDeposit = "crateDeposit",
 }

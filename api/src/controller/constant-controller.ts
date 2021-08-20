@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import { Constant } from "../entity/constant";
+import { Constant, ConstantType } from "../entity/constant";
 import { ConstantService } from "../services/constant-service";
 
 export class ConstantController {
@@ -17,27 +17,17 @@ export class ConstantController {
         }
     }
 
-    public static async createConstant(
-        request: Request,
-        response: Response,
-        next: NextFunction
-    ): Promise<void> {
-        try {
-            const createdConstant = await ConstantService.createConstant(
-                request.body
-            );
-
-            response.send({ status: "ok", constants: createdConstant });
-        } catch (error) {
-            response.status(409).send({ status: error.message });
-        }
-    }
-
     public static async updateConstant(
         request: Request,
         response: Response,
         next: NextFunction
     ): Promise<void> {
+        if (!Object.values(ConstantType).includes(request.body.key)) {
+            response.status(404).send({
+                status: "constant key not valid",
+            });
+        }
+
         try {
             const updatedConstant = await ConstantService.updateConstant({
                 ...request.body,

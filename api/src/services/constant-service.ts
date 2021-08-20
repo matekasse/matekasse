@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import { Constant } from "../entity/constant";
+import { Constant, ConstantType } from "../entity/constant";
 
 export class ConstantService {
     private static getConstantRepository() {
@@ -12,7 +12,7 @@ export class ConstantService {
         return await constantRepository.find();
     }
 
-    public static async getConstantByName(options: {
+    private static async getConstantByName(options: {
         key: string;
     }): Promise<string> {
         const constantRepository = this.getConstantRepository();
@@ -22,6 +22,28 @@ export class ConstantService {
             });
 
             return constant.value;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    public static async getCrateDeposit(): Promise<number> {
+        try {
+            const returnValue = await this.getConstantByName({
+                key: ConstantType.crateDeposit,
+            });
+            return Number(returnValue);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    public static async getStornoTime(): Promise<number> {
+        try {
+            const returnValue = await this.getConstantByName({
+                key: ConstantType.stornoTime,
+            });
+            return Number(returnValue);
         } catch (error) {
             throw new Error(error);
         }
@@ -42,7 +64,7 @@ export class ConstantService {
         }
     }
 
-    public static async updateConstant(options: {
+    private static async updateConstant(options: {
         key: string;
         value: string;
     }): Promise<Constant> {
