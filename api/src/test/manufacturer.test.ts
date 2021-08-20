@@ -45,8 +45,12 @@ describe("Manufacturers", () => {
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantService.createConstant({
-            stornoTime: 10000,
-            crateDeposit: 150,
+            key: "stornoTime", value: "10000"
+
+        });
+        await ConstantService.createConstant({
+            key: "crateDeposit", value: "150"
+
         });
         const adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
