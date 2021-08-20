@@ -52,12 +52,12 @@ describe("Users", () => {
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantService.createConstant({
-            key: "stornoTime", value: "10000"
-
+            key: "stornoTime",
+            value: "10000",
         });
         await ConstantService.createConstant({
-            key: "crateDeposit", value: "150"
-
+            key: "crateDeposit",
+            value: "150",
         });
         adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
