@@ -22,17 +22,19 @@ export class ConstantController {
         response: Response,
         next: NextFunction
     ): Promise<void> {
-        if (!Object.values(ConstantType).includes(request.body.key)) {
+        const constantKey = request.params.constantKey;
+        if (!Object.values(ConstantType).some((v) => v === constantKey)) {
             response.status(404).send({
                 status: "constant key not valid",
             });
         }
         try {
-            await ConstantService.updateConstant({
-                ...request.body,
+            const returnConstant = await ConstantService.updateConstant({
+                key: constantKey,
+                value: request.body.value,
             });
 
-            response.send({ status: "ok" });
+            response.send({ status: "ok", constant: returnConstant });
         } catch (error) {
             response.status(409).send({
                 status: error.message,

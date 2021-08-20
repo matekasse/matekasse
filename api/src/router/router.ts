@@ -33,7 +33,7 @@ globalRouter.use(
     transactionRouter
 );
 globalRouter.use(
-    "/constant",
+    "/constants",
     Authentication.verifyAccess,
     Authentication.verifyAdminAccess,
     constantRouter

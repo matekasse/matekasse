@@ -64,20 +64,25 @@ describe("Constants", () => {
         response.should.have.status(200);
         response.body.should.include.key("constants");
         response.body.constants.should.be.a("array");
-        response.body.constants.length.should.be.eql(1);
-        response.body.constants[0].stornoTime.should.be.eql(10000);
-        response.body.constants[0].crateDeposit.should.be.eql(150);
+        response.body.constants.length.should.be.eql(2);
+
+        response.body.constants[0].key.should.be.eql("crateDeposit");
+        response.body.constants[0].value.should.be.eql("150");
+        response.body.constants[1].key.should.be.eql("stornoTime");
+        response.body.constants[1].value.should.be.eql("10000");
     });
 
-    it("should PATCH all constants", async () => {
+    it("should PATCH a constant", async () => {
         const updateResponse = await chai
             .request(baseUrl)
-            .patch("/api/constants")
+            .patch("/api/constants/stornoTime")
             .set("Authorization", adminToken)
-            .send({ stornoTime: 15000, crateDeposit: 200 });
+            .send({ value: "15000" });
 
         updateResponse.should.have.status(200);
-        updateResponse.body.should.include.key("constants");
+        updateResponse.body.should.include.key("constant");
+        updateResponse.body.constant.key.should.be.eql("stornoTime");
+        updateResponse.body.constant.value.should.be.eql("15000");
 
         const getResponse = await chai
             .request(baseUrl)
@@ -86,9 +91,10 @@ describe("Constants", () => {
 
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("constants");
-        getResponse.body.constants.should.be.a("array");
-        getResponse.body.constants.length.should.be.eql(1);
-        getResponse.body.constants[0].stornoTime.should.be.eql(15000);
-        getResponse.body.constants[0].crateDeposit.should.be.eql(200);
+        getResponse.body.constants.length.should.be.eql(2);
+        getResponse.body.constants[0].key.should.be.eql("crateDeposit");
+        getResponse.body.constants[0].value.should.be.eql("150");
+        getResponse.body.constants[1].key.should.be.eql("stornoTime");
+        getResponse.body.constants[1].value.should.be.eql("15000");
     });
 });
