@@ -33,7 +33,7 @@
     "chai": "4.3.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^6.2.2",
-    "sass": "^1.38.1",
+    "sass": "^1.39.0",
     "sass-loader": "8.0.2",
     "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.14",
