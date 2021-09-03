@@ -9,7 +9,7 @@ export class ConstantsController {
         response: Response
     ): Promise<void> {
         try {
-            const constants: Constants[] =
+            const constants: Constants =
                 await ConstantsService.getAllConstants();
             response.status(200).send({ constants: constants });
         } catch (error) {

@@ -59,10 +59,9 @@ describe("Constants", () => {
 
         response.should.have.status(200);
         response.body.should.include.key("constants");
-        response.body.constants.should.be.a("array");
-        response.body.constants.length.should.be.eql(1);
-        response.body.constants[0].stornoTime.should.be.eql(10000);
-        response.body.constants[0].crateDeposit.should.be.eql(150);
+        response.body.constants.should.be.a("object");
+        response.body.constants.stornoTime.should.be.eql(10000);
+        response.body.constants.crateDeposit.should.be.eql(150);
     });
 
     it("should PATCH all constants", async () => {
@@ -74,6 +73,8 @@ describe("Constants", () => {
 
         updateResponse.should.have.status(200);
         updateResponse.body.should.include.key("constants");
+        updateResponse.body.constants.stornoTime.should.be.eql(15000);
+        updateResponse.body.constants.crateDeposit.should.be.eql(200);
 
         const getResponse = await chai
             .request(baseUrl)
@@ -82,9 +83,8 @@ describe("Constants", () => {
 
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("constants");
-        getResponse.body.constants.should.be.a("array");
-        getResponse.body.constants.length.should.be.eql(1);
-        getResponse.body.constants[0].stornoTime.should.be.eql(15000);
-        getResponse.body.constants[0].crateDeposit.should.be.eql(200);
+        getResponse.body.constants.should.be.a("object");
+        getResponse.body.constants.stornoTime.should.be.eql(15000);
+        getResponse.body.constants.crateDeposit.should.be.eql(200);
     });
 });
