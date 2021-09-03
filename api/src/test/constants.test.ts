@@ -88,7 +88,7 @@ describe("Constants", () => {
         getResponse.body.constants.crateDeposit.should.be.eql(200);
     });
 
-    it("should not PATCH constants with wrong type", async () => {
+    it("should not PATCH constants with incompatible type for constant", async () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
