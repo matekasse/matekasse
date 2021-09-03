@@ -107,6 +107,5 @@ describe("Constants", () => {
         getResponse.body.constants.should.be.a("object");
         getResponse.body.constants.stornoTime.should.be.eql(10000);
         getResponse.body.constants.crateDeposit.should.be.eql(150);
-
     });
 });
