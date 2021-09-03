@@ -1,10 +1,10 @@
 FROM node:14-buster-slim as build-frontend
 
-COPY package.json ./
-COPY yarn.lock ./
-
 RUN apt update && \
     apt upgrade -y
+
+COPY package.json ./
+COPY yarn.lock ./
 
 RUN apt-get install -y build-essential python
 
