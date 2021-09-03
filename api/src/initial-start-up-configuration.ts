@@ -9,7 +9,7 @@ export const firstStartupInit = async () => {
             crateDeposit: 150
         });
     } catch (error) {
-        if (error.name === "QueryFailedError") {
+        if (error.message === "Constants already exist, try to update them instead") {
             console.log("The constants already exist. Keep going!");
         } else {
             console.log(
