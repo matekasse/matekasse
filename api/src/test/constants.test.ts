@@ -64,7 +64,7 @@ describe("Constants", () => {
         response.body.constants.crateDeposit.should.be.eql(150);
     });
 
-    it("should PATCH all constants", async () => {
+    it("should PATCH constants", async () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
@@ -86,5 +86,27 @@ describe("Constants", () => {
         getResponse.body.constants.should.be.a("object");
         getResponse.body.constants.stornoTime.should.be.eql(15000);
         getResponse.body.constants.crateDeposit.should.be.eql(200);
+    });
+
+    it("should not PATCH constants with wrong type", async () => {
+        const updateResponse = await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", adminToken)
+            .send({ stornoTime: "abc", crateDeposit: 150 });
+
+        updateResponse.should.have.status(409);
+
+        const getResponse = await chai
+            .request(baseUrl)
+            .get("/api/constants")
+            .set("Authorization", adminToken);
+
+        getResponse.should.have.status(200);
+        getResponse.body.should.include.key("constants");
+        getResponse.body.constants.should.be.a("object");
+        getResponse.body.constants.stornoTime.should.be.eql(10000);
+        getResponse.body.constants.crateDeposit.should.be.eql(150);
+
     });
 });
