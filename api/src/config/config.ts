@@ -33,8 +33,9 @@ export class Config {
                 User,
                 WarehouseTransaction,
             ],
-            migrations: ["src/migration/**/*.*"],
+            migrations: ["src/migrations/**/*.*"],
             synchronize: false,
+            migrationsRun: true,
             logging: [],
             cli: {
                 migrationsDir: "src/migrations",
