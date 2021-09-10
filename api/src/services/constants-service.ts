@@ -14,6 +14,7 @@ export class ConstantsService {
     public static async getAllConstants() {
         const constantsRepository = this.getConstantsRepository();
         const constants = await constantsRepository.find();
+
         return constants[0];
     }
 
