@@ -5,6 +5,7 @@ import { User } from "../entity/user";
 import { ProductService } from "./product-service";
 import { UserService } from "./user-service";
 import { ConstantsService } from "./constants-service";
+import { ConstantType } from "../entity/constants";
 
 export class TransactionService {
     private static getTransactionRepository() {
@@ -177,7 +178,7 @@ export class TransactionService {
         let stornoTime: Number;
         try {
             stornoTime = await ConstantsService.getConstantByName({
-                constantName: "stornoTime",
+                constantName: ConstantType.stornoTime,
             });
         } catch (error) {
             throw new Error("Error getting constants");
