@@ -9,10 +9,7 @@ export const firstStartupInit = async () => {
             crateDeposit: 150
         });
     } catch (error) {
-        if (
-            error.name === "QueryFailedError"
-            && error.message.includes("duplicate key value violates unique constraint")
-        ) {
+        if (error.message === "Constants already exist, try to update them instead") {
             console.log("The constants already exist. Keep going!");
         } else {
             console.log(

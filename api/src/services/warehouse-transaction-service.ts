@@ -5,6 +5,7 @@ import { User } from "../entity/user";
 import { ProductService } from "./product-service";
 import { UserService } from "./user-service";
 import { ConstantsService } from "./constants-service";
+import { ConstantType } from "../entity/constants";
 
 export class WarehouseTransactionService {
     private static getWarehouseTransactionRepository() {
@@ -61,7 +62,7 @@ export class WarehouseTransactionService {
             options.depositPerItemInCents * options.quantity;
 
         const crateDeposit = await ConstantsService.getConstantByName({
-            constantName: "crateDeposit",
+            constantName: ConstantType.crateDeposit,
         });
 
         if (options.withCrate) {

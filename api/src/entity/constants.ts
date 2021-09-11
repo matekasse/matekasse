@@ -1,5 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
+export enum ConstantType {
+    stornoTime = "stornoTime",
+    crateDeposit = "crateDeposit",
+}
+
 @Entity()
 export class Constants {
     @PrimaryGeneratedColumn()
