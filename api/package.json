@@ -35,7 +35,7 @@
     },
     "scripts": {
         "start:dev": "API_PORT=1337 ts-node --files src/index.ts",
-        "start": "node ./dist/index.js",
+        "start": "ts-node --files src/index.ts",
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
         "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
