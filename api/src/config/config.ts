@@ -26,7 +26,10 @@ export class Config {
     }
 
     private runMigrations(): boolean {
-        if (this.environment === "production") {
+        if (
+            this.environment === "production" ||
+            this.environment === "development"
+        ) {
             return true;
         }
 
