@@ -13,11 +13,24 @@ import {
 
 export class Config {
     public readonly databaseConnectionUrl: string;
+    public readonly environment: string;
     constructor() {
         this.databaseConnectionUrl = getEnvironmentVariable(
             process.env,
             EnvVariableNames.DatabaseConnectionUrl
         );
+        this.environment = getEnvironmentVariable(
+            process.env,
+            EnvVariableNames.Environment
+        );
+    }
+
+    private runMigrations(): boolean {
+        if (this.environment === "production") {
+            return true;
+        }
+
+        return false;
     }
 
     public getOrmConfiguration(): ConnectionOptions {
@@ -35,7 +48,7 @@ export class Config {
             ],
             migrations: ["src/migrations/**/*.*"],
             synchronize: false,
-            migrationsRun: true,
+            migrationsRun: this.runMigrations(),
             logging: [],
             cli: {
                 migrationsDir: "src/migrations",
