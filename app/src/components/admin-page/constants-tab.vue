@@ -5,7 +5,7 @@
               <v-data-table
                 no-data-text="No Constants"
                 :headers="headers"
-                :items="constantsAsArray"
+                :items="constantsInArray"
               >
 
                 <template v-slot:item.value="{item}">
@@ -47,7 +47,7 @@ export default {
     data() {
         return {
             constantsToEdit: [],
-            constantsAsArray: [],
+            constantsInArray: [],
             headers: [
                 {
                     text: 'Constant',
@@ -90,7 +90,7 @@ export default {
                     });
                 }
             });
-            this.constantsAsArray = tempConstantsArray;
+            this.constantsInArray = tempConstantsArray;
         },
 
         editConstant(item) {
