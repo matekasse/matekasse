@@ -98,6 +98,7 @@
                                         multiple
                                         chips
                                         deletable-chips
+                                        @keydown="createNewTagViaKeyboard"
                                     >
                                         <template
                                             v-slot:no-data
@@ -241,6 +242,14 @@ export default {
             this.editProduct.tags.push(this.tagSearch);
             this.tags.push(this.tagSearch);
             this.tagSearch = '';
+        },
+
+        async createNewTagViaKeyboard(event) {
+            if (event.code === 'Enter') {
+                this.editProduct.tags.push(this.tagSearch);
+                this.tags.push(this.tagSearch);
+                this.tagSearch = '';
+            }
         },
 
         async createNewManufacturer() {
