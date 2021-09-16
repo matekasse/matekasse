@@ -73,6 +73,7 @@
                                         item-value="id"
                                         label="Manufacturer"
                                         single-line
+                                        @keydown="createNewManufacturerViaKeyboard"
                                     >
                                         <template
                                             v-slot:no-data
@@ -259,6 +260,17 @@ export default {
             const manufacturer = await postManufacturers(newManufacturer);
             this.manufacturers.push(manufacturer);
             this.editProduct.manufacturerID = manufacturer.id;
+        },
+
+        async createNewManufacturerViaKeyboard(event) {
+            if (event.code === 'Enter') {
+                const newManufacturer = {
+                    name: this.manufacturerSearch,
+                };
+                const manufacturer = await postManufacturers(newManufacturer);
+                this.manufacturers.push(manufacturer);
+                this.editProduct.manufacturerID = manufacturer.id;
+            }
         },
 
         async save() {
