@@ -81,9 +81,9 @@ describe("Constants", () => {
                 crateDeposit: 200,
                 currencySymbol: "Gulden",
             });
-
         updateResponse.should.have.status(403);
         updateResponse.body.should.not.include.key("constants");
+        updateResponse.body.status.should.be.eql("Not allowed to access");
     });
 
     it("should PATCH constants", async () => {
