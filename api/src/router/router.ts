@@ -32,8 +32,4 @@ globalRouter.use(
     Authentication.verifyAccess,
     transactionRouter
 );
-globalRouter.use(
-    "/constants",
-    Authentication.verifyAccess,
-    constantsRouter
-);
+globalRouter.use("/constants", Authentication.verifyAccess, constantsRouter);

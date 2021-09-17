@@ -6,7 +6,11 @@ import { config } from "dotenv";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { createAdminTestUser, authenticateTestUser, createNonAdminTestUser } from "./userUtils";
+import {
+    createAdminTestUser,
+    authenticateTestUser,
+    createNonAdminTestUser,
+} from "./userUtils";
 import "mocha";
 
 config();
@@ -67,12 +71,31 @@ describe("Constants", () => {
         response.body.constants.crateDeposit.should.be.eql(150);
     });
 
+    it("should not PATCH all constants as non admin user", async () => {
+        const updateResponse = await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", nonAdminToken)
+            .send({
+                stornoTime: 15000,
+                crateDeposit: 200,
+                currencySymbol: "Gulden",
+            });
+
+        updateResponse.should.have.status(403);
+        updateResponse.body.should.not.include.key("constants");
+    });
+
     it("should PATCH constants", async () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
             .set("Authorization", adminToken)
-            .send({ stornoTime: 15000, crateDeposit: 200, currencySymbol: "Gulden"});
+            .send({
+                stornoTime: 15000,
+                crateDeposit: 200,
+                currencySymbol: "Gulden",
+            });
 
         updateResponse.should.have.status(200);
         updateResponse.body.should.include.key("constants");
