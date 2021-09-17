@@ -24,7 +24,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("Tags", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -34,7 +34,7 @@ describe("Tags", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -45,7 +45,7 @@ describe("Tags", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         const adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
@@ -65,7 +65,7 @@ describe("Tags", () => {
     /** Test delete tag*/
     it("should DELETE a tag by id", async () => {
         const tag = new Tag({
-            name: "TestTag"
+            name: "TestTag",
         });
 
         const createResponse = await chai
@@ -88,7 +88,7 @@ describe("Tags", () => {
 
     it("should GET a tag by id", async () => {
         const tag = new Tag({
-            name: "TestTag"
+            name: "TestTag",
         });
 
         const createResponse = await chai
@@ -126,7 +126,7 @@ describe("Tags", () => {
 
     it("should create a valid tag", async () => {
         const tag = new Tag({
-            name: "TestTag"
+            name: "TestTag",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -140,7 +140,7 @@ describe("Tags", () => {
 
     it("should update (PATCH) a tag by id", async () => {
         const tag = new Tag({
-            name: "TestTag"
+            name: "TestTag",
         });
         const createResponse = await chai
             .request(baseUrl)
@@ -153,13 +153,14 @@ describe("Tags", () => {
 
         const createdTag: Tag = createResponse.body.tag;
         const updatedTag = new Tag({
-            name: "TestTag"
+            name: "MyFancyTag",
         });
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/tags/" + createdTag.id)
             .set("Authorization", adminToken)
             .send(updatedTag);
+
         updateResponse.should.have.status(200);
         updateResponse.body.tag.should.include.key("name");
         updateResponse.body.tag.name.should.be.eql(updatedTag.name);

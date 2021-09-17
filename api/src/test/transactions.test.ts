@@ -10,7 +10,7 @@ import { startServer } from "../index";
 import {
     createAdminTestUser,
     authenticateTestUser,
-    createNonAdminTestUser
+    createNonAdminTestUser,
 } from "./userUtils";
 import { ConstantsService } from "../services/constants-service";
 import "mocha";
@@ -32,7 +32,7 @@ let connectionTest: Connection;
 
 /** Tests */
 describe("Transaction", () => {
-    before(done => {
+    before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
                 serverTest = server;
@@ -42,7 +42,7 @@ describe("Transaction", () => {
         );
     });
 
-    after(done => {
+    after((done) => {
         serverTest.close(done);
         connectionTest.close();
     });
@@ -52,7 +52,7 @@ describe("Transaction", () => {
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
         });
         adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
@@ -77,7 +77,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -85,7 +85,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const systemUserResponse = await chai
@@ -112,7 +112,7 @@ describe("Transaction", () => {
         const transaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: createUserResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const createTransactionResponse = await chai
@@ -139,7 +139,7 @@ describe("Transaction", () => {
     it("should not create an invalid transaction", async () => {
         const transaction = {
             fromUserID: "2",
-            toUserID: "3"
+            toUserID: "3",
         };
 
         const postResponse = await chai
@@ -158,7 +158,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -167,7 +167,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -179,7 +179,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const postResponse = await chai
@@ -191,12 +191,12 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const orderTransaction = {
             fromUserID: normalUser.id,
-            productID: "1"
+            productID: "1",
         };
 
         const createProductResponse = await chai
@@ -245,7 +245,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -253,7 +253,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -262,7 +262,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -280,7 +280,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: userResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -292,7 +292,7 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -303,7 +303,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: userResponse.body.user.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -319,7 +319,7 @@ describe("Transaction", () => {
             .send(orderTransaction);
 
         const stornoTransaction = {
-            stornoOfTransactionID: orderResponse.body.createdTransaction.id
+            stornoOfTransactionID: orderResponse.body.createdTransaction.id,
         };
 
         const stornoResponse = await chai
@@ -368,7 +368,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -377,7 +377,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         const user = new User({
@@ -385,7 +385,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         let systemUserResponse = await chai
@@ -403,7 +403,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: userResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const postResponse = await chai
@@ -416,7 +416,7 @@ describe("Transaction", () => {
             name: "TestProduct",
             bottleDepositInCents: 100,
             priceInCents: 150,
-            isDisabled: true
+            isDisabled: true,
         });
 
         const createProductResponse = await chai
@@ -427,7 +427,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: userResponse.body.user.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -468,7 +468,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -477,7 +477,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -489,7 +489,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -501,7 +501,7 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -512,7 +512,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: normalUser.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -528,10 +528,10 @@ describe("Transaction", () => {
             .send(orderTransaction);
 
         const stornoTransaction = {
-            stornoOfTransactionID: orderResponse.body.createdTransaction.id
+            stornoOfTransactionID: orderResponse.body.createdTransaction.id,
         };
 
-        await new Promise(r => setTimeout(r, 11000));
+        await new Promise((r) => setTimeout(r, 11000));
 
         const stornoResponse = await chai
             .request(baseUrl)
@@ -565,7 +565,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -573,7 +573,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -582,7 +582,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -600,7 +600,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: userResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -612,7 +612,7 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -623,7 +623,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: userResponse.body.user.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -639,10 +639,10 @@ describe("Transaction", () => {
             .send(orderTransaction);
 
         const stornoTransaction = {
-            stornoOfTransactionID: orderResponse.body.createdTransaction.id
+            stornoOfTransactionID: orderResponse.body.createdTransaction.id,
         };
 
-        await new Promise(r => setTimeout(r, 11000));
+        await new Promise((r) => setTimeout(r, 11000));
 
         const stornoResponse = await chai
             .request(baseUrl)
@@ -684,7 +684,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const notAdminUser = new User({
@@ -692,7 +692,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -701,7 +701,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -719,7 +719,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: notAdminUserResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -731,7 +731,7 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -742,7 +742,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: notAdminUserResponse.body.user.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -781,7 +781,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const notAdminUser = new User({
@@ -789,7 +789,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -798,7 +798,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -816,7 +816,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: notAdminUserResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -828,7 +828,7 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const createProductResponse = await chai
@@ -839,7 +839,7 @@ describe("Transaction", () => {
 
         const orderTransaction = {
             fromUserID: notAdminUserResponse.body.user.id,
-            productID: createProductResponse.body.product.id
+            productID: createProductResponse.body.product.id,
         };
 
         const createWarehouseTransactionResponse = await chai
@@ -878,7 +878,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         let systemUserResponse = await chai
@@ -890,7 +890,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -902,7 +902,7 @@ describe("Transaction", () => {
         const giftTransaction2 = {
             fromUserID: normalUser.id,
             toUserID: systemUserResponse.body.user.id,
-            amountOfMoneyInCents: 500
+            amountOfMoneyInCents: 500,
         };
 
         const giftResponse2 = await chai
@@ -912,7 +912,7 @@ describe("Transaction", () => {
             .send(giftTransaction2);
 
         const stornoTransaction = {
-            stornoOfTransactionID: giftResponse2.body.createdTransaction.id
+            stornoOfTransactionID: giftResponse2.body.createdTransaction.id,
         };
 
         const stornoResponse = await chai
@@ -976,7 +976,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -984,7 +984,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         let systemUserResponse = await chai
@@ -1002,7 +1002,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: userResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -1012,7 +1012,7 @@ describe("Transaction", () => {
             .send(giftTransaction);
 
         const stornoTransaction = {
-            stornoOfTransactionID: giftResponse.body.createdTransaction.id
+            stornoOfTransactionID: giftResponse.body.createdTransaction.id,
         };
 
         const stornoResponse = await chai
@@ -1049,13 +1049,13 @@ describe("Transaction", () => {
         );
     });
 
-    it("should not  create a giftTransaction to a disabled user", async () => {
+    it("should not create a giftTransaction to a disabled user", async () => {
         const bankUser = new User({
             name: "Bank",
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const user = new User({
@@ -1063,7 +1063,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: false,
             isDisabled: true,
-            password: "12345"
+            password: "12345",
         });
 
         let systemUserResponse = await chai
@@ -1081,7 +1081,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: userResponse.body.user.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const giftResponse = await chai
@@ -1102,7 +1102,7 @@ describe("Transaction", () => {
             isAdmin: false,
             isSystemUser: true,
             isDisabled: false,
-            password: "12345"
+            password: "12345",
         });
 
         const warehouseTransaction = {
@@ -1111,7 +1111,7 @@ describe("Transaction", () => {
             quantity: 10,
             pricePerItemInCents: 15,
             depositPerItemInCents: 10,
-            withCrate: false
+            withCrate: false,
         };
 
         let systemUserResponse = await chai
@@ -1123,7 +1123,7 @@ describe("Transaction", () => {
         const giftTransaction = {
             fromUserID: systemUserResponse.body.user.id,
             toUserID: normalUser.id,
-            amountOfMoneyInCents: 2000
+            amountOfMoneyInCents: 2000,
         };
 
         const postResponse = await chai
@@ -1135,12 +1135,12 @@ describe("Transaction", () => {
         const product = new Product({
             name: "TestProduct",
             bottleDepositInCents: 100,
-            priceInCents: 150
+            priceInCents: 150,
         });
 
         const orderTransaction = {
             fromUserID: normalUser.id,
-            productID: "1"
+            productID: "1",
         };
 
         const createProductResponse = await chai

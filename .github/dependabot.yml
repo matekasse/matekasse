@@ -2,6 +2,12 @@ version: 2
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 15
     schedule:
       interval: "daily"
+
+    ignore:
+      - # Stay on node lts
+        dependency-name: '@types/node'
+        versions:
+          - '>= 15'

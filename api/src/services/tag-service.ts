@@ -1,4 +1,4 @@
-import { Repository, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 
 import { Tag } from "../entity/tag";
 
@@ -55,7 +55,7 @@ export class TagService {
 
     public static async updateSingleTag(options: {
         tagID: string;
-        name;
+        name: string;
     }): Promise<Tag> {
         const tagRepository = this.getTagRepository();
         try {
@@ -63,9 +63,13 @@ export class TagService {
             tag.name = options.name;
             tag.updatedAt = String(Date.now());
 
+            // Fetch products as save will fail as this is a dangling promise.
+            // Eager loading is not possible as tag is in product already eager.
+            await tag.products;
+
             return await tagRepository.save(tag);
         } catch (error) {
-            throw new Error();
+            throw new Error(error);
         }
     }
 }

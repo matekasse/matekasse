@@ -5,6 +5,7 @@ import { User } from "../entity/user";
 import { ProductService } from "./product-service";
 import { UserService } from "./user-service";
 import { ConstantsService } from "./constants-service";
+import { ConstantType } from "../entity/constants";
 
 export class TransactionService {
     private static getTransactionRepository() {
@@ -21,12 +22,13 @@ export class TransactionService {
         }
 
         // Own implementation of lazy loading.
-        let newTransaction = transactions.map(async transaction => {
+        let newTransaction = transactions.map(async (transaction) => {
             if (transaction.stornoOfTransactionID !== null) {
                 try {
-                    transaction.stornoOfTransaction = await transactionRepository.findOneOrFail(
-                        transaction.stornoOfTransactionID
-                    );
+                    transaction.stornoOfTransaction =
+                        await transactionRepository.findOneOrFail(
+                            transaction.stornoOfTransactionID
+                        );
                 } catch (error) {
                     throw new Error(
                         "Something went wrong while getting all transactions"
@@ -50,11 +52,11 @@ export class TransactionService {
             transactions = await transactionRepository.find({
                 where: [
                     { fromUser: options.user.id },
-                    { toUser: options.user.id }
+                    { toUser: options.user.id },
                 ],
                 order: {
-                    id: "DESC"
-                }
+                    id: "DESC",
+                },
             });
         } catch (error) {
             throw new Error(
@@ -63,12 +65,13 @@ export class TransactionService {
         }
 
         // Own implementation of lazy loading.
-        let newTransaction = transactions.map(async transaction => {
+        let newTransaction = transactions.map(async (transaction) => {
             if (transaction.stornoOfTransactionID !== null) {
                 try {
-                    transaction.stornoOfTransaction = await transactionRepository.findOneOrFail(
-                        transaction.stornoOfTransactionID
-                    );
+                    transaction.stornoOfTransaction =
+                        await transactionRepository.findOneOrFail(
+                            transaction.stornoOfTransactionID
+                        );
                 } catch (error) {
                     throw new Error("Could not load all transactions.");
                 }
@@ -92,7 +95,7 @@ export class TransactionService {
 
         try {
             product = await ProductService.getProductByID({
-                productID: options.productID
+                productID: options.productID,
             });
         } catch (error) {
             throw new Error("No product found!");
@@ -108,7 +111,7 @@ export class TransactionService {
 
         try {
             fromUser = await UserService.getUserByID({
-                userID: fromUserID
+                userID: fromUserID,
             });
         } catch (error) {
             throw new Error("No fromUser found!");
@@ -120,7 +123,7 @@ export class TransactionService {
             product: product ? product : null,
             amountOfMoneyInCents: amountOfMoneyInCents,
             stornoOfTransactionID: null,
-            typeOfTransaction: options.typeOfTransaction
+            typeOfTransaction: options.typeOfTransaction,
         });
 
         // Updated balance here, so it is in one transaction.
@@ -138,7 +141,7 @@ export class TransactionService {
 
         let createdTransaction: Transaction;
 
-        await getManager().transaction(async transactionalEntityManager => {
+        await getManager().transaction(async (transactionalEntityManager) => {
             await transactionalEntityManager.save(fromUser);
             await transactionalEntityManager.save(toUser);
             await transactionalEntityManager.save(product);
@@ -161,7 +164,7 @@ export class TransactionService {
 
         try {
             stornoOfTransaction = await TransactionService.getTransactionByID({
-                transactionID: options.stornoOfTransactionID
+                transactionID: options.stornoOfTransactionID,
             });
         } catch (error) {
             throw new Error("No transaction found!");
@@ -175,7 +178,7 @@ export class TransactionService {
         let stornoTime: Number;
         try {
             stornoTime = await ConstantsService.getConstantByName({
-                constantName: "stornoTime"
+                constantName: ConstantType.stornoTime,
             });
         } catch (error) {
             throw new Error("Error getting constants");
@@ -198,7 +201,7 @@ export class TransactionService {
             product: stornoOfTransaction.product,
             amountOfMoneyInCents: amountOfMoneyInCents,
             stornoOfTransactionID: options.stornoOfTransactionID,
-            typeOfTransaction: options.typeOfTransaction
+            typeOfTransaction: options.typeOfTransaction,
         });
 
         // Updates balance here, so it is in one transaction.
@@ -211,7 +214,7 @@ export class TransactionService {
 
         let createdTransaction: Transaction;
 
-        await getManager().transaction(async transactionalEntityManager => {
+        await getManager().transaction(async (transactionalEntityManager) => {
             await transactionalEntityManager.save(fromUser);
             await transactionalEntityManager.save(toUser);
             if (product !== undefined) {
@@ -239,7 +242,7 @@ export class TransactionService {
 
         try {
             fromUser = await UserService.getUserByID({
-                userID: fromUserID
+                userID: fromUserID,
             });
         } catch (error) {
             throw new Error("No fromUser found!");
@@ -247,7 +250,7 @@ export class TransactionService {
 
         try {
             toUser = await UserService.getUserByID({
-                userID: toUserID
+                userID: toUserID,
             });
         } catch (error) {
             throw new Error("No toUser found!");
@@ -263,7 +266,7 @@ export class TransactionService {
             product: null,
             amountOfMoneyInCents: amountOfMoneyInCents,
             stornoOfTransactionID: null,
-            typeOfTransaction: options.typeOfTransaction
+            typeOfTransaction: options.typeOfTransaction,
         });
 
         // Updates balance here, so it is in one transaction.
@@ -278,7 +281,7 @@ export class TransactionService {
 
         let createdTransaction: Transaction;
 
-        await getManager().transaction(async transactionalEntityManager => {
+        await getManager().transaction(async (transactionalEntityManager) => {
             await transactionalEntityManager.save(fromUser);
             await transactionalEntityManager.save(toUser);
             createdTransaction = await transactionalEntityManager.save(
@@ -299,9 +302,10 @@ export class TransactionService {
                 options.transactionID
             );
             if (transaction.stornoOfTransactionID !== null) {
-                transaction.stornoOfTransaction = await transactionRepository.findOneOrFail(
-                    transaction.stornoOfTransactionID
-                );
+                transaction.stornoOfTransaction =
+                    await transactionRepository.findOneOrFail(
+                        transaction.stornoOfTransactionID
+                    );
             }
         } catch (error) {
             throw new Error("Could not load all transactions.");

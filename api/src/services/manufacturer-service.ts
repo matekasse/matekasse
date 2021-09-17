@@ -26,7 +26,6 @@ export class ManufacturerService {
     public static async getManufacturerByID(options: {
         manufacturerID: string;
     }): Promise<Manufacturer> {
-        const manufacturerRepository = this.getManufacturerRepository();
         try {
             return await getConnection()
                 .getRepository(Manufacturer)
