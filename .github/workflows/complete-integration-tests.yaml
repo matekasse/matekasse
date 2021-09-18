@@ -33,6 +33,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Update and install browser
+        run: |
+          apt update && apt upgrade -y
+          apt install firefox
+          apt install chromium
       - name: Install yarn packages
         run: yarn install
       - name: Start backend
