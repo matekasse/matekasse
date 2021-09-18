@@ -37,7 +37,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get upgrade -y
           sudo apt-get install firefox
-          sudo apt-get install chromium
+          sudo apt-get install chromium-browser
       - name: Install yarn packages
         run: yarn install
       - name: Start backend
