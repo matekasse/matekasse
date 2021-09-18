@@ -1,0 +1,12 @@
+{
+  "name": "testcafe-environment",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn testcafe 'firefox:headless' tests/testcafe/basic-test.js"
+  },
+  "dependencies": {
+    "testcafe": "^1.16.0"
+  },
+  "devDependencies": {}
+}
