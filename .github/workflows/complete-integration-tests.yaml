@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Update and install browser
+      - name: Update system and install browser
         run: |
           sudo apt-get update && sudo apt-get upgrade -y
           sudo apt-get install firefox
