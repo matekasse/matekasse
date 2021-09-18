@@ -48,7 +48,6 @@ describe("Users", () => {
     });
 
     beforeEach(async () => {
-        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
