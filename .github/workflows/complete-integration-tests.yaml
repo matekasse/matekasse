@@ -41,7 +41,7 @@ jobs:
       - name: Install yarn packages
         run: yarn install
       - name: Start backend
-        run: cd api && ENVIRONMENT=development SECRET="notsosecretdev" DATABASE_CONNECTION_URL="postgresql://mate-user:1234@127.0.0.1:5432/mate-db"  yarn start:dev &
+        run: cd api && ENVIRONMENT=development JWT_SECRET_KEY="notsosecretdev" DATABASE_CONNECTION_URL="postgresql://mate-user:1234@127.0.0.1:5432/mate-db"  yarn start:dev &
       - name: Start frontend
         run: cd app && yarn &
       - name: Install testcafe and dependencies
