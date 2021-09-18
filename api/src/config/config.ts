@@ -13,11 +13,16 @@ import {
 
 export class Config {
     public readonly databaseConnectionUrl: string;
+    public readonly jwtSecretKey: string;
     public readonly environment: string;
     constructor() {
         this.databaseConnectionUrl = getEnvironmentVariable(
             process.env,
             EnvVariableNames.DatabaseConnectionUrl
+        );
+        this.jwtSecretKey = getEnvironmentVariable(
+            process.env,
+            EnvVariableNames.JWTSecretKey
         );
         this.environment = getEnvironmentVariable(
             process.env,
