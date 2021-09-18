@@ -1,4 +1,3 @@
-/** Package imports */
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { config } from "dotenv";
@@ -10,17 +9,14 @@ import "mocha";
 
 config();
 
-/** Chai plugins */
 chai.use(chaiHttp);
 chai.should();
 
-/** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let serverTest: Server;
 let connectionTest: Connection;
 const noToken = "";
 
-/** Tests */
 describe("Authentication", () => {
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
