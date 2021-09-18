@@ -47,6 +47,6 @@ jobs:
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
       - name: Run tests firefox
-        run: cd testcafe/tests && yarn testcafe "firefox:headless" basic-test.js
+        run: cd testcafe/tests && yarn testcafe "firefox:headless" tests/basic-test.js
       - name: Run tests chromium
-        run: cd testcafe/tests && yarn testcafe "chromium:headless" basic-test.js
+        run: cd testcafe/tests && yarn testcafe "chromium:headless" tests/basic-test.js
