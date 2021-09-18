@@ -22,12 +22,12 @@ export class Authentication {
     private static SALT_ROUNDS: number = 10;
 
     public static async generateToken(userdata: JWTUserData): Promise<string> {
-        return jwt.sign(userdata, process.env.SECRET, this.JWT_OPTIONS);
+        return jwt.sign(userdata, process.env.JWT_SECRET_KEY, this.JWT_OPTIONS);
     }
 
     public static async verifyToken(token: string): Promise<string | object> {
         try {
-            return jwt.verify(token, process.env.SECRET);
+            return jwt.verify(token, process.env.JWT_SECRET_KEY);
         } catch (e) {
             return null;
         }
