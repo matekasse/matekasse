@@ -1,4 +1,4 @@
-name: build release docker image
+name: test multiarch-build
 
 on:
   push:
