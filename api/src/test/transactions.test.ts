@@ -31,7 +31,7 @@ let serverTest: Server;
 let connectionTest: Connection;
 
 /** Tests */
-describe("Transaction", () => {
+describe("Transactions", () => {
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {

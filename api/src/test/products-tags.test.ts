@@ -23,7 +23,7 @@ let serverTest: Server;
 let connectionTest: Connection;
 
 /** Tests */
-describe("Product-Tag", () => {
+describe("Product-Tags", () => {
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
