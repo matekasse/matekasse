@@ -70,28 +70,12 @@ API_PORT_TEST=4242
 
 3. Run `yarn build` in the `api` folder.
 
-4. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
+4. Now is the time to adjust the models.
+
+5. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
    should be the name of the new migration.
 
 
 ### Apply migrations
 
-1. Create a `ormconfig.json` in the `api` folder with the following content:
-
-   ```js
-    module.exports = {
-        type: "postgres",
-        url: "postgresql://mate-user:1234@127.0.0.1:5432/mate-db",
-        entities: ["dist/entity/**/*{.js,.ts}"],
-        migrations: ["dist/migrations/**/*{.js,.ts}"],
-        synchronize: true,
-        logging: [],
-        cli: {
-            migrationsDir: "src/migrations",
-        },
-    };
-   ```
-
-2. Run `yarn build` in the `api` folder.
-
-3. Run `yarn ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run` in the `api` folder.
+Migrations will be applied automatically if the env variable `ENVIRONMENT` is `production` or `development`.
