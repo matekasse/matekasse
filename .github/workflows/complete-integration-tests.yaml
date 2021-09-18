@@ -12,20 +12,6 @@ jobs:
   complete-integration-test:
     runs-on: ubuntu-latest
 
-    #services:
-    #  mongo:
-    #    image: postgres:13
-    #    env:
-    #        POSTGRES_DB: mate-db
-    #        POSTGRES_USER: mate-user
-    #        POSTGRES_PASSWORD: "1234"
-    #        DBPORT: "5432"
-    #        DBHOST: postgres
-    #        SECRET: "SECRETKEY"
-#
-    #    ports:
-    #      - 5432:5432
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,17 +27,14 @@ jobs:
           sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
       - name: Start docker environment
         run: docker-compose up -d
-      #- name: Install yarn packages
-      #  run: yarn install
-      #- name: Start backend
-      #  run: cd api && ENVIRONMENT=development JWT_SECRET_KEY="notsosecretdev" DATABASE_CONNECTION_URL="postgresql://mate-user:1234@127.0.0.1:5432/mate-db"  yarn start:dev &
-      #- name: Start frontend
-      #  run: cd app && yarn &
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
       - name: Run tests firefox
         run: cd testcafe/tests && yarn testcafe "firefox:headless" tests/basic-test.js
+      - name: Reset docker environment
+        run: |
+          docker-compose down
+          docker volume rm matekasse_postgres-volume
+          docker-compose up -d
       - name: Run tests chromium
         run: cd testcafe/tests && yarn testcafe "chromium:headless" tests/basic-test.js
