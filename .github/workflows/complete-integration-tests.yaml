@@ -9,26 +9,22 @@ on:
       - main
 
 jobs:
-  # Runs all steps on the VM
-  # The service containers will use host port binding instead of container networking so you access them via localhost
-  # rather than the service name.
-
   complete-integration-test:
     runs-on: ubuntu-latest
 
-    services:
-      mongo:
-        image: postgres:13
-        env:
-            POSTGRES_DB: mate-db
-            POSTGRES_USER: mate-user
-            POSTGRES_PASSWORD: "1234"
-            DBPORT: "5432"
-            DBHOST: postgres
-            SECRET: "SECRETKEY"
-
-        ports:
-          - 5432:5432
+    #services:
+    #  mongo:
+    #    image: postgres:13
+    #    env:
+    #        POSTGRES_DB: mate-db
+    #        POSTGRES_USER: mate-user
+    #        POSTGRES_PASSWORD: "1234"
+    #        DBPORT: "5432"
+    #        DBHOST: postgres
+    #        SECRET: "SECRETKEY"
+#
+    #    ports:
+    #      - 5432:5432
 
     steps:
       - name: Checkout code
@@ -38,16 +34,23 @@ jobs:
           sudo apt-get update && sudo apt-get upgrade -y
           sudo apt-get install firefox
           sudo apt-get install chromium-browser
-      - name: Install yarn packages
-        run: yarn install
-      - name: Start backend
-        run: cd api && ENVIRONMENT=development JWT_SECRET_KEY="notsosecretdev" DATABASE_CONNECTION_URL="postgresql://mate-user:1234@127.0.0.1:5432/mate-db"  yarn start:dev &
-      - name: Start frontend
-        run: cd app && yarn &
-      - name: Install testcafe and dependencies
-        run: cd testcafe && yarn install
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Build matekasse docker
+        run: docker build -t ghcr.io/matekasse/matekasse:latest -f Dockerfile .
+      - name: Change docker-compose port
+        run: |
+          sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
+      - name: Start docker environment
+        run: docker-compose up -d
+      #- name: Install yarn packages
+      #  run: yarn install
+      #- name: Start backend
+      #  run: cd api && ENVIRONMENT=development JWT_SECRET_KEY="notsosecretdev" DATABASE_CONNECTION_URL="postgresql://mate-user:1234@127.0.0.1:5432/mate-db"  yarn start:dev &
+      #- name: Start frontend
+      #  run: cd app && yarn &
+      #- name: Install testcafe and dependencies
+      #  run: cd testcafe && yarn install
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
       - name: Run tests firefox
         run: cd testcafe/tests && yarn testcafe "firefox:headless" tests/basic-test.js
       - name: Run tests chromium
