@@ -1,4 +1,3 @@
-/** Package imports */
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { ConstantsService } from "../services/constants-service";
@@ -11,19 +10,16 @@ import "mocha";
 
 config();
 
-/** Chai plugins */
 chai.use(chaiHttp);
 chai.should();
 
-/** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
-/** Tests */
 describe("Constants", () => {
-    /** Clear transactions table before each test to have a clean start */
+    // Clear transactions table before each test to have a clean start
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
@@ -40,7 +36,6 @@ describe("Constants", () => {
     });
 
     beforeEach(async () => {
-        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
