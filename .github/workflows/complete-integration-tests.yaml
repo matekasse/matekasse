@@ -36,5 +36,6 @@ jobs:
           docker-compose down
           docker volume rm matekasse_postgres-volume
           docker-compose up -d
+          sleep 10
       - name: Run tests chromium
         run: cd testcafe/tests && yarn testcafe "chromium:headless" tests/basic-test.js
