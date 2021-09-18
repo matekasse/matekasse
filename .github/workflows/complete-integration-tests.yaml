@@ -30,7 +30,7 @@ jobs:
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
       - name: Run tests firefox
-        run: cd testcafe/tests && yarn testcafe "firefox:headless" tests/basic-test.js
+        run: cd testcafe && yarn testcafe "firefox:headless" tests
       - name: Reset docker environment
         run: |
           docker-compose down
@@ -38,4 +38,4 @@ jobs:
           docker-compose up -d
           sleep 10
       - name: Run tests chromium
-        run: cd testcafe/tests && yarn testcafe "chromium:headless" tests/basic-test.js
+        run: cd testcafe && yarn testcafe "chromium:headless" tests
