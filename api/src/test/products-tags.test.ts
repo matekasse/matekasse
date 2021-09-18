@@ -23,7 +23,7 @@ let serverTest: Server;
 let connectionTest: Connection;
 
 /** Tests */
-describe("Product-Tag", () => {
+describe("Product-Tags", () => {
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
@@ -40,7 +40,6 @@ describe("Product-Tag", () => {
     });
 
     beforeEach(async () => {
-        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
