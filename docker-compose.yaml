@@ -9,6 +9,7 @@ services:
     - DATABASE_CONNECTION_URL=postgresql://mate-user:1234@mate-postgres:5432/mate-db
     - NODE_ENV=local
     - SECRET=SUPERSECRETKEY-CHANGEME
+    - ENVIRONMENT=production
     ports:
       - 0.0.0.0:1337:1337
     depends_on:

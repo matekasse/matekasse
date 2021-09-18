@@ -1,4 +1,3 @@
-/** Package imports */
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { ConstantsService } from "../services/constants-service";
@@ -11,19 +10,16 @@ import "mocha";
 
 config();
 
-/** Chai plugins */
 chai.use(chaiHttp);
 chai.should();
 
-/** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
-/** Tests */
 describe("Constants", () => {
-    /** Clear transactions table before each test to have a clean start */
+    // Clear transactions table before each test to have a clean start
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
@@ -40,7 +36,6 @@ describe("Constants", () => {
     });
 
     beforeEach(async () => {
-        adminToken = "";
         await connectionTest.dropDatabase();
         await connectionTest.synchronize();
         await ConstantsService.createConstants({
@@ -59,13 +54,12 @@ describe("Constants", () => {
 
         response.should.have.status(200);
         response.body.should.include.key("constants");
-        response.body.constants.should.be.a("array");
-        response.body.constants.length.should.be.eql(1);
-        response.body.constants[0].stornoTime.should.be.eql(10000);
-        response.body.constants[0].crateDeposit.should.be.eql(150);
+        response.body.constants.should.be.a("object");
+        response.body.constants.stornoTime.should.be.eql(10000);
+        response.body.constants.crateDeposit.should.be.eql(150);
     });
 
-    it("should PATCH all constants", async () => {
+    it("should PATCH constants", async () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
@@ -74,6 +68,8 @@ describe("Constants", () => {
 
         updateResponse.should.have.status(200);
         updateResponse.body.should.include.key("constants");
+        updateResponse.body.constants.stornoTime.should.be.eql(15000);
+        updateResponse.body.constants.crateDeposit.should.be.eql(200);
 
         const getResponse = await chai
             .request(baseUrl)
@@ -82,9 +78,29 @@ describe("Constants", () => {
 
         getResponse.should.have.status(200);
         getResponse.body.should.include.key("constants");
-        getResponse.body.constants.should.be.a("array");
-        getResponse.body.constants.length.should.be.eql(1);
-        getResponse.body.constants[0].stornoTime.should.be.eql(15000);
-        getResponse.body.constants[0].crateDeposit.should.be.eql(200);
+        getResponse.body.constants.should.be.a("object");
+        getResponse.body.constants.stornoTime.should.be.eql(15000);
+        getResponse.body.constants.crateDeposit.should.be.eql(200);
+    });
+
+    it("should not PATCH constants with incompatible type for constant", async () => {
+        const updateResponse = await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", adminToken)
+            .send({ stornoTime: "abc", crateDeposit: 150 });
+
+        updateResponse.should.have.status(409);
+
+        const getResponse = await chai
+            .request(baseUrl)
+            .get("/api/constants")
+            .set("Authorization", adminToken);
+
+        getResponse.should.have.status(200);
+        getResponse.body.should.include.key("constants");
+        getResponse.body.constants.should.be.a("object");
+        getResponse.body.constants.stornoTime.should.be.eql(10000);
+        getResponse.body.constants.crateDeposit.should.be.eql(150);
     });
 });

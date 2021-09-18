@@ -14,6 +14,7 @@ import {
 export class Config {
     public readonly databaseConnectionUrl: string;
     public readonly jwtSecretKey: string;
+    public readonly environment: string;
     constructor() {
         this.databaseConnectionUrl = getEnvironmentVariable(
             process.env,
@@ -23,22 +24,21 @@ export class Config {
             process.env,
             EnvVariableNames.JWTSecretKey
         );
+        this.environment = getEnvironmentVariable(
+            process.env,
+            EnvVariableNames.Environment
+        );
     }
 
-    private getPrefix(path: string) {
-        let prefix = "";
-        switch (process.env.NODE_ENV) {
-            case "test":
-                prefix = "src";
-                break;
-            case "development":
-            case "production":
-            default:
-                prefix = "dist";
-                break;
+    private runMigrations(): boolean {
+        if (
+            this.environment === "production" ||
+            this.environment === "development"
+        ) {
+            return true;
         }
 
-        return `${prefix}/${path}`;
+        return false;
     }
 
     public getOrmConfiguration(): ConnectionOptions {
@@ -54,8 +54,9 @@ export class Config {
                 User,
                 WarehouseTransaction,
             ],
-            migrations: [this.getPrefix("migration/**/*.*")],
+            migrations: ["src/migrations/**/*.*"],
             synchronize: false,
+            migrationsRun: this.runMigrations(),
             logging: [],
             cli: {
                 migrationsDir: "src/migrations",
