@@ -35,7 +35,10 @@ export const firstStartupInit = async () => {
             "The default user 'Admin' was created. The password is 'Admin', please change it immediately!"
         );
     } catch (error) {
-        if (error.name === "QueryFailedError") {
+        if (
+            error.name === "QueryFailedError"
+            && error.message.includes("duplicate key value violates unique constraint")
+        ) {
             console.log("The default user 'Admin' already exists. Keep going!");
         } else {
             console.log(
@@ -57,7 +60,10 @@ export const firstStartupInit = async () => {
         });
         console.log("Creating some needed database entries... Success!");
     } catch (error) {
-        if (error.name === "QueryFailedError") {
+        if (
+            error.name === "QueryFailedError"
+            && error.message.includes("duplicate key value violates unique constraint")
+        ) {
             console.log("Checking some needed database entries... Success!");
         } else {
             console.log(
@@ -79,7 +85,10 @@ export const firstStartupInit = async () => {
         });
         console.log("Creating some needed database entries... Success!");
     } catch (error) {
-        if (error.name === "QueryFailedError") {
+        if (
+            error.name === "QueryFailedError"
+            && error.message.includes("duplicate key value violates unique constraint")
+        ) {
             console.log("Checking some needed database entries... Success!");
         } else {
             console.log(
@@ -101,7 +110,10 @@ export const firstStartupInit = async () => {
         });
         console.log("Creating some needed database entries... Success!");
     } catch (error) {
-        if (error.name === "QueryFailedError") {
+        if (
+            error.name === "QueryFailedError"
+            && error.message.includes("duplicate key value violates unique constraint")
+        ) {
             console.log("Checking some needed database entries... Success!");
         } else {
             console.log(

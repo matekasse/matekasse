@@ -1,4 +1,3 @@
-/** Package imports */
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { User } from "../entity/user";
@@ -17,11 +16,9 @@ import "mocha";
 
 config();
 
-/** Chai plugins */
 chai.use(chaiHttp);
 chai.should();
 
-/** Variables */
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
 let nonAdminToken = "";
@@ -30,8 +27,8 @@ let normalUser: User;
 let serverTest: Server;
 let connectionTest: Connection;
 
-/** Tests */
-describe("Transaction", () => {
+describe("Transactions", () => {
+    // Clear transactions table before each test to have a clean start
     before((done) => {
         startServer(process.env.API_PORT_TEST).then(
             ({ server, connection }) => {
@@ -462,7 +459,7 @@ describe("Transaction", () => {
         orderResponse.should.have.status(400);
     });
 
-    it("should not create a stornoTransaction after 10 seconds", async () => {
+    it("should not create a stornoTransaction after storno timeout", async () => {
         const bankUser = new User({
             name: "Bank",
             isAdmin: false,
@@ -480,7 +477,13 @@ describe("Transaction", () => {
             withCrate: false,
         };
 
-        let systemUserResponse = await chai
+        await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", adminToken)
+            .send({ stornoTime: 100 });
+
+        const systemUserResponse = await chai
             .request(baseUrl)
             .post("/api/users")
             .set("Authorization", adminToken)
@@ -531,7 +534,7 @@ describe("Transaction", () => {
             stornoOfTransactionID: orderResponse.body.createdTransaction.id,
         };
 
-        await new Promise((r) => setTimeout(r, 11000));
+        await new Promise((r) => setTimeout(r, 110));
 
         const stornoResponse = await chai
             .request(baseUrl)
@@ -559,7 +562,7 @@ describe("Transaction", () => {
         stornoResponse.body.status.should.be.eql("Storno time has run out!");
     }).timeout(15000);
 
-    it("should create a stornoTransaction after 10 seconds when you are admin", async () => {
+    it("should create a stornoTransaction after storno time period when you are admin", async () => {
         const bankUser = new User({
             name: "Bank",
             isAdmin: false,
@@ -575,6 +578,12 @@ describe("Transaction", () => {
             isDisabled: false,
             password: "12345",
         });
+
+        await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", adminToken)
+            .send({ stornoTime: 100 });
 
         const warehouseTransaction = {
             productID: 1,
@@ -642,7 +651,7 @@ describe("Transaction", () => {
             stornoOfTransactionID: orderResponse.body.createdTransaction.id,
         };
 
-        await new Promise((r) => setTimeout(r, 11000));
+        await new Promise((r) => setTimeout(r, 110));
 
         const stornoResponse = await chai
             .request(baseUrl)
