@@ -186,8 +186,8 @@ export default {
                 id: null,
                 name: '',
                 stock: 0,
-                price: 0.00,
-                bottleDeposit: 0.00,
+                price: null,
+                bottleDeposit: null,
                 tags: [],
                 manufacturerID: null,
             };
