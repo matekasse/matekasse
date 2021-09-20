@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mongo:
+      postgres:
         image: postgres:13
         env:
             POSTGRES_DB: mate-db
