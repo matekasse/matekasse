@@ -1,5 +1,6 @@
 export enum EnvVariableNames {
     DatabaseConnectionUrl = "DATABASE_CONNECTION_URL",
+    JWTSecretKey = "JWT_SECRET_KEY",
     Environment = "ENVIRONMENT",
 }
 

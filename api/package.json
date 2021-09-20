@@ -39,7 +39,7 @@
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
         "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
-        "test": "ENVIRONMENT=testing API_PORT_TEST=1337 TS_NODE_FILES=true mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
+        "test": "ENVIRONMENT=testing JWT_SECRET_KEY=SUPERSECRETKEY-TESTING API_PORT_TEST=1337 TS_NODE_FILES=true mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
         "lint": "prettier --write src/**/*.ts && prettier --write init-scripts/*.js",
         "ci:lint": "prettier -c src/**/*.ts"
     }
