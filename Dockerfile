@@ -1,7 +1,7 @@
 FROM node:14-buster-slim as build-frontend
 
-RUN apt update && \
-    apt upgrade -y
+RUN apt-get update && \
+    apt-get upgrade -y
 
 COPY package.json ./
 COPY yarn.lock ./
