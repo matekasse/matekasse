@@ -33,6 +33,10 @@
                         </span>
                     </template>
 
+                    <template v-slot:item.balance="{ item }">
+                        {{ item.balance }} {{constants.currencySymbol}}
+                    </template>
+
                     <template v-slot:item.reset="{ item }">
                         <v-btn
                             color="primary"
@@ -96,6 +100,7 @@
 
 <script>
 import { getUsers, patchUser } from '@/utils/api-connector';
+import { mapState } from 'vuex';
 
 export default {
     name: 'users-tab',
@@ -143,6 +148,10 @@ export default {
 
     created() {
         this.loadUsers();
+    },
+
+    computed: {
+        ...mapState(['constants']),
     },
 
     methods: {

@@ -6,8 +6,10 @@ export const firstStartupInit = async () => {
     try {
         await ConstantsService.createConstants({
             stornoTime: 10000,
-            crateDeposit: 150
+            crateDeposit: 150,
+            currencySymbol: "€",
         });
+        console.log("Initial constants created.");
     } catch (error) {
         if (error.message === "Constants already exist, try to update them instead") {
             console.log("The constants already exist. Keep going!");
