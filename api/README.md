@@ -50,7 +50,7 @@ API_PORT_TEST=4242
 
 ### Create migrations
 
-1. Create a `ormconfig.json` in the `api` folder with the following content:
+1. Create a `ormconfig.js` in the `api` folder with the following content:
 
    ```js
     module.exports = {
@@ -66,14 +66,18 @@ API_PORT_TEST=4242
     };
    ```
 
-2. Start a postgres database and adjust the credentials in the `ormconfig.json` if needed.
+2. Start a postgres database and adjust the credentials in the `ormconfig.js` if needed.
 
-3. Run `yarn build` in the `api` folder.
+3. Start the backend according to the dev setup.
 
-4. Now is the time to adjust the models.
+4. Run `yarn build` in the `api` folder.
 
-5. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
+5. Now is the time to adjust the models.
+
+6. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
    should be the name of the new migration.
+
+7. Delete `ormconfig.js`.
 
 
 ### Apply migrations
