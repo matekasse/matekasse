@@ -151,7 +151,7 @@ export default {
                             typeOfTransaction: 'topUp',
                             createdAt: styledTime,
                             total: `+ ${transaction.total} €`,
-                            chipColor: '#FFD700',
+                            chipColor: 'green',
                         });
                     } else {
                         Object.assign(transaction, {
