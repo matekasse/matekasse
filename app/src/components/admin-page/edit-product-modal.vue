@@ -28,6 +28,7 @@
                                         v-model="editProduct.price"
                                         label="Price"
                                         :suffix="constants.currencySymbol"
+                                        placeholder="0.00"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
                                     />
@@ -38,6 +39,7 @@
                                         v-model="editProduct.bottleDeposit"
                                         label="Deposit"
                                         :suffix="constants.currencySymbol"
+                                        placeholder="0.00"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
                                     />
@@ -177,6 +179,7 @@ export default {
                 value => notEmpty(value),
             ],
             numberRules: [
+                value => notEmpty(value),
                 value => isNumber(value),
                 value => atLeastZero(value),
             ],

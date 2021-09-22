@@ -95,7 +95,7 @@ export default {
     watch: {
         showDialog(value) {
             if (value) {
-                this.amount = 1;
+                this.amount = null;
             }
         },
     },

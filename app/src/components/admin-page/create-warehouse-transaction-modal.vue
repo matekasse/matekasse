@@ -45,6 +45,7 @@
                                         v-model="warehouseTransaction.pricePerItem"
                                         label="Price per item"
                                         :suffix=constants.currencySymbol
+                                        placeholder="0.00"
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
                                     />
@@ -55,6 +56,7 @@
                                         v-model="warehouseTransaction.depositPerItem"
                                         label="Deposit per item"
                                         :suffix=constants.currencySymbol
+                                        placeholder="0.00"
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
                                     />
@@ -122,9 +124,9 @@ export default {
             defaultWarehouseTransaction: {
                 productID: '',
                 userID: '',
-                quantity: 0,
-                pricePerItem: 0.00,
-                depositPerItem: 0.00,
+                quantity: null,
+                pricePerItem: null,
+                depositPerItem: null,
                 withCrate: false,
             },
             selectRules: [
