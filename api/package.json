@@ -10,19 +10,19 @@
         "@types/express": "^4.17.1",
         "@types/jsonwebtoken": "^8.5.5",
         "@types/mocha": "^9.0.0",
-        "@types/node": "16.7.8",
+        "@types/node": "14.17.18",
         "chai": "4.3.4",
         "chai-http": "^4.3.0",
         "mocha": "9.1.1",
         "nodemon": "2.0.12",
         "nyc": "15.1.0",
-        "prettier": "^2.4.0",
+        "prettier": "^2.4.1",
         "ts-node": "10.2.1",
         "typescript": "4.4.3"
     },
     "dependencies": {
         "@types/express-fileupload": "1.1.7",
-        "@types/node-fetch": "2.5.12",
+        "@types/node-fetch": "3.0.3",
         "bcrypt": "5.0.1",
         "body-parser": "^1.19.0",
         "express": "^4.17.1",
@@ -35,11 +35,11 @@
     },
     "scripts": {
         "start:dev": "API_PORT=1337 ts-node --files src/index.ts",
-        "start": "node ./dist/index.js",
+        "start": "ts-node --files src/index.ts",
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
         "test-coverage": "nyc --reporter=text mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
-        "test": "API_PORT_TEST=1337 TS_NODE_FILES=true mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
+        "test": "ENVIRONMENT=testing JWT_SECRET_KEY=SUPERSECRETKEY-TESTING API_PORT_TEST=1337 TS_NODE_FILES=true mocha -t 600000 -r ts-node/register src/test/*.ts --exit",
         "lint": "prettier --write src/**/*.ts && prettier --write init-scripts/*.js",
         "ci:lint": "prettier -c src/**/*.ts"
     }
