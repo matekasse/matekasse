@@ -34,7 +34,7 @@
                 </template>
 
                 <template v-slot:item.total="{ item }">
-                    {{ item.total }} {{constants.currencySymbol}}
+                    {{ item.total }} {{ constants.currencySymbol }}
                 </template>
 
                 <template v-slot:item.totalDeposit="{ item }">
