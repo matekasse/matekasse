@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Role, Selector } from 'testcafe';
 
 fixture `Login Test`
     .page `http://127.0.0.1:8080/`;
@@ -10,16 +10,18 @@ test('Login', async t => {
         .click("#login-loginbutton")
 });
 
-fixture `Basic Navigation Test`
+const adminUser = Role('http://127.0.0.1:8080/', async t => {
+    await t
+    .typeText('#input-18', 'Admin')
+    .typeText('#input-21', 'Admin')
+    .click("#login-loginbutton")
+});
+
+fixture `Home-View`
     .page `http://127.0.0.1:8080/`;
 
-test('Login', async t => {
+test('Balance', async t => {
     await t
-        .typeText('#input-18', 'Admin')
-        .typeText('#input-21', 'Admin')
-        .click("#login-loginbutton")
-});
-test('Home-View', async t => {
-    await t
-        .ex
+        .useRole(adminUser)
+        .expect(Selector('#home-view-balance').innerText).eql('Balance: 0.00 €');
 });

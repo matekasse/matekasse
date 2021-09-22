@@ -62,7 +62,7 @@
 
             <v-spacer />
 
-            <span>
+            <span id="home-view-balance">
                 Balance: {{ user.balance }} €
             </span>
 
