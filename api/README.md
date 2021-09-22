@@ -70,12 +70,14 @@ API_PORT_TEST=4242
 
 3. Start the backend according to the dev setup.
 
-3. Run `yarn build` in the `api` folder.
+4. Run `yarn build` in the `api` folder.
 
-4. Now is the time to adjust the models.
+5. Now is the time to adjust the models.
 
-5. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
+6. Run `yarn typeorm migration:generate -n CreateDatabase` in the `api` folder, where `CreateDatabase`
    should be the name of the new migration.
+
+7. Delete `ormconfig.js`.
 
 
 ### Apply migrations
