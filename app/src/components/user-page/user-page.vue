@@ -4,7 +4,7 @@
             <v-list-item three-line>
                 <v-list-item-content>
                     <v-list-item-title >
-                        <span class="headline mb-2">  Username: </span>
+                        <span class="headline mb-1">  Username: </span>
                         {{ user.name }}
                     </v-list-item-title>
                 </v-list-item-content>
