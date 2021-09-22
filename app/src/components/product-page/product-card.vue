@@ -49,7 +49,7 @@
                                     @click="buyProduct"
                                     :disabled="product.stock === 0"
                                 >
-                                    Buy for {{ product.price }} {{constants.currencySymbol}}
+                                    Buy for {{ product.price }} {{ constants.currencySymbol }}
                                 </v-btn>
                             </v-card-text>
                     </v-col>
