@@ -53,7 +53,7 @@
             </template>
 
             <template v-slot:item.price="{ item }">
-                {{ item.price }} {{constants.currencySymbol}}
+                {{ item.price }} {{ constants.currencySymbol }}
             </template>
 
             <template v-slot:item.bottleDeposit="{ item }">
