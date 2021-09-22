@@ -50,7 +50,7 @@ API_PORT_TEST=4242
 
 ### Create migrations
 
-1. Create a `ormconfig.json` in the `api` folder with the following content:
+1. Create a `ormconfig.js` in the `api` folder with the following content:
 
    ```js
     module.exports = {
@@ -66,7 +66,9 @@ API_PORT_TEST=4242
     };
    ```
 
-2. Start a postgres database and adjust the credentials in the `ormconfig.json` if needed.
+2. Start a postgres database and adjust the credentials in the `ormconfig.js` if needed.
+
+3. Start the backend according to the dev setup.
 
 3. Run `yarn build` in the `api` folder.
 
