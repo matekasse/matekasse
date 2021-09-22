@@ -155,6 +155,7 @@ export default {
     watch: {
         showDialog(value) {
             if (value) {
+                this.loadProducts();
                 this.warehouseTransaction = Object.assign({}, this.defaultWarehouseTransaction);
                 this.selectedProduct = {};
                 if (this.$refs.form) {
