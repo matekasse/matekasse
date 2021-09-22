@@ -29,6 +29,7 @@ export class ConstantsService {
     public static async createConstants(options?: {
         stornoTime?: number;
         crateDeposit?: number;
+        currencySymbol?: string;
     }): Promise<Constants> {
         const constantsRepository = this.getConstantsRepository();
 
@@ -51,6 +52,7 @@ export class ConstantsService {
     public static async updateConstants(options: {
         stornoTime?: number;
         crateDeposit?: number;
+        currencySymbol?: string;
     }): Promise<Constants> {
         const constantsRepository = this.getConstantsRepository();
         let constants: Constants;
@@ -67,6 +69,9 @@ export class ConstantsService {
             constants.crateDeposit = options.crateDeposit
                 ? options.crateDeposit
                 : constants.crateDeposit;
+            constants.currencySymbol = options.currencySymbol
+                ? options.currencySymbol
+                : constants.currencySymbol;
             constants.updatedAt = String(Date.now());
 
             return await constantsRepository.save(constants);
