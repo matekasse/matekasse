@@ -1,3 +1,5 @@
+import { Selector } from 'testcafe';
+
 fixture `Login Test`
     .page `http://127.0.0.1:8080/`;
 

@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install firefox
-        #  sudo apt-get install chromium-browser
+         #sudo apt-get install chromium-browser
       - name: Build matekasse docker
         run: docker build -t ghcr.io/matekasse/matekasse:latest -f Dockerfile .
       - name: Change port in docker-compose
