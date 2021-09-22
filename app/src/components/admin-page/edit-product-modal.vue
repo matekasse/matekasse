@@ -93,23 +93,15 @@
                                 <v-col>
                                     <v-autocomplete
                                         v-model="editProduct.tags"
-                                        :items="tags"
+                                        :items="tagSearchItems"
                                         :search-input.sync="tagSearch"
+                                        @change="onTagSelect"
                                         label="tags"
                                         item-text="name"
                                         multiple
                                         chips
                                         deletable-chips
                                     >
-                                        <template
-                                            v-slot:no-data
-                                        >
-                                            <div
-                                                @click="createNewTag"
-                                            >
-                                            {{tagSearch}}
-                                        </div>
-                                    </template>
                                 </v-autocomplete>
                             </v-col>
                         </v-row>
@@ -207,6 +199,13 @@ export default {
             }
             return URL.createObjectURL(this.uploadedFile);
         },
+        tagSearchItems() {
+            if (this.tagSearch && !this.tags.includes(this.tagSearch)) {
+                return [this.tagSearch, ...this.tags];
+            }
+
+            return this.tags;
+        },
         ...mapState(['constants']),
     },
 
@@ -238,14 +237,24 @@ export default {
             this.isLoading = false;
         },
 
-        async createNewTag() {
-            if (this.tagSearch === '') {
+        onTagSelect(selectedTags) {
+            if (!selectedTags) return;
+
+            selectedTags.forEach((tag) => {
+                if (!this.tags.includes(tag)) {
+                    this.createNewTag(tag);
+                }
+
+                this.tagSearch = '';
+            });
+        },
+
+        createNewTag(tag) {
+            if (tag === '') {
                 return;
             }
 
-            this.editProduct.tags.push(this.tagSearch);
-            this.tags.push(this.tagSearch);
-            this.tagSearch = '';
+            this.tags.push(tag);
         },
 
         async createNewManufacturer() {
