@@ -63,7 +63,7 @@
             <v-spacer />
 
             <span>
-                Balance: {{ user.balance }} {{constants.currencySymbol}}
+                Balance: {{ user.balance }} {{ constants.currencySymbol }}
             </span>
 
             <v-spacer/>
