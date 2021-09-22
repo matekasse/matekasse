@@ -289,7 +289,7 @@ export const getConstants = async () => {
     try {
         const response = await http.get('/constants');
 
-        return response.data.constants[0];
+        return response.data.constants;
     } catch (error) {
         if (!error.response) {
             throw new Error('couldn\'t get constants');
