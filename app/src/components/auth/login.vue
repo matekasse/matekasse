@@ -56,6 +56,7 @@
                                 </v-btn>
 
                                 <v-btn
+                                    id="login-loginbutton"
                                     color="blue darken-1"
                                     text
                                     :disabled="!valid"
