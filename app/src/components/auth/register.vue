@@ -83,7 +83,7 @@
 
 <script>
 import { notEmpty, samePassword } from '@/plugins/validation-rules';
-import { postUser, loginUser } from '@/utils/api-connector';
+import { postUser, loginUser, getConstants } from '@/utils/api-connector';
 
 export default {
     name: 'register',
@@ -123,6 +123,9 @@ export default {
                     this.$store.commit('changeJwt', token);
                     this.$router.push('/menu');
                 }
+
+                const constants = await getConstants();
+                this.$store.commit('changeConstants', constants);
             } catch (error) {
                 this.$notify({
                     title: 'Error',

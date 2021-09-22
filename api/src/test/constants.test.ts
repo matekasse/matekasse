@@ -5,7 +5,11 @@ import { config } from "dotenv";
 import { startServer } from "../index";
 import { Server } from "http";
 import { Connection } from "typeorm";
-import { createAdminTestUser, authenticateTestUser } from "./userUtils";
+import {
+    createAdminTestUser,
+    authenticateTestUser,
+    createNonAdminTestUser,
+} from "./userUtils";
 import "mocha";
 
 config();
@@ -15,6 +19,7 @@ chai.should();
 
 const baseUrl: string = `${process.env.API_HOST}:${process.env.API_PORT_TEST}`;
 let adminToken = "";
+let nonAdminToken = "";
 let serverTest: Server;
 let connectionTest: Connection;
 
@@ -44,6 +49,8 @@ describe("Constants", () => {
         });
         const adminUser = await createAdminTestUser();
         adminToken = await authenticateTestUser(adminUser);
+        const normalUser = await createNonAdminTestUser();
+        nonAdminToken = await authenticateTestUser(normalUser);
     });
 
     it("should GET all constants", async () => {
@@ -59,12 +66,31 @@ describe("Constants", () => {
         response.body.constants.crateDeposit.should.be.eql(150);
     });
 
+    it("should not PATCH all constants as non admin user", async () => {
+        const updateResponse = await chai
+            .request(baseUrl)
+            .patch("/api/constants")
+            .set("Authorization", nonAdminToken)
+            .send({
+                stornoTime: 15000,
+                crateDeposit: 200,
+                currencySymbol: "Gulden",
+            });
+        updateResponse.should.have.status(403);
+        updateResponse.body.should.not.include.key("constants");
+        updateResponse.body.status.should.be.eql("Not allowed to access");
+    });
+
     it("should PATCH constants", async () => {
         const updateResponse = await chai
             .request(baseUrl)
             .patch("/api/constants")
             .set("Authorization", adminToken)
-            .send({ stornoTime: 15000, crateDeposit: 200 });
+            .send({
+                stornoTime: 15000,
+                crateDeposit: 200,
+                currencySymbol: "Gulden",
+            });
 
         updateResponse.should.have.status(200);
         updateResponse.body.should.include.key("constants");
