@@ -154,7 +154,7 @@ export default {
                             typeOfTransaction: 'topUp',
                             createdAt: styledTime,
                             total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
-                            chipColor: '#FFD700',
+                            chipColor: 'green',
                         });
                     } else {
                         Object.assign(transaction, {
