@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Selector } from 'testcafe';
 
 fixture `Login Test`
