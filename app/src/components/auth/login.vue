@@ -108,7 +108,6 @@ export default {
 
                 const constants = await getConstants();
                 this.$store.commit('changeConstants', constants);
-                
                 if (token) {
                     this.$router.push('/menu');
                 }
