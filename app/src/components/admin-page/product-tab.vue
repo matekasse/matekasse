@@ -31,11 +31,11 @@
             </template>
 
             <template v-slot:item.price="{ item }">
-                {{ item.price }} €
+                {{ item.price }} {{ constants.currencySymbol }}
             </template>
 
             <template v-slot:item.bottleDeposit="{ item }">
-                {{ item.bottleDeposit }} €
+                {{ item.bottleDeposit }} {{ constants.currencySymbol }}
             </template>
 
             <template v-slot:item.tags="{ item }">
@@ -53,11 +53,11 @@
             </template>
 
             <template v-slot:item.price="{ item }">
-                {{ item.price }} €
+                {{ item.price }} {{ constants.currencySymbol }}
             </template>
 
             <template v-slot:item.bottleDeposit="{ item }">
-                {{ item.bottleDeposit }} €
+                {{ item.bottleDeposit }} {{ constants.currencySymbol }}
             </template>
 
             <template v-slot:item.action="{ item }">
@@ -98,6 +98,7 @@
 
 <script>
 import { getProducts, deleteProduct } from '@/utils/api-connector';
+import { mapState } from 'vuex';
 
 export default {
     name: 'product-tab',
@@ -167,6 +168,10 @@ export default {
 
     created() {
         this.loadProducts();
+    },
+
+    computed: {
+        ...mapState(['constants']),
     },
 
     methods: {
