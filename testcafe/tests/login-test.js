@@ -1,7 +1,13 @@
 import { Selector } from 'testcafe';
 
-fixture `Login Test`
+fixture `Login page Test`
     .page `http://127.0.0.1:8080/`;
+
+test('Login Page buttons', async t => {
+    await t
+        .expect(Selector('#login-loginbutton').innerText).eql('LOGIN')
+        .expect(Selector('#login-registerbutton').innerText).eql('GO TO REGISTER');
+    });
 
 test('Login', async t => {
     await t
