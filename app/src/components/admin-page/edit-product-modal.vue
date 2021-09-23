@@ -27,7 +27,7 @@
                                     <v-text-field
                                         v-model="editProduct.price"
                                         label="Price"
-                                        suffix="€"
+                                        :suffix="constants.currencySymbol"
                                         placeholder="0.00"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
@@ -38,7 +38,7 @@
                                     <v-text-field
                                         v-model="editProduct.bottleDeposit"
                                         label="Deposit"
-                                        suffix="€"
+                                        :suffix="constants.currencySymbol"
                                         placeholder="0.00"
                                         :rules="numberRules"
                                         @keydown="validateAndSave"
@@ -148,6 +148,7 @@ import {
 import {
     isNumber, notEmpty, atLeastZero, maxFileSize,
 } from '@/plugins/validation-rules';
+import { mapState } from 'vuex';
 
 export default {
     name: 'edit-product-modal',
@@ -206,6 +207,7 @@ export default {
             }
             return URL.createObjectURL(this.uploadedFile);
         },
+        ...mapState(['constants']),
     },
 
     created() {

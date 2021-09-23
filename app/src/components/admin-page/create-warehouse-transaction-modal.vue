@@ -44,7 +44,7 @@
                                     <v-text-field
                                         v-model="warehouseTransaction.pricePerItem"
                                         label="Price per item"
-                                        suffix="€"
+                                        :suffix=constants.currencySymbol
                                         placeholder="0.00"
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
@@ -55,7 +55,7 @@
                                     <v-text-field
                                         v-model="warehouseTransaction.depositPerItem"
                                         label="Deposit per item"
-                                        suffix="€"
+                                        :suffix=constants.currencySymbol
                                         placeholder="0.00"
                                         :rules="moneyRules"
                                         @keydown="validateAndSave"
@@ -145,6 +145,7 @@ export default {
 
     computed: {
         ...mapState(['user']),
+        ...mapState(['constants']),
         showDialog: {
             get() { return this.value; },
             set(showDialog) { this.$emit('input', showDialog); },
@@ -154,6 +155,7 @@ export default {
     watch: {
         showDialog(value) {
             if (value) {
+                this.loadProducts();
                 this.warehouseTransaction = Object.assign({}, this.defaultWarehouseTransaction);
                 this.selectedProduct = {};
                 if (this.$refs.form) {
