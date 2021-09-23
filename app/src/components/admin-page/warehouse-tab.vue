@@ -34,11 +34,11 @@
                 </template>
 
                 <template v-slot:item.total="{ item }">
-                    {{ item.total }} €
+                    {{ item.total }} {{ constants.currencySymbol }}
                 </template>
 
                 <template v-slot:item.totalDeposit="{ item }">
-                    {{ item.totalDeposit }} €
+                    {{ item.totalDeposit }} {{ constants.currencySymbol }}
                 </template>
             </v-data-table>
         </v-card>
@@ -52,6 +52,7 @@
 
 <script>
 import { getWarehouseTransactions } from '@/utils/api-connector';
+import { mapState } from 'vuex';
 
 export default {
     name: 'warehouse-tab',
@@ -97,6 +98,10 @@ export default {
 
     created() {
         this.loadWarehouseTransactions();
+    },
+
+    computed: {
+        ...mapState(['constants']),
     },
 
     methods: {

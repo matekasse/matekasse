@@ -6,7 +6,8 @@
     "private": true,
     "workspaces": [
         "api",
-        "app"
+        "app",
+        "testcafe"
     ],
     "scripts": {
         "prepare": "husky install",

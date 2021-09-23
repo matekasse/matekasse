@@ -97,7 +97,10 @@ export default {
         };
     },
 
-    computed: mapState(['user']),
+    computed: {
+        ...mapState(['user']),
+        ...mapState(['constants']),
+    },
 
     created() {
         this.loadUserTransactions();
@@ -143,20 +146,20 @@ export default {
                     if (transaction.typeOfTransaction === 'order') {
                         Object.assign(transaction, {
                             createdAt: styledTime,
-                            total: `- ${transaction.total} €`,
+                            total: `- ${transaction.total} ${this.constants.currencySymbol}`,
                             chipColor: 'red',
                         });
                     } else if (transaction.typeOfTransaction === 'gift') {
                         Object.assign(transaction, {
                             typeOfTransaction: 'topUp',
                             createdAt: styledTime,
-                            total: `+ ${transaction.total} €`,
-                            chipColor: '#FFD700',
+                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
+                            chipColor: 'green',
                         });
                     } else {
                         Object.assign(transaction, {
                             createdAt: styledTime,
-                            total: `+ ${transaction.total} €`,
+                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
                             chipColor: 'green',
                         });
                     }

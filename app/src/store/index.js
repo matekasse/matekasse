@@ -8,10 +8,12 @@ export default new Vuex.Store({
     state: {
         user: {},
         jwt: '',
+        constants: {},
     },
     getters: {
         user: state => state.user,
         jwt: state => state.jwt,
+        constants: state => state.constants,
     },
     mutations: {
         initUser(state, user) {
@@ -30,11 +32,18 @@ export default new Vuex.Store({
         resetState(state) {
             state.user = {};
             state.jwt = '';
+            state.constants = {};
+        },
+        changeConstants(state, constants) {
+            state.constants = constants;
         },
     },
     actions: {
         setJwt({ commit }, jwt) {
             commit('changeJwt', jwt);
+        },
+        async setConstants({ commit }, constants) {
+            commit('changeConstants', constants);
         },
     },
 
