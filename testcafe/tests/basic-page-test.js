@@ -23,8 +23,8 @@ test('Navigation Tabs', async t => {
     await t
         .useRole(adminUser)
         .navigateTo('/admin')
-        .expect(Selector('#admin-page-products').innerText).eql('PRODUCTS')
         .expect(Selector('#admin-page-users').innerText).eql('USERS')
+        .expect(Selector('#admin-page-products').innerText).eql('PRODUCTS')
         .expect(Selector('#admin-page-warehouse').innerText).eql('WAREHOUSE');
 
 });
