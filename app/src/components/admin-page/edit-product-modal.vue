@@ -220,7 +220,9 @@ export default {
         showDialog(value) {
             if (value) {
                 this.editProduct = Object.assign({}, this.product);
-                this.$refs.form.resetValidation();
+                if (this.$refs.form) {
+                    this.$refs.form.resetValidation();
+                }
             }
         },
     },
