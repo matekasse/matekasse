@@ -9,6 +9,27 @@ on:
       - main
 
 jobs:
+  complete-integration-test-firefox:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Update system and install browser
+        run: |
+          sudo apt-get update
+          sudo apt-get install firefox
+      - name: Build matekasse docker
+        run: docker build -t ghcr.io/matekasse/matekasse:latest -f Dockerfile .
+      - name: Change port in docker-compose
+        run: |
+          sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
+      - name: Start docker environment
+        run: docker-compose up -d
+      - name: Install testcafe and dependencies
+        run: cd testcafe && yarn install
+      - name: Run tests firefox
+        run: cd testcafe && yarn testcafe "firefox:headless" tests
 
   #- complete-integration-test-chromium:
   #  runs-on: ubuntu-latest
@@ -31,25 +52,3 @@ jobs:
   #      run: cd testcafe && yarn install
   #    - name: Run tests firefox
   #      run: cd testcafe && yarn testcafe "chromium:headless" tests
-
-  - complete-integration-test-firefox:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Update system and install browser
-        run: |
-          sudo apt-get update
-          sudo apt-get install firefox
-      - name: Build matekasse docker
-        run: docker build -t ghcr.io/matekasse/matekasse:latest -f Dockerfile .
-      - name: Change port in docker-compose
-        run: |
-          sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
-      - name: Start docker environment
-        run: docker-compose up -d
-      - name: Install testcafe and dependencies
-        run: cd testcafe && yarn install
-      - name: Run tests firefox
-        run: cd testcafe && yarn testcafe "firefox:headless" tests
