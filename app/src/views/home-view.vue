@@ -32,7 +32,8 @@
                         </v-icon>
                     </v-list-item-action>
 
-                    <v-list-item-content>
+                    <v-list-item-content
+                    id="burger-menue-admin">
                         Admin
                     </v-list-item-content>
                 </v-list-item>
