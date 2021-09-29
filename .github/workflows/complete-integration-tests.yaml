@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  complete-integration-test-chromium:
+  - complete-integration-test-chromium:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
       - name: Run tests firefox
         run: cd testcafe && yarn testcafe "chromium:headless" tests
 
-  complete-integration-test-firefox:
+  - complete-integration-test-firefox:
     runs-on: ubuntu-latest
 
     steps:
