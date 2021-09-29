@@ -50,5 +50,5 @@ jobs:
         run: docker-compose up -d
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
-      - name: Run tests firefox
+      - name: Run tests chromium
         run: cd testcafe && yarn testcafe "chromium:headless" tests
