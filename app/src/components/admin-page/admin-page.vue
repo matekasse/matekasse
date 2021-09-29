@@ -12,7 +12,7 @@
             Warehouse
         </v-tab>
 
-        <v-tab>
+        <v-tab id="admin-page-constants">
             Constants
         </v-tab>
 
