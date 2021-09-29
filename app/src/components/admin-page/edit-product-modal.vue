@@ -69,22 +69,14 @@
                                 <v-col>
                                     <v-autocomplete
                                         v-model="editProduct.manufacturerID"
-                                        :items="manufacturers"
+                                        :items="manufacturerSearchItems"
                                         :search-input.sync="manufacturerSearch"
+                                        @change="onManufacturerSelect"
                                         item-text="name"
                                         item-value="id"
                                         label="Manufacturer"
                                         single-line
                                     >
-                                        <template
-                                            v-slot:no-data
-                                        >
-                                            <div
-                                                @click="createNewManufacturer"
-                                            >
-                                                {{manufacturerSearch}}
-                                            </div>
-                                        </template>
                                     </v-autocomplete>
                                 </v-col>
                             </v-row>
@@ -206,6 +198,13 @@ export default {
 
             return this.tags;
         },
+        manufacturerSearchItems() {
+            if (this.manufacturerSearch && !this.manufacturers.includes(this.manufacturerSearch)) {
+                return [this.manufacturerSearch, ...this.manufacturers];
+            }
+
+            return this.manufacturers;
+        },
         ...mapState(['constants']),
     },
 
@@ -235,6 +234,18 @@ export default {
             this.isLoading = true;
             this.manufacturers = await getManufacturers();
             this.isLoading = false;
+        },
+
+        onManufacturerSelect(selectedTags) {
+            if (!selectedTags) return;
+
+            selectedTags.forEach((tag) => {
+                if (!this.tags.includes(tag)) {
+                    this.createNewTag(tag);
+                }
+
+                this.tagSearch = '';
+            });
         },
 
         onTagSelect(selectedTags) {
