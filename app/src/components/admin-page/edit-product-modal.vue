@@ -57,6 +57,15 @@
 
                                 <v-col>
                                     <v-img
+                                        v-if="fileToDisplay"
+                                        height="200"
+                                        width="200"
+                                        :contain="true"
+                                        :src="fileToDisplay"
+                                    />
+
+                                    <v-img
+                                        v-else
                                         height="200"
                                         width="200"
                                         :contain="true"
