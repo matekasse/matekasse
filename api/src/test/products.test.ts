@@ -44,7 +44,7 @@ describe("Products", () => {
 
     beforeEach(async () => {
         await connectionTest.dropDatabase();
-        await connectionTest.synchronize();
+        await connectionTest.runMigrations();
         await ConstantsService.createConstants({
             stornoTime: 10000,
             crateDeposit: 150,
