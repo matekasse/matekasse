@@ -129,40 +129,35 @@ export default {
         async loadUserTransactions() {
             this.transactions = await getUserTransactions();
 
-            this.transactions.forEach((transaction) => {
-                const creationDate = transaction.createdAt;
-                const styledTime = `${creationDate.toDateString()}
-                        ${
-    creationDate.getHours() < 10 ? '0' : ''
-}${creationDate.getHours()}:`
-                    + `${
-                        creationDate.getMinutes() < 10 ? '0' : ''
-                    }${creationDate.getMinutes()}:`
-                    + `${
-                        creationDate.getSeconds() < 10 ? '0' : ''
-                    }${creationDate.getSeconds()}`;
-
-                if (transaction.typeOfTransaction === 'order') {
-                    Object.assign(transaction, {
-                        createdAt: styledTime,
-                        total: `- ${transaction.total} ${this.constants.currencySymbol}`,
-                        chipColor: 'red',
-                    });
-                } else if (transaction.typeOfTransaction === 'gift') {
-                    Object.assign(transaction, {
-                        typeOfTransaction: 'topUp',
-                        createdAt: styledTime,
-                        total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
-                        chipColor: 'green',
-                    });
-                } else {
-                    Object.assign(transaction, {
-                        createdAt: styledTime,
-                        total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
-                        chipColor: 'green',
-                    });
-                }
-            });
+            this.transactions.forEach(
+                (transaction) => {
+                    const creationDate = transaction.createdAt;
+                    const styledTime = `${creationDate.toDateString()}
+                        ${(creationDate.getHours() < 10 ? '0' : '')}${creationDate.getHours()}:`
+                        + `${(creationDate.getMinutes() < 10 ? '0' : '')}${creationDate.getMinutes()}:`
+                        + `${(creationDate.getSeconds() < 10 ? '0' : '')}${creationDate.getSeconds()}`;
+                    if (transaction.typeOfTransaction === 'order') {
+                        Object.assign(transaction, {
+                            createdAt: styledTime,
+                            total: `- ${transaction.total} ${this.constants.currencySymbol}`,
+                            chipColor: 'red',
+                        });
+                    } else if (transaction.typeOfTransaction === 'gift') {
+                        Object.assign(transaction, {
+                            typeOfTransaction: 'topUp',
+                            createdAt: styledTime,
+                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
+                            chipColor: 'green',
+                        });
+                    } else {
+                        Object.assign(transaction, {
+                            createdAt: styledTime,
+                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
+                            chipColor: 'green',
+                        });
+                    }
+                },
+            );
         },
     },
 };
