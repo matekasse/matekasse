@@ -2,7 +2,7 @@
 
 Some integration tests with testcafe.
 
-For local use start database, backend and frontend and use:
+For local usage start database, backend and frontend like described in the development section and use:
 
 ```sh
 	yarn testcafe firefox tests
