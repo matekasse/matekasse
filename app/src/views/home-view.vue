@@ -48,7 +48,8 @@
                         </v-icon>
                     </v-list-item-action>
 
-                    <v-list-item-content>
+                    <v-list-item-content
+                    id="burger-menue-profile">
                         Profile
                     </v-list-item-content>
                 </v-list-item>

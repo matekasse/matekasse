@@ -3,24 +3,26 @@
         <v-card>
             <v-list-item three-line>
                 <v-list-item-content>
-                    <v-list-item-title >
-                        <span class="headline mb-1">  Username: </span>
+                    <v-list-item-title id="profile-view-username-field">
+                        <span class="headline mb-1"> Username: </span>
                         {{ user.name }}
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
             <v-card-actions>
-                <v-btn color="primary" @click="editNames" >Change Name</v-btn>
-                <v-btn color="primary" @click="editPassword" >Change Password</v-btn>
+                <v-btn color="primary" @click="editNames">Change Name</v-btn>
+                <v-btn color="primary" @click="editPassword"
+                    >Change Password</v-btn
+                >
             </v-card-actions>
         </v-card>
 
-        <v-card class=my-4>
+        <v-card class="my-4">
             <v-card-title>
                 History
 
-                <v-spacer/>
+                <v-spacer />
 
                 <v-text-field
                     v-model="search"
@@ -36,27 +38,20 @@
                 :search="search"
             >
                 <template v-slot:item.createdAt="{ item }">
-                    {{item.createdAt}}
+                    {{ item.createdAt }}
                 </template>
 
                 <template v-slot:item.total="{ item }">
-                    <v-chip
-                        :color="item.chipColor"
-                    >
-                        {{item.total}}
+                    <v-chip :color="item.chipColor">
+                        {{ item.total }}
                     </v-chip>
                 </template>
             </v-data-table>
         </v-card>
 
-        <change-user-names-modal
-            :user="editedUser"
-            v-model="showNamesDialog"
-        />
+        <change-user-names-modal :user="editedUser" v-model="showNamesDialog" />
 
-        <change-user-password-modal
-            v-model="showPasswordDialog"
-        />
+        <change-user-password-modal v-model="showPasswordDialog" />
     </div>
 </template>
 
@@ -92,7 +87,6 @@ export default {
                     text: 'Type',
                     value: 'typeOfTransaction',
                 },
-
             ],
         };
     },
@@ -135,36 +129,40 @@ export default {
         async loadUserTransactions() {
             this.transactions = await getUserTransactions();
 
-            this.transactions.forEach(
-                (transaction) => {
-                    const creationDate = transaction.createdAt;
-                    const styledTime = `${creationDate.toDateString()}
-                        ${(creationDate.getHours() < 10 ? '0' : '')}${creationDate.getHours()}:`
-                        + `${(creationDate.getMinutes() < 10 ? '0' : '')}${creationDate.getMinutes()}:`
-                        + `${(creationDate.getSeconds() < 10 ? '0' : '')}${creationDate.getSeconds()}`;
+            this.transactions.forEach((transaction) => {
+                const creationDate = transaction.createdAt;
+                const styledTime = `${creationDate.toDateString()}
+                        ${
+    creationDate.getHours() < 10 ? '0' : ''
+}${creationDate.getHours()}:`
+                    + `${
+                        creationDate.getMinutes() < 10 ? '0' : ''
+                    }${creationDate.getMinutes()}:`
+                    + `${
+                        creationDate.getSeconds() < 10 ? '0' : ''
+                    }${creationDate.getSeconds()}`;
 
-                    if (transaction.typeOfTransaction === 'order') {
-                        Object.assign(transaction, {
-                            createdAt: styledTime,
-                            total: `- ${transaction.total} ${this.constants.currencySymbol}`,
-                            chipColor: 'red',
-                        });
-                    } else if (transaction.typeOfTransaction === 'gift') {
-                        Object.assign(transaction, {
-                            typeOfTransaction: 'topUp',
-                            createdAt: styledTime,
-                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
-                            chipColor: 'green',
-                        });
-                    } else {
-                        Object.assign(transaction, {
-                            createdAt: styledTime,
-                            total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
-                            chipColor: 'green',
-                        });
-                    }
-                },
-            );
+                if (transaction.typeOfTransaction === 'order') {
+                    Object.assign(transaction, {
+                        createdAt: styledTime,
+                        total: `- ${transaction.total} ${this.constants.currencySymbol}`,
+                        chipColor: 'red',
+                    });
+                } else if (transaction.typeOfTransaction === 'gift') {
+                    Object.assign(transaction, {
+                        typeOfTransaction: 'topUp',
+                        createdAt: styledTime,
+                        total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
+                        chipColor: 'green',
+                    });
+                } else {
+                    Object.assign(transaction, {
+                        createdAt: styledTime,
+                        total: `+ ${transaction.total} ${this.constants.currencySymbol}`,
+                        chipColor: 'green',
+                    });
+                }
+            });
         },
     },
 };
