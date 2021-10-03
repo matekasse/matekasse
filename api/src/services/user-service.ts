@@ -116,10 +116,12 @@ export class UserService {
         let user = await userRepository.findOneOrFail(options.userID);
 
         user.name = options.name ? options.name : user.name;
-        user.isAdmin = options.isAdmin ? options.isAdmin : user.isAdmin;
-        user.isSystemUser = options.isSystemUser
-            ? options.isSystemUser
-            : user.isSystemUser;
+        user.isAdmin =
+            options.isAdmin !== undefined ? options.isAdmin : user.isAdmin;
+        user.isSystemUser =
+            options.isSystemUser !== undefined
+                ? options.isSystemUser
+                : user.isSystemUser;
         user.isDisabled =
             options.isDisabled !== undefined
                 ? options.isDisabled
