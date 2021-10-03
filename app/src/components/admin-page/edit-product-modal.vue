@@ -68,12 +68,12 @@
                             <v-row>
                                 <v-col>
                                     <v-autocomplete
-                                        v-model="editProduct.manufacturerID"
+                                        :value="selectedManufacturerNameOrUndefined"
                                         :items="manufacturerSearchItems"
                                         :search-input.sync="manufacturerSearch"
                                         @change="onManufacturerSelect"
                                         item-text="name"
-                                        item-value="id"
+                                        item-value="name"
                                         label="Manufacturer"
                                         single-line
                                     >
@@ -175,6 +175,7 @@ export default {
     },
 
     computed: {
+        ...mapState(['constants']),
         showDialog: {
             get() { return this.value; },
             set(showDialog) { this.$emit('input', showDialog); },
@@ -199,13 +200,23 @@ export default {
             return this.tags;
         },
         manufacturerSearchItems() {
-            if (this.manufacturerSearch && !this.manufacturers.includes(this.manufacturerSearch)) {
+            if (!this.manufacturerSearch) {
+                return this.manufacturers;
+            }
+
+            const manufacturerWithSearchNameExists = this.manufacturers.find(
+                manufacturer => manufacturer.name === this.manufacturerSearch,
+            );
+
+            if (!manufacturerWithSearchNameExists) {
                 return [this.manufacturerSearch, ...this.manufacturers];
             }
 
             return this.manufacturers;
         },
-        ...mapState(['constants']),
+        selectedManufacturerNameOrUndefined() {
+            return this.editProduct.manufacturer ? this.editProduct.manufacturer.name : undefined;
+        },
     },
 
     created() {
@@ -238,16 +249,20 @@ export default {
             this.isLoading = false;
         },
 
-        onManufacturerSelect(selectedTags) {
-            if (!selectedTags) return;
+        async onManufacturerSelect(selectedManufacturer) {
+            const manufacturerExists = this.manufacturers.find(
+                manufacturer => manufacturer.name === selectedManufacturer,
+            );
 
-            selectedTags.forEach((tag) => {
-                if (!this.tags.includes(tag)) {
-                    this.createNewTag(tag);
-                }
+            let manufacturerToAdd;
+            if (!manufacturerExists) {
+                manufacturerToAdd = await this.createNewManufacturer(selectedManufacturer);
+            } else {
+                manufacturerToAdd = manufacturerExists;
+            }
 
-                this.tagSearch = '';
-            });
+            this.editProduct.manufacturer = manufacturerToAdd;
+            this.editProduct.manufacturerID = manufacturerToAdd.id;
         },
 
         onTagSelect(selectedTags) {
@@ -270,13 +285,13 @@ export default {
             this.tags.push(tag);
         },
 
-        async createNewManufacturer() {
+        async createNewManufacturer(name) {
             const newManufacturer = {
-                name: this.manufacturerSearch,
+                name,
             };
-            const manufacturer = await postManufacturers(newManufacturer);
-            this.manufacturers.push(manufacturer);
-            this.editProduct.manufacturerID = manufacturer.id;
+            const createdManufacturer = await postManufacturers(newManufacturer);
+            this.manufacturers.push(createdManufacturer);
+            return createdManufacturer;
         },
 
         async save() {
