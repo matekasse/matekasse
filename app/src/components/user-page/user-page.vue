@@ -116,7 +116,9 @@ export default {
             this.$refs.form.reset();
         },
         resetValidation() {
-            this.$refs.form.resetValidation();
+            if (this.$refs.form) {
+                this.$refs.form.resetValidation();
+            }
         },
 
         editNames() {
