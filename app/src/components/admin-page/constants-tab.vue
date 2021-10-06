@@ -39,7 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { patchConstants } from '../../utils/api-connector';
+import { patchConstants, getConstants } from '@/utils/api-connector';
 
 export default {
     name: 'constants-tab',
@@ -68,7 +68,9 @@ export default {
 
     computed: mapState(['constants']),
 
-    created() {
+    async created() {
+        const constants = await getConstants();
+        this.$store.commit('changeConstants', constants);
         this.createConstantsArray();
     },
 
