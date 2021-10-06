@@ -1,18 +1,18 @@
 <template>
     <v-tabs>
-        <v-tab>
+        <v-tab id="admin-page-products">
             Products
         </v-tab>
 
-        <v-tab>
+        <v-tab id="admin-page-users">
             Users
         </v-tab>
 
-        <v-tab>
+        <v-tab id="admin-page-warehouse">
             Warehouse
         </v-tab>
 
-        <v-tab>
+        <v-tab id="admin-page-constants">
             Constants
         </v-tab>
 

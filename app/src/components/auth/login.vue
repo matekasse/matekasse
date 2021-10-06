@@ -48,6 +48,7 @@
                                 <v-spacer />
 
                                 <v-btn
+                                    id="login-registerbutton"
                                     color="blue darken-1"
                                     text
                                     @click="goToRegister"

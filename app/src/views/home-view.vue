@@ -32,7 +32,8 @@
                         </v-icon>
                     </v-list-item-action>
 
-                    <v-list-item-content>
+                    <v-list-item-content
+                    id="burger-menue-admin">
                         Admin
                     </v-list-item-content>
                 </v-list-item>
@@ -47,7 +48,8 @@
                         </v-icon>
                     </v-list-item-action>
 
-                    <v-list-item-content>
+                    <v-list-item-content
+                    id="burger-menue-profile">
                         Profile
                     </v-list-item-content>
                 </v-list-item>
@@ -62,7 +64,7 @@
 
             <v-spacer />
 
-            <span>
+            <span id="home-view-balance">
                 Balance: {{ user.balance }} {{ constants.currencySymbol }}
             </span>
 
