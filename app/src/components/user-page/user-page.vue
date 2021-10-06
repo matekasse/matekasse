@@ -22,7 +22,7 @@
             <v-card-title>
                 History
 
-                <v-spacer />
+                <v-spacer/>
 
                 <v-text-field
                     v-model="search"
