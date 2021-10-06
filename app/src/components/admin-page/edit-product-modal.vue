@@ -58,9 +58,18 @@
                                 <v-col>
                                     <v-img
                                         v-if="fileToDisplay"
-                                        height="180"
-                                        width="100"
+                                        height="200"
+                                        width="200"
+                                        :contain="true"
                                         :src="fileToDisplay"
+                                    />
+
+                                    <v-img
+                                        v-else
+                                        height="200"
+                                        width="200"
+                                        :contain="true"
+                                        :src="editProduct.picture"
                                     />
                                 </v-col>
                             </v-row>
