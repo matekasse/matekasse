@@ -3,6 +3,16 @@
 Matekasse is a project to track your current drinks and costs per user.
 It's intended usage is for shared student flats, a small club, associations or similar.
 
+Just book the drink you just got out of the fridge or coffee maker:
+![startpage](./docs/images/startpage.png)
+
+Never lose track of your spendings:
+![userpage](./docs/images/userpage.png)
+
+Easy management of users, products and your warehouse:
+![adminpage](./docs/images/adminpage1.png)
+![adminpage](./docs/images/adminpage2.png)
+![adminpage](./docs/images/adminpage3.png)
 
 ## Run the latest version
 
@@ -19,10 +29,6 @@ Currently supported are amd64, arm64 and arm/v7.
 
 You can certainly use HTTPS for this application. Simply put a reverse proxy on top of it, which handles it for you.
 We use caddy for our own deployment: `https://caddyserver.com/`
-
-## How does this programm work?
-
-The matekasse has 
 
 ## Run latest testing version
 
