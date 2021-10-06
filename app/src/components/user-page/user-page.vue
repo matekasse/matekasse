@@ -5,7 +5,7 @@
                 <v-list-item-content>
                     <v-list-item-title >
                         <span class="headline mb-1">  Username: </span>
-                        {{ user.name }}
+                        <span class="headline mb-1"> {{ user.name }} </span>
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
@@ -116,7 +116,9 @@ export default {
             this.$refs.form.reset();
         },
         resetValidation() {
-            this.$refs.form.resetValidation();
+            if (this.$refs.form) {
+                this.$refs.form.resetValidation();
+            }
         },
 
         editNames() {

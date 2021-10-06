@@ -61,6 +61,28 @@
                         </v-btn>
                     </template>
 
+                    <template v-slot:item.admin="{ item }">
+                        <v-btn
+                            v-if="item.isAdmin"
+                            color="primary"
+                            dark
+                            class="mb-2"
+                            @click="togglePromoteUserToAdmin(false, item)"
+                        >
+                            Downgrade user
+                        </v-btn>
+
+                        <v-btn
+                            v-else
+                            color="primary"
+                            dark
+                            class="mb-2"
+                            @click="togglePromoteUserToAdmin(true, item)"
+                        >
+                            Promote user to admin
+                        </v-btn>
+                    </template>
+
                     <template v-slot:item.actions="{ item }">
                         <v-btn
                             v-if="!item.isDisabled"
@@ -75,10 +97,10 @@
                         <v-btn
                             v-else
                             color="primary"
-                        dark
-                        class="mb-2"
-                        @click="toggleDisableUser(false, item)"
-                    >
+                            dark
+                            class="mb-2"
+                            @click="toggleDisableUser(false, item)"
+                        >
                         Activate User
                     </v-btn>
                 </template>
@@ -139,6 +161,11 @@ export default {
                 },
                 {
                     text: '',
+                    value: 'admin',
+                    align: 'right',
+                },
+                {
+                    text: '',
                     value: 'actions',
                     align: 'right',
                 },
@@ -189,6 +216,26 @@ export default {
                 });
             }
             this.loadUsers();
+        },
+
+        async togglePromoteUserToAdmin(event, item) {
+            const editedItem = item;
+            editedItem.isAdmin = event;
+            try {
+                await patchUser(editedItem.id, editedItem);
+                this.$notify({
+                    title: 'Success',
+                    type: 'success',
+                    text: `Updated user ${editedItem.name}`,
+                });
+            } catch (error) {
+                this.$notify({
+                    title: 'Error',
+                    type: 'error',
+                    text: error.message,
+                });
+            }
+            await this.loadUsers();
         },
 
         topupUser(user) {
