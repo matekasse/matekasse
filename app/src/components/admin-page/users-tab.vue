@@ -67,7 +67,7 @@
                             color="primary"
                             dark
                             class="mb-2"
-                            @click="togglePromoteUserToAdmin(false, item)"
+                            @click="checkAndDowngrade(item)"
                         >
                             Downgrade user
                         </v-btn>
@@ -89,7 +89,7 @@
                             color="primary"
                             dark
                             class="mb-2"
-                            @click="toggleDisableUser(true, item)"
+                            @click="checkDisable(item)"
                         >
                             Disable User
                         </v-btn>
@@ -117,6 +117,16 @@
             :user="userToTopUp"
             @userTopedUp="loadUsers"
         />
+
+        <disable-user-confirmation-modal
+            v-model="showDisableConfirmationModal"
+            v-on:confirm="confirmDisable()"
+        />
+
+        <downgrade-user-modal
+            v-model="showDowngradeConfirmationModal"
+            v-on:confirm="confirmDowngrade()"
+        />
     </div>
 </template>
 
@@ -133,8 +143,12 @@ export default {
             search: '',
             isLoading: true,
             showTopUpModal: false,
+            showDisableConfirmationModal: false,
+            showDowngradeConfirmationModal: false,
             showPasswordResetModal: false,
             userForPasswordReset: {},
+            userToBeDisabled: {},
+            userToBeDowngraded: {},
             userToTopUp: {},
             headers: [
                 {
@@ -179,6 +193,7 @@ export default {
 
     computed: {
         ...mapState(['constants']),
+        ...mapState(['user']),
     },
 
     methods: {
@@ -219,8 +234,19 @@ export default {
         },
 
         async togglePromoteUserToAdmin(event, item) {
+            const numberOfAdmins = this.getNumberOfActiveAdmins();
+            if (event === false && numberOfAdmins <= 1) {
+                this.$notify({
+                    title: 'Error',
+                    type: 'error',
+                    text: 'Cannot downgrade last admin',
+                });
+                return;
+            }
+
             const editedItem = item;
             editedItem.isAdmin = event;
+
             try {
                 await patchUser(editedItem.id, editedItem);
                 this.$notify({
@@ -246,6 +272,73 @@ export default {
         resetPassword(user) {
             this.userForPasswordReset = user;
             this.showPasswordResetModal = true;
+        },
+
+        async checkDisable(user) {
+            if (user.id === this.user.id) {
+                this.showDisableConfirmationModal = true;
+                this.userToBeDisabled = user;
+            } else {
+                await this.toggleDisableUser(true, user);
+            }
+        },
+
+        async checkAndDowngrade(user) {
+            if (user.id === this.user.id) {
+                this.showDowngradeConfirmationModal = true;
+                this.userToBeDowngraded = user;
+            } else {
+                await this.togglePromoteUserToAdmin(false, user);
+            }
+        },
+
+        getNumberOfActiveAdmins() {
+            let numberOfAdmins = 0;
+            this.users.forEach((user) => {
+                if (user.isAdmin && !user.isDisabled) {
+                    numberOfAdmins += 1;
+                }
+                return user.isAdmin;
+            });
+
+            return numberOfAdmins;
+        },
+
+        async confirmDisable() {
+            const numberOfAdmins = this.getNumberOfActiveAdmins();
+            if (numberOfAdmins > 1) {
+                await this.toggleDisableUser(true, this.userToBeDisabled);
+                this.logout();
+            } else {
+                this.$notify({
+                    title: 'Error',
+                    type: 'error',
+                    text: 'Cannot disable last admin',
+                });
+            }
+
+            this.userToBeDisabled = {};
+        },
+
+        async confirmDowngrade() {
+            const numberOfAdmins = this.getNumberOfActiveAdmins();
+            if (numberOfAdmins > 1) {
+                await this.togglePromoteUserToAdmin(false, this.userToBeDowngraded);
+                this.logout();
+            } else {
+                this.$notify({
+                    title: 'Error',
+                    type: 'error',
+                    text: 'Cannot take privileges from last admin',
+                });
+            }
+
+            this.userToBeDisabled = {};
+        },
+
+        logout() {
+            this.$store.commit('resetState');
+            this.$router.push('/');
         },
     },
 };
