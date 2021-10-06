@@ -955,4 +955,69 @@ describe("Users", () => {
         createResponse.body.user.isAdmin.should.be.eql(user.isAdmin);
         createResponse.body.user.isSystemUser.should.be.eql(user.isSystemUser);
     });
+
+    it("admin should be able to promote a user to admin and demote it afterwards", async () => {
+        const user = new User({
+            name: "NonAdminUser",
+            isAdmin: false,
+            isSystemUser: false,
+            isDisabled: false,
+            password: "1337",
+        });
+
+        const createUserResponse = await chai
+            .request(baseUrl)
+            .post("/api/users")
+            .set("Authorization", adminToken)
+            .send(user);
+        createUserResponse.should.have.status(200);
+
+        const createdUser: User = createUserResponse.body.user;
+
+        user.isAdmin = true;
+
+        const updateUserResponse = await chai
+            .request(baseUrl)
+            .patch("/api/users/" + createdUser.id)
+            .set("Authorization", adminToken)
+            .send(user);
+        updateUserResponse.should.have.status(200);
+
+        const getUpdatedResponse = await chai
+            .request(baseUrl)
+            .get("/api/users/" + createdUser.id)
+            .set("Authorization", adminToken);
+        getUpdatedResponse.should.have.status(200);
+        getUpdatedResponse.body.should.include.key("user");
+        getUpdatedResponse.body.user.should.be.a("object");
+        getUpdatedResponse.body.user.should.have.property("name");
+        getUpdatedResponse.body.user.should.have
+            .property("id")
+            .eql(createdUser.id);
+        getUpdatedResponse.body.user.should.have.property("isAdmin").eql(true);
+
+        user.isAdmin = false;
+
+        const demoteUserResponse = await chai
+            .request(baseUrl)
+            .patch("/api/users/" + createdUser.id)
+            .set("Authorization", adminToken)
+            .send(user);
+        demoteUserResponse.should.have.status(200);
+
+        const getDemoteUserResponse = await chai
+            .request(baseUrl)
+            .get("/api/users/" + createdUser.id)
+            .set("Authorization", adminToken);
+        getDemoteUserResponse.should.have.status(200);
+        getDemoteUserResponse.body.should.include.key("user");
+        getDemoteUserResponse.body.user.should.be.a("object");
+        getDemoteUserResponse.body.user.should.have.property("name");
+        getDemoteUserResponse.body.user.should.have
+            .property("id")
+            .eql(createdUser.id);
+        getDemoteUserResponse.body.user.should.have
+            .property("isAdmin")
+            .eql(false);
+    });
 });

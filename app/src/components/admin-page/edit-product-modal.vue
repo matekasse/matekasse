@@ -68,23 +68,15 @@
                             <v-row>
                                 <v-col>
                                     <v-autocomplete
-                                        v-model="editProduct.manufacturerID"
-                                        :items="manufacturers"
+                                        :value="selectedManufacturerNameOrUndefined"
+                                        :items="manufacturerSearchItems"
                                         :search-input.sync="manufacturerSearch"
+                                        @change="onManufacturerSelect"
                                         item-text="name"
-                                        item-value="id"
+                                        item-value="name"
                                         label="Manufacturer"
                                         single-line
                                     >
-                                        <template
-                                            v-slot:no-data
-                                        >
-                                            <div
-                                                @click="createNewManufacturer"
-                                            >
-                                                {{manufacturerSearch}}
-                                            </div>
-                                        </template>
                                     </v-autocomplete>
                                 </v-col>
                             </v-row>
@@ -93,23 +85,15 @@
                                 <v-col>
                                     <v-autocomplete
                                         v-model="editProduct.tags"
-                                        :items="tags"
+                                        :items="tagSearchItems"
                                         :search-input.sync="tagSearch"
+                                        @change="onTagSelect"
                                         label="tags"
                                         item-text="name"
                                         multiple
                                         chips
                                         deletable-chips
                                     >
-                                        <template
-                                            v-slot:no-data
-                                        >
-                                            <div
-                                                @click="createNewTag"
-                                            >
-                                            {{tagSearch}}
-                                        </div>
-                                    </template>
                                 </v-autocomplete>
                             </v-col>
                         </v-row>
@@ -191,6 +175,7 @@ export default {
     },
 
     computed: {
+        ...mapState(['constants']),
         showDialog: {
             get() { return this.value; },
             set(showDialog) { this.$emit('input', showDialog); },
@@ -207,7 +192,31 @@ export default {
             }
             return URL.createObjectURL(this.uploadedFile);
         },
-        ...mapState(['constants']),
+        tagSearchItems() {
+            if (this.tagSearch && !this.tags.includes(this.tagSearch)) {
+                return [this.tagSearch, ...this.tags];
+            }
+
+            return this.tags;
+        },
+        manufacturerSearchItems() {
+            if (!this.manufacturerSearch) {
+                return this.manufacturers;
+            }
+
+            const manufacturerWithSearchNameExists = this.manufacturers.find(
+                manufacturer => manufacturer.name === this.manufacturerSearch,
+            );
+
+            if (!manufacturerWithSearchNameExists) {
+                return [this.manufacturerSearch, ...this.manufacturers];
+            }
+
+            return this.manufacturers;
+        },
+        selectedManufacturerNameOrUndefined() {
+            return this.editProduct.manufacturer ? this.editProduct.manufacturer.name : undefined;
+        },
     },
 
     created() {
@@ -240,23 +249,49 @@ export default {
             this.isLoading = false;
         },
 
-        async createNewTag() {
-            if (this.tagSearch === '') {
+        async onManufacturerSelect(selectedManufacturer) {
+            const manufacturerExists = this.manufacturers.find(
+                manufacturer => manufacturer.name === selectedManufacturer,
+            );
+
+            let manufacturerToAdd;
+            if (!manufacturerExists) {
+                manufacturerToAdd = await this.createNewManufacturer(selectedManufacturer);
+            } else {
+                manufacturerToAdd = manufacturerExists;
+            }
+
+            this.editProduct.manufacturer = manufacturerToAdd;
+            this.editProduct.manufacturerID = manufacturerToAdd.id;
+        },
+
+        onTagSelect(selectedTags) {
+            if (!selectedTags) return;
+
+            selectedTags.forEach((tag) => {
+                if (!this.tags.includes(tag)) {
+                    this.createNewTag(tag);
+                }
+
+                this.tagSearch = '';
+            });
+        },
+
+        createNewTag(tag) {
+            if (tag === '') {
                 return;
             }
 
-            this.editProduct.tags.push(this.tagSearch);
-            this.tags.push(this.tagSearch);
-            this.tagSearch = '';
+            this.tags.push(tag);
         },
 
-        async createNewManufacturer() {
+        async createNewManufacturer(name) {
             const newManufacturer = {
-                name: this.manufacturerSearch,
+                name,
             };
-            const manufacturer = await postManufacturers(newManufacturer);
-            this.manufacturers.push(manufacturer);
-            this.editProduct.manufacturerID = manufacturer.id;
+            const createdManufacturer = await postManufacturers(newManufacturer);
+            this.manufacturers.push(createdManufacturer);
+            return createdManufacturer;
         },
 
         async save() {
