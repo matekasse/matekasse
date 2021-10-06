@@ -25,7 +25,7 @@ Easy management of users, products and your warehouse:
 
 Currently supported are amd64, arm64 and arm/v7.
 
-## I want to use HTTPS on this device
+## I want to use HTTPS on this application
 
 You can certainly use HTTPS for this application. Simply put a reverse proxy on top of it, which handles it for you.
 We use caddy for our own deployment: `https://caddyserver.com/`
