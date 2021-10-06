@@ -17,18 +17,18 @@ Easy management of users, products and your warehouse:
 ## Run the latest version
 
 1. Copy the `docker-compose.yml` file in this project.
-2. Edit the file to your needs. You definately want to change the `JWT_SECRET_KEY` to a save, random generated passphrase.
+2. Edit the file to your needs. You definitely want to change the `JWT_SECRET_KEY` to a save, random generated passphrase.
 3. Run `docker-compose up`.
 4. Access the frontend via `http://0.0.0.0:1337`.
 5. Log in with the default credentials (username: Admin, password: Admin)
-6. Change your Admin password immediatley!
+6. Change your Admin password immediately!
 
-Currently supported are amd64, arm64 and arm/v7.
+Currently supported architectures are amd64, arm64 and arm/v7.
 
 ## I want to use HTTPS on this application
 
 You can certainly use HTTPS for this application. Simply put a reverse proxy on top of it, which handles it for you.
-We use caddy for our own deployment: `https://caddyserver.com/`
+We use [caddy](https://caddyserver.com/) for our own deployment.
 
 ## Run latest testing version
 
