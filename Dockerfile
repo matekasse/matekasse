@@ -1,4 +1,4 @@
-FROM node:14-buster-slim as build-frontend
+FROM node:14-bullseye-slim as build-frontend
 
 RUN apt-get update && \
     apt-get upgrade -y
@@ -17,7 +17,7 @@ COPY ./app .
 RUN yarn build
 
 
-FROM node:14-buster-slim
+FROM node:14-bullseye-slim
 
 RUN apt-get update && \
     apt-get upgrade -y && \

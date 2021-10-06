@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - "yarn.lock"
+      - "Dockerfile"
   pull_request:
     branches:
       - main
     paths:
       - "yarn.lock"
+      - "Dockerfile"
 
 jobs:
   test-build-image-multiarch:
