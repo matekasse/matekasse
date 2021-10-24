@@ -3,9 +3,32 @@
 Matekasse is a project to track your current drinks and costs per user.
 It's intended usage is for shared student flats, a small club, associations or similar.
 
-## Run a stable release
+Just book the drink you just got out of the fridge or coffee maker:
+![startpage](./docs/images/startpage.png)
 
-There is no stable release yet.
+Never lose track of your spendings:
+![userpage](./docs/images/userpage.png)
+
+Easy management of users, products and your warehouse:
+![adminpage](./docs/images/adminpage1.png)
+![adminpage](./docs/images/adminpage2.png)
+![adminpage](./docs/images/adminpage3.png)
+
+## Run the latest version
+
+1. Copy the `docker-compose.yml` file in this project.
+2. Edit the file to your needs. You definitely want to change the `JWT_SECRET_KEY` to a save, random generated passphrase.
+3. Run `docker-compose up`.
+4. Access the frontend via `http://0.0.0.0:1337`.
+5. Log in with the default credentials (username: Admin, password: Admin)
+6. Change your Admin password immediately!
+
+Currently supported architectures are amd64, arm64 and arm/v7.
+
+## I want to use HTTPS on this application
+
+You can certainly use HTTPS for this application. Simply put a reverse proxy on top of it, which handles it for you.
+We use [caddy](https://caddyserver.com/) for our own deployment.
 
 ## Run latest testing version
 
@@ -14,13 +37,6 @@ This means that it contains the newest code and features but is not as tested as
 Only use it, if you know what you are doing (or if you want to open some bug issues).
 For the beste experience of matekasse use the latest stable release.
 Note: The `latest_testing` is only available for x86_64 and not for arm.
-
-## Run the latest version
-
-1. Run `docker-compose up`.
-2. Access the frontend via `http://localhost:1337`.
-
-Currently supported are amd64 (x86), arm64 and arm/v7.
 
 ## Developer getting started
 
