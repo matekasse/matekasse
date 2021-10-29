@@ -567,7 +567,7 @@ describe("Users", () => {
             .request(baseUrl)
             .post("/api/users/authorize")
             .send({ name: user.name, password: "somewrongpassword" });
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
         loginResponse.body.status.should.be.eql("wrong username or password");
     });
 
@@ -599,7 +599,7 @@ describe("Users", () => {
         loginResponse.body.status.should.be.eql(
             "Cannot log in to a systemUser account"
         );
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
     });
 
     it("user should not be allowed to log into a disabled account", async () => {
@@ -630,7 +630,7 @@ describe("Users", () => {
         loginResponse.body.status.should.be.eql(
             "Cannot log in to a disabled account"
         );
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
     });
 
     it("should get all transaction of user", async () => {
@@ -819,7 +819,8 @@ describe("Users", () => {
             .request(baseUrl)
             .post("/api/users/authorize")
             .send({ name: user.name, password: "1337" });
-        userLoginWithNewPasswordResponse.should.have.status(403);
+        console.log(userLoginWithNewPasswordResponse);
+        userLoginWithNewPasswordResponse.should.have.status(401);
     });
 
     //it("admin should be able to update a users password", async () => {

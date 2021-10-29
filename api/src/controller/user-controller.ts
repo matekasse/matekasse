@@ -110,7 +110,7 @@ export class UserController {
 
             return response.send({ status: "ok", data: token });
         } catch (error) {
-            return response.status(406).send({ status: error.message });
+            return response.status(401).send({ status: error.message });
         }
     }
 
@@ -200,15 +200,6 @@ export class UserController {
         } catch (error) {
             return response.status(404).send({ status: "User not found" });
         }
-
-        console.log(oldPassword);
-        console.log(userPasswordHash);
-        console.log(
-            await Authentication.comparePasswordWithHash(
-                oldPassword,
-                userPasswordHash
-            )
-        );
 
         if (
             !(await Authentication.comparePasswordWithHash(
