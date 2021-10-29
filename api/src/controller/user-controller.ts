@@ -183,7 +183,7 @@ export class UserController {
         response: Response,
         next: NextFunction
     ): Promise<Response> {
-        let userID: string = request.params.userID;
+        const userID: string = request.params.userID;
         const userIDasNumber: number = Number(userID);
         const verifiedUser = request.body.verifiedUser;
         const newPassword: string = request.body.newPassword;
