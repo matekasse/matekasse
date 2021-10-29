@@ -809,10 +809,10 @@ describe("Users", () => {
         updateUserPasswordResponse.should.have.status(403);
 
         const updateUserPasswordResponse2 = await chai
-        .request(baseUrl)
-        .patch("/api/users/password/" + createUserResponse.body.user.id)
-        .set("Authorization", userLoginResponse.body.data)
-        .send({ newPassword: "1337"});
+            .request(baseUrl)
+            .patch("/api/users/password/" + createUserResponse.body.user.id)
+            .set("Authorization", userLoginResponse.body.data)
+            .send({ newPassword: "1337" });
         updateUserPasswordResponse2.should.have.status(403);
 
         const userLoginWithNewPasswordResponse = await chai
@@ -830,27 +830,27 @@ describe("Users", () => {
     //        isDisabled: false,
     //        password: "N00b",
     //    });
-//
+    //
     //    const createUserResponse = await chai
     //        .request(baseUrl)
     //        .post("/api/users")
     //        .set("Authorization", adminToken)
     //        .send(user);
     //    createUserResponse.should.have.status(200);
-//
+    //
     //    const userLoginResponse = await chai
     //        .request(baseUrl)
     //        .post("/api/users/authorize")
     //        .send({ name: user.name, password: user.password });
     //    userLoginResponse.should.have.status(200);
-//
+    //
     //    const updateUserPasswordResponse = await chai
     //        .request(baseUrl)
     //        .patch("/api/users/password/" + createUserResponse.body.user.id)
     //        .set("Authorization", adminToken)
     //        .send({ password: "1337" });
     //    updateUserPasswordResponse.should.have.status(200);
-//
+    //
     //    const userLoginWithNewPasswordResponse = await chai
     //        .request(baseUrl)
     //        .post("/api/users/authorize")

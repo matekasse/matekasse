@@ -194,17 +194,27 @@ export class UserController {
         }
 
         try {
-            userPasswordHash = await UserService.getUserPasswordHashByUserID({userID})
-         } catch (error) {
+            userPasswordHash = await UserService.getUserPasswordHashByUserID({
+                userID,
+            });
+        } catch (error) {
             return response.status(404).send({ status: "User not found" });
         }
 
-        console.log(oldPassword)
-        console.log(userPasswordHash)
-        console.log(await Authentication.comparePasswordWithHash(oldPassword, userPasswordHash))
+        console.log(oldPassword);
+        console.log(userPasswordHash);
+        console.log(
+            await Authentication.comparePasswordWithHash(
+                oldPassword,
+                userPasswordHash
+            )
+        );
 
         if (
-            ! await Authentication.comparePasswordWithHash(oldPassword, userPasswordHash)
+            !(await Authentication.comparePasswordWithHash(
+                oldPassword,
+                userPasswordHash
+            ))
         ) {
             return response
                 .status(403)
