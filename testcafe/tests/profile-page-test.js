@@ -31,16 +31,16 @@ test('Change password', async t => {
         .click("#burger-menue-profile")
         .click("#profile-change-password")
         .typeText('#change-password-modal-old-password', 'Admin')
-        .typeText('#change-password-modal-new-password', 'Admin123')
-        .typeText('#change-password-modal-new-password-repeat', 'Admin123')
-        .click("#change-password-modal-change-password")
-    await t
-        .useRole(adminUserAlternative)
-        .click("#burger-menue-profile")
-        .click("#profile-change-password")
-        .typeText('#change-password-modal-old-password', 'Admin123')
         .typeText('#change-password-modal-new-password', 'Admin')
         .typeText('#change-password-modal-new-password-repeat', 'Admin')
         .click("#change-password-modal-change-password")
+    //await t
+    //    .useRole(adminUserAlternative)
+    //    .click("#burger-menue-profile")
+    //    .click("#profile-change-password")
+    //    .typeText('#change-password-modal-old-password', 'Admin123')
+    //    .typeText('#change-password-modal-new-password', 'Admin')
+    //    .typeText('#change-password-modal-new-password-repeat', 'Admin')
+    //    .click("#change-password-modal-change-password")
 
 });
