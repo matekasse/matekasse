@@ -769,7 +769,7 @@ describe("Users", () => {
             .request(baseUrl)
             .patch("/api/users/password/" + createUserResponse.body.user.id)
             .set("Authorization", userLoginResponse.body.data)
-            .send({ newPassword: "1337", oldPassword: "N00b" });
+            .send({ newPassword: "1337", oldPassword: user.password });
         updateUserPasswordResponse.should.have.status(200);
 
         const userLoginWithNewPasswordResponse = await chai
@@ -819,45 +819,44 @@ describe("Users", () => {
             .request(baseUrl)
             .post("/api/users/authorize")
             .send({ name: user.name, password: "1337" });
-        console.log(userLoginWithNewPasswordResponse);
         userLoginWithNewPasswordResponse.should.have.status(401);
     });
 
-    //it("admin should be able to update a users password", async () => {
-    //    const user = new User({
-    //        name: "BestUser",
-    //        isAdmin: false,
-    //        isSystemUser: false,
-    //        isDisabled: false,
-    //        password: "N00b",
-    //    });
-    //
-    //    const createUserResponse = await chai
-    //        .request(baseUrl)
-    //        .post("/api/users")
-    //        .set("Authorization", adminToken)
-    //        .send(user);
-    //    createUserResponse.should.have.status(200);
-    //
-    //    const userLoginResponse = await chai
-    //        .request(baseUrl)
-    //        .post("/api/users/authorize")
-    //        .send({ name: user.name, password: user.password });
-    //    userLoginResponse.should.have.status(200);
-    //
-    //    const updateUserPasswordResponse = await chai
-    //        .request(baseUrl)
-    //        .patch("/api/users/password/" + createUserResponse.body.user.id)
-    //        .set("Authorization", adminToken)
-    //        .send({ password: "1337" });
-    //    updateUserPasswordResponse.should.have.status(200);
-    //
-    //    const userLoginWithNewPasswordResponse = await chai
-    //        .request(baseUrl)
-    //        .post("/api/users/authorize")
-    //        .send({ name: user.name, password: "1337" });
-    //    userLoginWithNewPasswordResponse.should.have.status(200);
-    //});
+    it("admin should be able to update a users password", async () => {
+        const user = new User({
+            name: "BestUser",
+            isAdmin: false,
+            isSystemUser: false,
+            isDisabled: false,
+            password: "N00b",
+        });
+
+        const createUserResponse = await chai
+            .request(baseUrl)
+            .post("/api/users")
+            .set("Authorization", adminToken)
+            .send(user);
+        createUserResponse.should.have.status(200);
+
+        const userLoginResponse = await chai
+            .request(baseUrl)
+            .post("/api/users/authorize")
+            .send({ name: user.name, password: user.password });
+        userLoginResponse.should.have.status(200);
+
+        const updateUserPasswordResponse = await chai
+            .request(baseUrl)
+            .patch("/api/users/password/" + createUserResponse.body.user.id)
+            .set("Authorization", adminToken)
+            .send({ newPassword: "1337" });
+        updateUserPasswordResponse.should.have.status(200);
+
+        const userLoginWithNewPasswordResponse = await chai
+            .request(baseUrl)
+            .post("/api/users/authorize")
+            .send({ name: user.name, password: "1337" });
+        userLoginWithNewPasswordResponse.should.have.status(200);
+    });
 
     it("all transaction of user should not contain private information about other users", async () => {
         const bankUser = new User({

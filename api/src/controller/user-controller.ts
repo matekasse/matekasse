@@ -185,6 +185,7 @@ export class UserController {
     ): Promise<Response> {
         let userID: string = request.params.userID;
         const userIDasNumber: number = Number(userID);
+        const verifiedUser = request.body.verifiedUser;
         const newPassword: string = request.body.newPassword;
         const oldPassword: string = request.body.oldPassword;
         let userPasswordHash: string;
@@ -193,23 +194,27 @@ export class UserController {
             return response.status(404).send({ status: "Arguments missing" });
         }
 
-        try {
-            userPasswordHash = await UserService.getUserPasswordHashByUserID({
-                userID,
-            });
-        } catch (error) {
-            return response.status(404).send({ status: "User not found" });
-        }
+        // If requesting user is not an admin, he must provide the old password
+        if (!verifiedUser.isAdmin) {
+            try {
+                userPasswordHash =
+                    await UserService.getUserPasswordHashByUserID({
+                        userID,
+                    });
+            } catch (error) {
+                return response.status(404).send({ status: "User not found" });
+            }
 
-        if (
-            !(await Authentication.comparePasswordWithHash(
-                oldPassword,
-                userPasswordHash
-            ))
-        ) {
-            return response
-                .status(403)
-                .send({ status: "Old password not right" });
+            if (
+                !(await Authentication.comparePasswordWithHash(
+                    oldPassword,
+                    userPasswordHash
+                ))
+            ) {
+                return response
+                    .status(403)
+                    .send({ status: "Old password not right" });
+            }
         }
 
         try {
