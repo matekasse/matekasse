@@ -187,20 +187,24 @@ export class UserController {
         const userIDasNumber: number = Number(userID);
         const newPassword: string = request.body.newPassword;
         const oldPassword: string = request.body.oldPassword;
-        let user: User;
+        let userPasswordHash: string;
 
         if (newPassword === undefined) {
             return response.status(404).send({ status: "Arguments missing" });
         }
 
         try {
-            user = await UserService.getUserByID({ userID });
-        } catch (error) {
+            userPasswordHash = await UserService.getUserPasswordHashByUserID({userID})
+         } catch (error) {
             return response.status(404).send({ status: "User not found" });
         }
 
+        console.log(oldPassword)
+        console.log(userPasswordHash)
+        console.log(await Authentication.comparePasswordWithHash(oldPassword, userPasswordHash))
+
         if (
-            !Authentication.comparePasswordWithHash(oldPassword, user.password)
+            ! await Authentication.comparePasswordWithHash(oldPassword, userPasswordHash)
         ) {
             return response
                 .status(403)

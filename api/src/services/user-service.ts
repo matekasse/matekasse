@@ -92,6 +92,22 @@ export class UserService {
         }
     }
 
+    public static async getUserPasswordHashByUserID(options: {
+        userID: string;
+    }): Promise<string> {
+        const userRepository = this.getUserRepository();
+        try {
+            let user = await userRepository
+                .createQueryBuilder("user")
+                .where("user.id = :id", { id: options.userID })
+                .addSelect("user.password")
+                .getOne();
+            return user.password;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
     public static async deleteUserByID(options: {
         userID: string;
     }): Promise<void> {
