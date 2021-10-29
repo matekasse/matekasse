@@ -76,7 +76,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { notEmpty, samePassword } from '@/plugins/validation-rules';
+import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 import { changeUsersPassword } from '@/utils/api-connector';
 
 export default {
@@ -92,7 +92,7 @@ export default {
             reEnteredPassword: '',
             rulesForNewPassword: [
                 value => notEmpty(value),
-                value => samePassword(this.newPassword, value),
+                value => passwordsMatch(this.newPassword, value),
             ],
             rulesForOldPassword: [
                 value => notEmpty(value),
