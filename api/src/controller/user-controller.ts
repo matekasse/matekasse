@@ -213,7 +213,7 @@ export class UserController {
             ) {
                 return response
                     .status(403)
-                    .send({ status: "Old password not right" });
+                    .send({ status: "Old password not correct" });
             }
         }
 
