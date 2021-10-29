@@ -13,6 +13,7 @@
             <v-card-actions>
                 <v-btn color="primary" @click="editNames">Change Name</v-btn>
                 <v-btn color="primary" @click="editPassword"
+                    id="profile-change-password"
                     >Change Password</v-btn
                 >
             </v-card-actions>

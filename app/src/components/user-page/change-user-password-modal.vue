@@ -14,6 +14,7 @@
                         >
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-old-password"
                                     v-model="oldPassword"
                                     label="Old Password"
                                     validate-on-blur
@@ -25,6 +26,7 @@
 
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-new-password"
                                     v-model="newPassword"
                                     label="New Password"
                                     type="password"
@@ -35,6 +37,7 @@
 
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-new-password-repeat"
                                     v-model="reEnteredPassword"
                                     label="Re-enter New Password"
                                     type="password"
@@ -51,6 +54,7 @@
                 <v-spacer/>
 
                 <v-btn
+                    id="change-password-modal-change-password"
                     color="blue darken-1"
                     text
                     :disabled="!valid"
