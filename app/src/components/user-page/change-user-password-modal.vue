@@ -118,7 +118,8 @@ export default {
         async changePassword() {
             try {
                 const newUser = this.user;
-                newUser.password = this.newPassword;
+                newUser.newPassword = this.newPassword;
+                newUser.oldPassword = this.oldPassword;
 
                 const userResponse = await changeUsersPassword(newUser.id, newUser);
                 userResponse.password = this.newPassword;
