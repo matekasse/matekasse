@@ -33,7 +33,7 @@
         "typeorm": "0.2.38"
     },
     "scripts": {
-        "start:dev": "API_PORT=1337 ts-node --files src/index.ts",
+        "start:dev": "ENVIRONMENT=development JWT_SECRET_KEY='notsosecretdev' DATABASE_CONNECTION_URL='postgresql://mate-user:1234@127.0.0.1:5432/mate-db' API_PORT=1337 ts-node --files src/index.ts",
         "start": "ts-node --files src/index.ts",
         "build": "tsc",
         "watch": "tsc --sourceMap -w &",
