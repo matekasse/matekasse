@@ -121,7 +121,7 @@ export default {
     methods: {
         async changePassword() {
             try {
-                const newUser = this.user;
+                const newUser = Object.assign({}, this.user);
                 newUser.newPassword = this.newPassword;
                 newUser.oldPassword = this.oldPassword;
 
