@@ -188,7 +188,6 @@ export class UserController {
         const verifiedUser = request.body.verifiedUser;
         const newPassword: string = request.body.newPassword;
         const oldPassword: string = request.body.oldPassword;
-        let userPasswordHash: string;
 
         if (newPassword === undefined) {
             return response.status(404).send({ status: "Arguments missing" });
@@ -196,6 +195,7 @@ export class UserController {
 
         // If requesting user is not an admin, he must provide the old password
         if (!verifiedUser.isAdmin) {
+            let userPasswordHash: string;
             try {
                 userPasswordHash =
                     await UserService.getUserPasswordHashByUserID({
