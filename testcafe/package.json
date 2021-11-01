@@ -1,9 +1,9 @@
 {
-  "name": "testcafe-environment",
-  "version": "0.1.0",
-  "license": "MIT",
-  "dependencies": {
-    "testcafe": "^1.16.1"
-  },
-  "devDependencies": {}
+    "name": "testcafe-environment",
+    "version": "0.1.1",
+    "license": "MIT",
+    "dependencies": {
+        "testcafe": "^1.16.1"
+    },
+    "devDependencies": {}
 }
