@@ -567,7 +567,7 @@ describe("Users", () => {
             .request(baseUrl)
             .post("/api/users/authorize")
             .send({ name: user.name, password: "somewrongpassword" });
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
         loginResponse.body.status.should.be.eql("wrong username or password");
     });
 
@@ -599,7 +599,7 @@ describe("Users", () => {
         loginResponse.body.status.should.be.eql(
             "Cannot log in to a systemUser account"
         );
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
     });
 
     it("user should not be allowed to log into a disabled account", async () => {
@@ -630,7 +630,7 @@ describe("Users", () => {
         loginResponse.body.status.should.be.eql(
             "Cannot log in to a disabled account"
         );
-        loginResponse.should.have.status(406);
+        loginResponse.should.have.status(401);
     });
 
     it("should get all transaction of user", async () => {
@@ -769,7 +769,7 @@ describe("Users", () => {
             .request(baseUrl)
             .patch("/api/users/password/" + createUserResponse.body.user.id)
             .set("Authorization", userLoginResponse.body.data)
-            .send({ password: "1337" });
+            .send({ newPassword: "1337", oldPassword: user.password });
         updateUserPasswordResponse.should.have.status(200);
 
         const userLoginWithNewPasswordResponse = await chai
@@ -777,6 +777,49 @@ describe("Users", () => {
             .post("/api/users/authorize")
             .send({ name: user.name, password: "1337" });
         userLoginWithNewPasswordResponse.should.have.status(200);
+    });
+
+    it("user should not be able to update his password without correct old password", async () => {
+        const user = new User({
+            name: "BestUser",
+            isAdmin: false,
+            isSystemUser: false,
+            isDisabled: false,
+            password: "N00b",
+        });
+
+        const createUserResponse = await chai
+            .request(baseUrl)
+            .post("/api/users")
+            .set("Authorization", adminToken)
+            .send(user);
+        createUserResponse.should.have.status(200);
+
+        const userLoginResponse = await chai
+            .request(baseUrl)
+            .post("/api/users/authorize")
+            .send({ name: user.name, password: user.password });
+        userLoginResponse.should.have.status(200);
+
+        const updateUserPasswordResponse = await chai
+            .request(baseUrl)
+            .patch("/api/users/password/" + createUserResponse.body.user.id)
+            .set("Authorization", userLoginResponse.body.data)
+            .send({ newPassword: "1337", oldPassword: "wrongN00b" });
+        updateUserPasswordResponse.should.have.status(403);
+
+        const updateUserPasswordResponse2 = await chai
+            .request(baseUrl)
+            .patch("/api/users/password/" + createUserResponse.body.user.id)
+            .set("Authorization", userLoginResponse.body.data)
+            .send({ newPassword: "1337" });
+        updateUserPasswordResponse2.should.have.status(403);
+
+        const userLoginWithNewPasswordResponse = await chai
+            .request(baseUrl)
+            .post("/api/users/authorize")
+            .send({ name: user.name, password: "1337" });
+        userLoginWithNewPasswordResponse.should.have.status(401);
     });
 
     it("admin should be able to update a users password", async () => {
@@ -805,7 +848,7 @@ describe("Users", () => {
             .request(baseUrl)
             .patch("/api/users/password/" + createUserResponse.body.user.id)
             .set("Authorization", adminToken)
-            .send({ password: "1337" });
+            .send({ newPassword: "1337" });
         updateUserPasswordResponse.should.have.status(200);
 
         const userLoginWithNewPasswordResponse = await chai

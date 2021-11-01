@@ -110,7 +110,7 @@ export class UserController {
 
             return response.send({ status: "ok", data: token });
         } catch (error) {
-            return response.status(406).send({ status: error.message });
+            return response.status(401).send({ status: error.message });
         }
     }
 
@@ -183,11 +183,38 @@ export class UserController {
         response: Response,
         next: NextFunction
     ): Promise<Response> {
-        const userID: number = Number(request.params.userID);
-        const newPassword: string = request.body.password;
+        const userID: string = request.params.userID;
+        const userIDasNumber = Number(userID);
+        const verifiedUser = request.body.verifiedUser;
+        const newPassword: string = request.body.newPassword;
+        const oldPassword: string = request.body.oldPassword;
 
         if (newPassword === undefined) {
             return response.status(404).send({ status: "Arguments missing" });
+        }
+
+        // If requesting user is not an admin, he must provide the old password
+        if (!verifiedUser.isAdmin) {
+            let userPasswordHash: string;
+            try {
+                userPasswordHash =
+                    await UserService.getUserPasswordHashByUserID({
+                        userID,
+                    });
+            } catch (error) {
+                return response.status(404).send({ status: "User not found" });
+            }
+
+            if (
+                !(await Authentication.comparePasswordWithHash(
+                    oldPassword,
+                    userPasswordHash
+                ))
+            ) {
+                return response
+                    .status(403)
+                    .send({ status: "Old password not correct" });
+            }
         }
 
         try {
@@ -195,7 +222,7 @@ export class UserController {
                 newPassword
             );
             const updatedUser = await UserService.patchUserByID({
-                userID,
+                userID: userIDasNumber,
                 password: hashedPassword,
             });
 
