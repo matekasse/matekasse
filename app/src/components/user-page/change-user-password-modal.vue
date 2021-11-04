@@ -14,6 +14,7 @@
                         >
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-old-password"
                                     v-model="oldPassword"
                                     label="Old Password"
                                     validate-on-blur
@@ -25,6 +26,7 @@
 
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-new-password"
                                     v-model="newPassword"
                                     label="New Password"
                                     type="password"
@@ -35,6 +37,7 @@
 
                             <v-col>
                                 <v-text-field
+                                    id="change-password-modal-new-password-repeat"
                                     v-model="reEnteredPassword"
                                     label="Re-enter New Password"
                                     type="password"
@@ -51,6 +54,7 @@
                 <v-spacer/>
 
                 <v-btn
+                    id="change-password-modal-change-password"
                     color="blue darken-1"
                     text
                     :disabled="!valid"
@@ -72,7 +76,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { notEmpty, samePassword, validateOldPassword } from '@/plugins/validation-rules';
+import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 import { changeUsersPassword } from '@/utils/api-connector';
 
 export default {
@@ -88,11 +92,10 @@ export default {
             reEnteredPassword: '',
             rulesForNewPassword: [
                 value => notEmpty(value),
-                value => samePassword(this.newPassword, value),
+                value => passwordsMatch(this.newPassword, value),
             ],
             rulesForOldPassword: [
                 value => notEmpty(value),
-                value => validateOldPassword(this.user.password, value),
             ],
         };
     },
@@ -118,8 +121,9 @@ export default {
     methods: {
         async changePassword() {
             try {
-                const newUser = this.user;
-                newUser.password = this.newPassword;
+                const newUser = Object.assign({}, this.user);
+                newUser.newPassword = this.newPassword;
+                newUser.oldPassword = this.oldPassword;
 
                 const userResponse = await changeUsersPassword(newUser.id, newUser);
                 userResponse.password = this.newPassword;

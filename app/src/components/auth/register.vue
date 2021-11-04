@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { notEmpty, samePassword } from '@/plugins/validation-rules';
+import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 import { postUser, loginUser, getConstants } from '@/utils/api-connector';
 
 export default {
@@ -96,7 +96,7 @@ export default {
             repeatedPassword: '',
             rules: [
                 value => notEmpty(value),
-                value => samePassword(this.password, value),
+                value => passwordsMatch(this.password, value),
             ],
         };
     },
