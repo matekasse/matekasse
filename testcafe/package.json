@@ -3,7 +3,7 @@
     "version": "0.1.1",
     "license": "MIT",
     "dependencies": {
-        "testcafe": "^1.16.1"
+        "testcafe": "^1.17.0"
     },
     "devDependencies": {}
 }
