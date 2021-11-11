@@ -62,7 +62,7 @@
 
 <script>
 import { changeUsersPassword } from '@/utils/api-connector';
-import { notEmpty, samePassword } from '@/plugins/validation-rules';
+import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 
 export default {
     name: 'change-password-modal',
@@ -85,7 +85,7 @@ export default {
             repeatedPassword: '',
             rules: [
                 value => notEmpty(value),
-                value => samePassword(this.password, value),
+                value => passwordsMatch(this.password, value),
             ],
         };
     },
