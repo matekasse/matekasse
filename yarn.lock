@@ -1540,9 +1540,9 @@
     node-fetch "*"
 
 "@types/node@*", "@types/node@14.17.33", "@types/node@^12.20.10", "@types/node@^14.17.6":
-  version "14.17.33"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.33.tgz#011ee28e38dc7aee1be032ceadf6332a0ab15b12"
-  integrity sha512-noEeJ06zbn3lOh4gqe2v7NMGS33jrulfNqYFDjjEbhpDEHR5VTxgYNQSBqBlJIsBJW3uEYDgD6kvMnrrhGzq8g==
+  version "14.17.34"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.34.tgz#fe4b38b3f07617c0fa31ae923fca9249641038f0"
+  integrity sha512-USUftMYpmuMzeWobskoPfzDi+vkpe0dvcOBRNOscFrGxVp4jomnRxWuVohgqBow2xyIPC0S3gjxV/5079jhmDg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -11118,10 +11118,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeorm@0.2.40:
-  version "0.2.40"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.40.tgz#5a5168b9ad4f01b539c9a09a9fbdb65631928b32"
-  integrity sha512-F1WQKFl3opokSBNxUdX68uhD1Hpk8mgigsLtJKluI7YRs52+tsHNuaO5gLSzvjYZoLqnYc6pomsCYZMRUT2zxA==
+typeorm@0.2.41:
+  version "0.2.41"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.41.tgz#88758101ac158dc0a0a903d70eaacea2974281cc"
+  integrity sha512-/d8CLJJxKPgsnrZWiMyPI0rz2MFZnBQrnQ5XP3Vu3mswv2WPexb58QM6BEtmRmlTMYN5KFWUz8SKluze+wS9xw==
   dependencies:
     "@sqltools/formatter" "^1.2.2"
     app-root-path "^3.0.0"
