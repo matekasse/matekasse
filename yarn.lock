@@ -1412,6 +1412,13 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/busboy@*":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@types/busboy/-/busboy-0.3.1.tgz#296c56843ce5436fb919b6038c385a59ceecc0d8"
+  integrity sha512-8BPLNy4x+7lbTOGkAyUIZrrPEZ7WzbO7YlVGMf9EZi9J9mqILEkYbt/kgVWQ7fizOISo1hM/7cAsWVTa7EhQDg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/chai@4":
   version "4.2.21"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.21.tgz#9f35a5643129df132cf3b5c1ec64046ea1af0650"
@@ -1454,11 +1461,12 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.46.tgz#0fb6bfbbeabd7a30880504993369c4bf1deab1fe"
   integrity sha512-laIjwTQaD+5DukBZaygQ79K1Z0jb1bPEMRrkXSLjtCcZm+abyp5YbrqpSLzD42FwWW6gK/aS4NYpJ804nG2brg==
 
-"@types/express-fileupload@1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@types/express-fileupload/-/express-fileupload-1.1.7.tgz#9b65d323a189045ed509026f829b164eab0c070d"
-  integrity sha512-NNWCjXh2IgyNBkFBZuY6HJAZQfvBm+L/Yz6HEv2NOmKLvFytcQeRSqXOB7/UFboeyi4p00tRh6SZd4yi+gWctQ==
+"@types/express-fileupload@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/express-fileupload/-/express-fileupload-1.2.0.tgz#7037351f711cb4854e997c945bebec5dda9771cc"
+  integrity sha512-WeiI4TyG/DlYNouLacQRHN9PKLKx7Hx6JGiyTaZ2zlaEEJsScYfXzyeQkgSC0Jn+FlRha1cqAJvbjRVEjor9/Q==
   dependencies:
+    "@types/busboy" "*"
     "@types/express" "*"
 
 "@types/express-serve-static-core@*", "@types/express-serve-static-core@^4.17.18":
@@ -1540,9 +1548,9 @@
     node-fetch "*"
 
 "@types/node@*", "@types/node@14.17.33", "@types/node@^12.20.10", "@types/node@^14.17.6":
-  version "14.17.33"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.33.tgz#011ee28e38dc7aee1be032ceadf6332a0ab15b12"
-  integrity sha512-noEeJ06zbn3lOh4gqe2v7NMGS33jrulfNqYFDjjEbhpDEHR5VTxgYNQSBqBlJIsBJW3uEYDgD6kvMnrrhGzq8g==
+  version "14.17.34"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.34.tgz#fe4b38b3f07617c0fa31ae923fca9249641038f0"
+  integrity sha512-USUftMYpmuMzeWobskoPfzDi+vkpe0dvcOBRNOscFrGxVp4jomnRxWuVohgqBow2xyIPC0S3gjxV/5079jhmDg==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
