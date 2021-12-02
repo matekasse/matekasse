@@ -1,4 +1,4 @@
-FROM node:14-buster-slim as build-frontend
+FROM node:16-buster-slim as build-frontend
 
 RUN apt-get update && \
     apt-get upgrade -y
