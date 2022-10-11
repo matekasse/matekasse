@@ -150,7 +150,7 @@ export class ProductService {
 
         try {
             transactions = await transactionRepository.find({
-                where: { product: productToDelete },
+                where: { product: { id: productToDelete.id } },
             });
         } catch (error) {
             throw new Error("Could not load transactions");
@@ -158,7 +158,7 @@ export class ProductService {
 
         try {
             warehouseTransactions = await warehouseTransactionRepository.find({
-                where: { product: productToDelete },
+                where: { product: { id: productToDelete.id } },
             });
         } catch (error) {
             throw new Error("Could not load warehouseTransactions");

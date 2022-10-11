@@ -105,9 +105,9 @@ export class WarehouseTransactionService {
         const warehouseTransactionRepository =
             this.getWarehouseTransactionRepository();
         try {
-            return await warehouseTransactionRepository.findOneOrFail(
-                options.warehouseTransactionID
-            );
+            return await warehouseTransactionRepository.findOneOrFail({
+                where: { id: Number(options.warehouseTransactionID) },
+            });
         } catch (error) {
             throw new Error("No warehouseTransaction found");
         }

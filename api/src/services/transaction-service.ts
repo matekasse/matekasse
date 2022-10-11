@@ -54,8 +54,8 @@ export class TransactionService {
         try {
             transactions = await transactionRepository.find({
                 where: [
-                    { fromUser: options.user.id },
-                    { toUser: options.user.id },
+                    { fromUser: { id: options.user.id } },
+                    { toUser: { id: options.user.id } },
                 ],
                 order: {
                     id: "DESC",
