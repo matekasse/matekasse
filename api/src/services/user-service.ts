@@ -86,11 +86,13 @@ export class UserService {
     }): Promise<User> {
         const userRepository = this.getUserRepository();
         try {
-            return await userRepository.findOneOrFail({
+            let user = await userRepository.findOneOrFail({
                 where: { id: Number(options.userID) },
             });
+
+            return user;
         } catch (error) {
-            throw new Error();
+            throw new Error("User user not found");
         }
     }
 
@@ -99,14 +101,13 @@ export class UserService {
     }): Promise<string> {
         const userRepository = this.getUserRepository();
         try {
-            let user = await userRepository
-                .createQueryBuilder("user")
-                .where("user.id = :id", { id: options.userID })
-                .addSelect("user.password")
-                .getOne();
+            let user = await userRepository.findOneOrFail({
+                where: { id: Number(options.userID) },
+                select: { password: true },
+            });
             return user.password;
         } catch (error) {
-            throw new Error(error);
+            throw new Error("User user not found");
         }
     }
 
@@ -131,9 +132,15 @@ export class UserService {
         password?: string;
     }): Promise<User> {
         const userRepository = this.getUserRepository();
-        let user = await userRepository.findOneOrFail({
-            where: { id: Number(options.userID) },
-        });
+        let user: User;
+
+        try {
+            user = await userRepository.findOneOrFail({
+                where: { id: Number(options.userID) },
+            });
+        } catch (error) {
+            throw new Error("User user not found");
+        }
 
         user.name = options.name ? options.name : user.name;
         user.isAdmin =
@@ -185,11 +192,11 @@ export class UserService {
         }
     }
 
-    public static async isAdmin(userID: number): Promise<boolean> {
+    public static async isAdmin(userID: string): Promise<boolean> {
         const userRepository = this.getUserRepository();
         try {
             const foundUser = await userRepository.findOneOrFail({
-                where: { id: userID },
+                where: { id: Number(userID) },
             });
             if (foundUser.isAdmin === false) {
                 return false;

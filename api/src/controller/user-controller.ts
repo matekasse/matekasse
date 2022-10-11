@@ -193,7 +193,7 @@ export class UserController {
             return response.status(404).send({ status: "Arguments missing" });
         }
 
-        // If requesting user is not an admin, he must provide the old password
+        // If requesting user is not an admin, the user must provide the old password
         if (!verifiedUser.isAdmin) {
             let userPasswordHash: string;
             try {
