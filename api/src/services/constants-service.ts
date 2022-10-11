@@ -57,7 +57,7 @@ export class ConstantsService {
         const constantsRepository = this.getConstantsRepository();
         let constants: Constants;
         try {
-            constants = await constantsRepository.findOneOrFail(1);
+            constants = await constantsRepository.findOneOrFail({});
         } catch (error) {
             throw new Error("Error getting constants. Do they exist?");
         }

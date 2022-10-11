@@ -26,9 +26,12 @@ export class TransactionService {
             if (transaction.stornoOfTransactionID !== null) {
                 try {
                     transaction.stornoOfTransaction =
-                        await transactionRepository.findOneOrFail(
-                            transaction.stornoOfTransactionID
-                        );
+                        await transactionRepository.findOneOrFail({
+                            where: {
+                                stornoOfTransactionID:
+                                    transaction.stornoOfTransactionID,
+                            },
+                        });
                 } catch (error) {
                     throw new Error(
                         "Something went wrong while getting all transactions"
@@ -69,9 +72,12 @@ export class TransactionService {
             if (transaction.stornoOfTransactionID !== null) {
                 try {
                     transaction.stornoOfTransaction =
-                        await transactionRepository.findOneOrFail(
-                            transaction.stornoOfTransactionID
-                        );
+                        await transactionRepository.findOneOrFail({
+                            where: {
+                                stornoOfTransactionID:
+                                    transaction.stornoOfTransactionID,
+                            },
+                        });
                 } catch (error) {
                     throw new Error("Could not load all transactions.");
                 }
@@ -298,14 +304,18 @@ export class TransactionService {
         const transactionRepository = this.getTransactionRepository();
         let transaction: Transaction;
         try {
-            transaction = await transactionRepository.findOneOrFail(
-                options.transactionID
-            );
+            transaction = await transactionRepository.findOneOrFail({
+                where: {
+                    id: Number(options.transactionID),
+                },
+            });
             if (transaction.stornoOfTransactionID !== null) {
                 transaction.stornoOfTransaction =
-                    await transactionRepository.findOneOrFail(
-                        transaction.stornoOfTransactionID
-                    );
+                    await transactionRepository.findOneOrFail({
+                        where: {
+                            id: Number(transaction.stornoOfTransactionID),
+                        },
+                    });
             }
         } catch (error) {
             throw new Error("Could not load all transactions.");

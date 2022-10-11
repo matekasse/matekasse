@@ -20,7 +20,11 @@ export class TagService {
 
     public static async upsertTag(options: { name: string }) {
         const tagRepository = this.getTagRepository();
-        let foundTag = await tagRepository.findOne(options);
+        let foundTag = await tagRepository.findOne({
+            where: {
+                name: options.name,
+            },
+        });
 
         try {
             if (!foundTag) {
@@ -36,7 +40,9 @@ export class TagService {
     public static async getTagByID(options: { tagID: string }): Promise<Tag> {
         const tagRepository = this.getTagRepository();
         try {
-            return await tagRepository.findOneOrFail(options.tagID);
+            return await tagRepository.findOneOrFail({
+                where: { id: Number(options.tagID) },
+            });
         } catch (error) {
             throw new Error();
         }
@@ -45,7 +51,11 @@ export class TagService {
     public static async deleteTag(options: { tagID: string }): Promise<Tag> {
         const tagRepository = this.getTagRepository();
         try {
-            const tag: Tag = await tagRepository.findOneOrFail(options.tagID);
+            const tag: Tag = await tagRepository.findOneOrFail({
+                where: {
+                    id: Number(options.tagID),
+                },
+            });
 
             return await tagRepository.remove(tag);
         } catch (error) {
@@ -59,7 +69,11 @@ export class TagService {
     }): Promise<Tag> {
         const tagRepository = this.getTagRepository();
         try {
-            const tag: Tag = await tagRepository.findOneOrFail(options.tagID);
+            const tag: Tag = await tagRepository.findOneOrFail({
+                where: {
+                    id: Number(options.tagID),
+                },
+            });
             tag.name = options.name;
             tag.updatedAt = String(Date.now());
 

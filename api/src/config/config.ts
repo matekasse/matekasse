@@ -1,4 +1,4 @@
-import { ConnectionOptions } from "typeorm";
+import { DataSourceOptions } from "typeorm";
 import { Constants } from "../entity/constants";
 import { Manufacturer } from "../entity/manufacturer";
 import { Product } from "../entity/product";
@@ -41,7 +41,7 @@ export class Config {
         return false;
     }
 
-    public getOrmConfiguration(): ConnectionOptions {
+    public getOrmConfiguration(): DataSourceOptions {
         return {
             type: "postgres",
             url: this.databaseConnectionUrl,
@@ -58,9 +58,6 @@ export class Config {
             synchronize: false,
             migrationsRun: this.runMigrations(),
             logging: [],
-            cli: {
-                migrationsDir: "src/migrations",
-            },
         };
     }
 }

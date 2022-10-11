@@ -11,17 +11,17 @@ export class UserService {
     public static async getRealUsers() {
         const userRepository = this.getUserRepository();
 
-        return await userRepository.find({ isSystemUser: false });
+        return await userRepository.find({ where: { isSystemUser: false } });
     }
     public static async getSystemUsers() {
         const userRepository = this.getUserRepository();
 
-        return await userRepository.find({ isSystemUser: true });
+        return await userRepository.find({ where: { isSystemUser: true } });
     }
     public static async getAdminUsers() {
         const userRepository = this.getUserRepository();
 
-        return await userRepository.find({ isAdmin: true });
+        return await userRepository.find({ where: { isAdmin: true } });
     }
 
     public static async createNewUser(options: {
@@ -86,7 +86,9 @@ export class UserService {
     }): Promise<User> {
         const userRepository = this.getUserRepository();
         try {
-            return await userRepository.findOneOrFail(options.userID);
+            return await userRepository.findOneOrFail({
+                where: { id: Number(options.userID) },
+            });
         } catch (error) {
             throw new Error();
         }
@@ -129,7 +131,9 @@ export class UserService {
         password?: string;
     }): Promise<User> {
         const userRepository = this.getUserRepository();
-        let user = await userRepository.findOneOrFail(options.userID);
+        let user = await userRepository.findOneOrFail({
+            where: { id: Number(options.userID) },
+        });
 
         user.name = options.name ? options.name : user.name;
         user.isAdmin =
@@ -151,7 +155,9 @@ export class UserService {
     public static async getBankUser(): Promise<User> {
         const userRepository = this.getUserRepository();
         try {
-            return await userRepository.findOneOrFail({ name: "Bank" });
+            return await userRepository.findOneOrFail({
+                where: { name: "Bank" },
+            });
         } catch (error) {
             throw new Error("Bank user not found");
         }
@@ -160,7 +166,9 @@ export class UserService {
     public static async getWarehouseUser(): Promise<User> {
         const userRepository = this.getUserRepository();
         try {
-            return await userRepository.findOneOrFail({ name: "Warehouse" });
+            return await userRepository.findOneOrFail({
+                where: { name: "Warehouse" },
+            });
         } catch (error) {
             throw new Error("Warehouse user not found");
         }
@@ -169,7 +177,9 @@ export class UserService {
     public static async getCashUser(): Promise<User> {
         const userRepository = this.getUserRepository();
         try {
-            return await userRepository.findOneOrFail({ name: "Cash" });
+            return await userRepository.findOneOrFail({
+                where: { name: "Cash" },
+            });
         } catch (error) {
             throw new Error("Cash user not found");
         }
@@ -179,7 +189,7 @@ export class UserService {
         const userRepository = this.getUserRepository();
         try {
             const foundUser = await userRepository.findOneOrFail({
-                id: userID,
+                where: { id: userID },
             });
             if (foundUser.isAdmin === false) {
                 return false;
