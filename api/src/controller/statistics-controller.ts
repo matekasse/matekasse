@@ -14,7 +14,7 @@ export class StatisticsController {
                 userId: userID,
             });
             response.status(200).send({
-                statistics: JSON.stringify(Array.from(statistics.entries())),
+                statistics: statistics,
             });
         } catch (error) {
             response.status(500).send({ status: "Could not load statistics" });
@@ -28,10 +28,9 @@ export class StatisticsController {
         try {
             const statistics = await StatisticsService.getOverallStatistics();
             response.status(200).send({
-                statistics: JSON.stringify(Array.from(statistics.entries())),
+                statistics: statistics,
             });
         } catch (error) {
-            console.log(error);
             response.status(500).send({ status: "Could not load statistics" });
         }
     }

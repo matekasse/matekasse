@@ -2,10 +2,15 @@ import { Transaction } from "../entity/transaction";
 import { TransactionService } from "./transaction-service";
 import { UserService } from "./user-service";
 
+export interface StatisticEntry {
+    Name: string;
+    Counter: number;
+}
+
 export class StatisticsService {
     public static async getStatisticsForUser(options: {
         userId: string;
-    }): Promise<Map<string, number>> {
+    }): Promise<Array<StatisticEntry>> {
         const user = await UserService.getUserByID({ userID: options.userId });
         const transactionsOfUser =
             await TransactionService.getAllTransactionsForUser({ user: user });
@@ -13,7 +18,7 @@ export class StatisticsService {
         return this.getStatistics(transactionsOfUser);
     }
 
-    public static async getOverallStatistics(): Promise<Map<string, number>> {
+    public static async getOverallStatistics(): Promise<Array<StatisticEntry>> {
         const transactions = await TransactionService.getAllTransactions();
 
         return this.getStatistics(transactions);
@@ -21,7 +26,7 @@ export class StatisticsService {
 
     public static async getStatistics(
         transactions: Transaction[]
-    ): Promise<Map<string, number>> {
+    ): Promise<Array<StatisticEntry>> {
         let statistics = new Map<string, number>();
 
         await Promise.all(
@@ -41,6 +46,14 @@ export class StatisticsService {
             })
         );
 
-        return statistics;
+        let stats: Array<StatisticEntry> = [];
+        statistics.forEach((value: number, key: string) => {
+            stats.push({
+                Name: key,
+                Counter: value,
+            });
+        });
+
+        return stats;
     }
 }
