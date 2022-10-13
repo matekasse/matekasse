@@ -38,3 +38,7 @@ export {
     getWarehouseTransactions,
     postWarehouseTransactions,
 } from './warehouse-transactions';
+
+export {
+    getStatistics,
+} from './statistics';
