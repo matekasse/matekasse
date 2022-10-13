@@ -35,4 +35,3 @@ globalRouter.use(
 );
 globalRouter.use("/constants", Authentication.verifyAccess, constantsRouter);
 globalRouter.use("/statistics", Authentication.verifyAccess, statisticsRouter);
-// globalRouter.use("/statistics", statisticsRouter);
