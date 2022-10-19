@@ -57,9 +57,11 @@ export class ManufacturerService {
         const manufacturerRepository = this.getManufacturerRepository();
         let manufacturer: Manufacturer;
         try {
-            manufacturer = await manufacturerRepository.findOneOrFail(
-                options.manufacturerID
-            );
+            manufacturer = await manufacturerRepository.findOneOrFail({
+                where: {
+                    id: Number(options.manufacturerID),
+                },
+            });
         } catch (error) {
             throw new Error(error);
         }

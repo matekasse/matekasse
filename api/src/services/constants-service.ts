@@ -55,26 +55,30 @@ export class ConstantsService {
         currencySymbol?: string;
     }): Promise<Constants> {
         const constantsRepository = this.getConstantsRepository();
-        let constants: Constants;
+        let constants: Constants[];
         try {
-            constants = await constantsRepository.findOneOrFail(1);
+            constants = await constantsRepository.find({ take: 1 });
         } catch (error) {
             throw new Error("Error getting constants. Do they exist?");
         }
 
-        try {
-            constants.stornoTime = options.stornoTime
-                ? options.stornoTime
-                : constants.stornoTime;
-            constants.crateDeposit = options.crateDeposit
-                ? options.crateDeposit
-                : constants.crateDeposit;
-            constants.currencySymbol = options.currencySymbol
-                ? options.currencySymbol
-                : constants.currencySymbol;
-            constants.updatedAt = String(Date.now());
+        if (constants.length != 1) {
+            throw new Error("Error getting constants. Do they exist?");
+        }
 
-            return await constantsRepository.save(constants);
+        try {
+            constants[0].stornoTime = options.stornoTime
+                ? options.stornoTime
+                : constants[0].stornoTime;
+            constants[0].crateDeposit = options.crateDeposit
+                ? options.crateDeposit
+                : constants[0].crateDeposit;
+            constants[0].currencySymbol = options.currencySymbol
+                ? options.currencySymbol
+                : constants[0].currencySymbol;
+            constants[0].updatedAt = String(Date.now());
+
+            return await constantsRepository.save(constants[0]);
         } catch (error) {
             throw new Error(error);
         }

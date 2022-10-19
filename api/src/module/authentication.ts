@@ -47,7 +47,7 @@ export class Authentication {
                 return true;
             }
             return false;
-        } catch (e) {
+        } catch (error) {
             return false;
         }
     }
@@ -130,8 +130,8 @@ export class Authentication {
         res: Response,
         next: NextFunction
     ): Promise<any> {
-        const verifiedUserID = req.body.verifiedUserID;
-        const userIDtoEdit = req.params.userID;
+        const verifiedUserID: string = req.body.verifiedUserID;
+        const userIDtoEdit: string = req.params.userID;
 
         if (!userIDtoEdit) {
             return res.status(403).send({ status: "Not allowed to access" });
@@ -154,7 +154,9 @@ export class Authentication {
         }
 
         try {
-            const foundUser = await UserService.getUserByID(verifiedUserID);
+            const foundUser = await UserService.getUserByID({
+                userID: verifiedUserID,
+            });
 
             if (!foundUser) {
                 return res

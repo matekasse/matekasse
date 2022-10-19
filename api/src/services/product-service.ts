@@ -21,7 +21,11 @@ export class ProductService {
     public static async getActiveProducts() {
         const productRepository = this.getProductRepository();
 
-        return await productRepository.find({ isDisabled: false });
+        return await productRepository.find({
+            where: {
+                isDisabled: false,
+            },
+        });
     }
 
     public static async createProduct(options: {
@@ -113,9 +117,11 @@ export class ProductService {
     }): Promise<Product> {
         const productRepository = this.getProductRepository();
         try {
-            const product = await productRepository.findOneOrFail(
-                options.productID
-            );
+            const product = await productRepository.findOneOrFail({
+                where: {
+                    id: Number(options.productID),
+                },
+            });
 
             return product;
         } catch (error) {
@@ -133,16 +139,18 @@ export class ProductService {
         let productToDelete: Product;
 
         try {
-            productToDelete = await productRepository.findOneOrFail(
-                options.productID
-            );
+            productToDelete = await productRepository.findOneOrFail({
+                where: {
+                    id: Number(options.productID),
+                },
+            });
         } catch (error) {
             throw new Error("Could not load product");
         }
 
         try {
             transactions = await transactionRepository.find({
-                where: { product: options.productID },
+                where: { product: { id: productToDelete.id } },
             });
         } catch (error) {
             throw new Error("Could not load transactions");
@@ -150,7 +158,7 @@ export class ProductService {
 
         try {
             warehouseTransactions = await warehouseTransactionRepository.find({
-                where: { product: options.productID },
+                where: { product: { id: productToDelete.id } },
             });
         } catch (error) {
             throw new Error("Could not load warehouseTransactions");
@@ -212,7 +220,9 @@ export class ProductService {
             }
         }
         try {
-            product = await productRepository.findOneOrFail(options.productID);
+            product = await productRepository.findOneOrFail({
+                where: { id: Number(options.productID) },
+            });
         } catch (error) {
             throw new Error("No product found");
         }
@@ -264,7 +274,9 @@ export class ProductService {
 
         try {
             foundProduct = await productRepository.findOneOrFail({
-                id: options.productID,
+                where: {
+                    id: Number(options.productID),
+                },
             });
         } catch (error) {
             throw new Error("No product found");
