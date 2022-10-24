@@ -8,6 +8,7 @@ import { transactionRouter } from "./transaction-router";
 import { manufacturerRouter } from "./manufacturer-router";
 import { constantsRouter } from "./constants-router";
 import { Authentication } from "../module/authentication";
+import { statisticsRouter } from "./statistics.router";
 
 /** Variables */
 export const globalRouter: Router = Router({ mergeParams: true });
@@ -33,3 +34,4 @@ globalRouter.use(
     transactionRouter
 );
 globalRouter.use("/constants", Authentication.verifyAccess, constantsRouter);
+globalRouter.use("/statistics", Authentication.verifyAccess, statisticsRouter);

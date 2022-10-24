@@ -23,7 +23,7 @@ export class Transaction {
     @Column()
     amountOfMoneyInCents: number;
 
-    @ManyToOne((type) => Product, { nullable: true, eager: true })
+    @ManyToOne((type) => Product, { nullable: false, eager: true })
     product: Product;
 
     // Own implemented lazy loading

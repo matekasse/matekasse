@@ -16,6 +16,10 @@
             Constants
         </v-tab>
 
+        <v-tab id="admin-page-statistics">
+            Statistics
+        </v-tab>
+
         <v-tab-item>
             <product-tab/>
         </v-tab-item>
@@ -30,6 +34,10 @@
 
         <v-tab-item>
             <constants-tab/>
+        </v-tab-item>
+
+        <v-tab-item>
+            <statistics-tab/>
         </v-tab-item>
     </v-tabs>
 </template>
