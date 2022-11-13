@@ -84,6 +84,7 @@
 
 <script>
 import { getProducts, getTags } from '@/api-connectors/api-connector';
+import { displayErrorNotification } from '@/utils/notifications';
 
 export default {
     name: 'product-list',
@@ -116,11 +117,7 @@ export default {
                 this.filteredProducts = this.allProducts;
                 this.sortFilteredProducts();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 
@@ -129,11 +126,7 @@ export default {
             try {
                 this.tags = await getTags();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
 
             this.isLoading = false;

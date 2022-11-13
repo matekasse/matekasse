@@ -78,6 +78,7 @@
 import { mapState } from 'vuex';
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 import { changeUsersPassword } from '@/api-connectors/api-connector';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'change-user-password-modal',
@@ -129,19 +130,11 @@ export default {
                 userResponse.password = this.newPassword;
                 this.$store.commit('initUser', userResponse);
 
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: 'Updated password',
-                });
+                displaySuccessNotification('Updated password');
 
                 this.close();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 

@@ -63,6 +63,7 @@
 <script>
 import { changeUsersPassword } from '@/api-connectors/api-connector';
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'change-password-modal',
@@ -105,11 +106,7 @@ export default {
                     userWithUpdatedPassword.password = this.password;
                     await changeUsersPassword(this.user.id, userWithUpdatedPassword);
 
-                    this.$notify({
-                        title: 'Success',
-                        type: 'success',
-                        text: `${this.user.name}'s password was reset`,
-                    });
+                    displaySuccessNotification(`${this.user.name}'s password was reset`);
 
                     this.showDialog = false;
                     setTimeout(() => {
@@ -117,11 +114,7 @@ export default {
                         this.repeatedPassword = '';
                     }, 300);
                 } catch (error) {
-                    this.$notify({
-                        title: 'Error',
-                        type: 'error',
-                        text: error.message,
-                    });
+                    displayErrorNotification(error.message);
                 }
             }
         },

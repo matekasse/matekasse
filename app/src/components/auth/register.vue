@@ -84,6 +84,7 @@
 <script>
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 import { postUser, loginUser, getConstants } from '@/api-connectors/api-connector';
+import { displayErrorNotification } from '@/utils/notifications';
 
 export default {
     name: 'register',
@@ -127,11 +128,7 @@ export default {
                     this.$router.push('/menu');
                 }
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 

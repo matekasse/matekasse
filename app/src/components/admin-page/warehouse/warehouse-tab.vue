@@ -53,6 +53,8 @@
 <script>
 import { getWarehouseTransactions } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
+import { displayErrorNotification } from '@/utils/notifications';
+
 
 export default {
     name: 'warehouse-tab',
@@ -110,11 +112,7 @@ export default {
             try {
                 this.warehouseTransactions = await getWarehouseTransactions();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
 
             this.warehouseTransactions.forEach(

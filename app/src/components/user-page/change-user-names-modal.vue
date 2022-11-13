@@ -52,6 +52,7 @@
 
 <script>
 import { patchUser } from '@/api-connectors/api-connector';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'change-user-names-modal',
@@ -98,18 +99,12 @@ export default {
             try {
                 const updatedUser = await patchUser(this.defaultUser.id, this.defaultUser);
                 this.$store.commit('changeUser', updatedUser);
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: 'Updated profile',
-                });
+
+                displaySuccessNotification('Updated profile');
+
                 this.showDialog = false;
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 

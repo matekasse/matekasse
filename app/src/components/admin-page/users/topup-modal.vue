@@ -54,7 +54,7 @@
 import { isNumber, isPositive } from '@/plugins/validation-rules';
 import { getUsers, postTransaction } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
-
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'topup-dialog',
@@ -119,17 +119,9 @@ export default {
 
                 this.$emit('userTopedUp', this.user);
 
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `${this.user.name}'s balance got topped up`,
-                });
+                displaySuccessNotification(`${this.user.name}'s balance got topped up`);
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
 
             this.showDialog = false;

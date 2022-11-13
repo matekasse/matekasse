@@ -133,6 +133,7 @@
 <script>
 import { getUsers, patchUser } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'users-tab',
@@ -202,11 +203,7 @@ export default {
             try {
                 this.users = await getUsers();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             this.users.sort((userA, userB) => userA.name.toLowerCase() > userB.name.toLowerCase());
             this.isLoading = false;
@@ -218,17 +215,9 @@ export default {
             editedItem.isDisabled = event;
             try {
                 await patchUser(editedItem.id, editedItem);
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `Updated user ${editedItem.name}`,
-                });
+                displaySuccessNotification(`Updated user ${editedItem.name}`);
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             this.loadUsers();
         },
@@ -236,11 +225,7 @@ export default {
         async togglePromoteUserToAdmin(event, item) {
             const numberOfAdmins = this.getNumberOfActiveAdmins();
             if (event === false && numberOfAdmins <= 1) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: 'Cannot downgrade last admin',
-                });
+                displayErrorNotification('Cannot downgrade last admin');
                 return;
             }
 
@@ -249,17 +234,9 @@ export default {
 
             try {
                 await patchUser(editedItem.id, editedItem);
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `Updated user ${editedItem.name}`,
-                });
+                displaySuccessNotification(`Updated user ${editedItem.name}`);
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             await this.loadUsers();
         },
@@ -310,11 +287,7 @@ export default {
                 await this.toggleDisableUser(true, this.userToBeDisabled);
                 this.logout();
             } else {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: 'Cannot disable last admin',
-                });
+                displayErrorNotification('Cannot disable last admin');
             }
 
             this.userToBeDisabled = {};
@@ -326,11 +299,7 @@ export default {
                 await this.togglePromoteUserToAdmin(false, this.userToBeDowngraded);
                 this.logout();
             } else {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: 'Cannot take privileges from last admin',
-                });
+                displayErrorNotification('Cannot take privileges from last admin');
             }
 
             this.userToBeDisabled = {};

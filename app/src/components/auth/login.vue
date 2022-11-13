@@ -78,6 +78,7 @@
 import jwt from 'jsonwebtoken';
 import { notEmpty } from '@/plugins/validation-rules';
 import { loginUser, getUserById, getConstants } from '@/api-connectors/api-connector';
+import { displayErrorNotification } from '@/utils/notifications';
 
 export default {
     name: 'login',
@@ -114,11 +115,7 @@ export default {
                     this.$router.push('/menu');
                 }
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 
