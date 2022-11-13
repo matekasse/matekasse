@@ -137,7 +137,7 @@
 <script>
 import {
     getTags, getManufacturers, postManufacturers, postProduct, patchProduct, postPictureToProduct,
-} from '@/utils/api-connector';
+} from '@/api-connectors/api-connector';
 import {
     isNumber, notEmpty, atLeastZero, maxFileSize,
 } from '@/plugins/validation-rules';
@@ -310,6 +310,7 @@ export default {
                     (this.editProduct.bottleDeposit * 100).toFixed(),
                 );
                 delete this.editProduct.picture;
+
                 let createdProduct;
                 if (this.editMode === false) {
                     createdProduct = await postProduct(this.editProduct);

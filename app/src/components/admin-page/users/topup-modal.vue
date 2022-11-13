@@ -52,7 +52,7 @@
 
 <script>
 import { isNumber, isPositive } from '@/plugins/validation-rules';
-import { getUsers, postTransaction } from '@/utils/api-connector';
+import { getUsers, postTransaction } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
 
 

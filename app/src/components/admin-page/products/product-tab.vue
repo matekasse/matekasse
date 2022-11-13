@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { getProducts, deleteProduct } from '@/utils/api-connector';
+import { getProducts, deleteProduct } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
 
 export default {

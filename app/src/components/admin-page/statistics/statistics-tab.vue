@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getStatistics } from '@/utils/api-connector';
+import { getStatistics } from '@/api-connectors/api-connector';
 
 export default {
     name: 'product-tab',

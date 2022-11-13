@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getWarehouseTransactions } from '@/utils/api-connector';
+import { getWarehouseTransactions } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
 
 export default {
@@ -123,6 +123,8 @@ export default {
                     totalDeposit: (warehouseTransaction.totalDepositInCents / 100).toFixed(2),
                 }),
             );
+
+            // sort by newest
             this.warehouseTransactions.sort(
                 (transactionA, transactionB) => transactionA.createdAt < transactionB.createdAt,
             );

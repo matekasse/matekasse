@@ -100,7 +100,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getProducts, postWarehouseTransactions } from '@/utils/api-connector';
+import { getProducts, postWarehouseTransactions } from '@/api-connectors/api-connector';
 import {
     isNumber, notEmpty, atLeastZero, isPositive,
 } from '@/plugins/validation-rules';
@@ -176,6 +176,7 @@ export default {
             this.isLoading = true;
             try {
                 this.products = await getProducts();
+                // sort alphabetically
                 this.products.sort(
                     (productA, productB) => productA.name.toLowerCase()
                     > productB.name.toLowerCase(),

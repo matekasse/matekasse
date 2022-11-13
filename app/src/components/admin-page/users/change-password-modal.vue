@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { changeUsersPassword } from '@/utils/api-connector';
+import { changeUsersPassword } from '@/api-connectors/api-connector';
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
 
 export default {

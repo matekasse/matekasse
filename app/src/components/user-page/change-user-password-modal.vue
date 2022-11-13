@@ -77,7 +77,7 @@
 <script>
 import { mapState } from 'vuex';
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
-import { changeUsersPassword } from '@/utils/api-connector';
+import { changeUsersPassword } from '@/api-connectors/api-connector';
 
 export default {
     name: 'change-user-password-modal',
@@ -135,13 +135,7 @@ export default {
                     text: 'Updated password',
                 });
 
-                this.showDialog = false;
-                setTimeout(() => {
-                    this.oldPassword = '';
-                    this.newPassword = '';
-                    this.reEnteredPassword = '';
-                    this.$refs.form.reset();
-                }, 300);
+                this.close();
             } catch (error) {
                 this.$notify({
                     title: 'Error',
@@ -161,6 +155,10 @@ export default {
 
         close() {
             this.showDialog = false;
+            this.clearFields();
+        },
+
+        clearFields() {
             setTimeout(() => {
                 this.oldPassword = '';
                 this.newPassword = '';

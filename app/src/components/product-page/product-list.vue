@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { getProducts, getTags } from '@/utils/api-connector';
+import { getProducts, getTags } from '@/api-connectors/api-connector';
 
 export default {
     name: 'product-list',
@@ -140,6 +140,7 @@ export default {
         },
 
         async filter() {
+            // filter by tags
             let products;
             if (this.selectedTags.length > 0) {
                 products = this.allProducts.filter(
@@ -153,6 +154,7 @@ export default {
                 return;
             }
 
+            // filter search string
             this.filteredProducts = products.filter((product) => {
                 const searchstring = new RegExp(this.search, 'i');
                 if (product.name.match(searchstring)
@@ -170,6 +172,7 @@ export default {
                 return;
             }
 
+            // sort alphabetically by name and put products with empty stock in the back
             this.filteredProducts.sort((productA, productB) => {
                 if (productA.stock !== 0 && productB.stock !== 0) {
                     return productA.name.toLowerCase() > productB.name.toLowerCase();
