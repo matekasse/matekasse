@@ -104,6 +104,8 @@ import { getProducts, postWarehouseTransactions } from '@/api-connectors/api-con
 import {
     isNumber, notEmpty, atLeastZero, isPositive,
 } from '@/plugins/validation-rules';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
+
 
 export default {
     name: 'create-warehouse-transaction-modal',
@@ -182,11 +184,7 @@ export default {
                     > productB.name.toLowerCase(),
                 );
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             this.isLoading = false;
         },
@@ -217,19 +215,11 @@ export default {
                 await postWarehouseTransactions(this.warehouseTransaction);
                 this.$emit('warehouseTransactionsChanged', this.warehouseTransaction);
 
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: 'Warehouse transaction created',
-                });
+                displaySuccessNotification('Warehouse transaction created');
 
                 this.showDialog = false;
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
 

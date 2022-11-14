@@ -29,6 +29,7 @@
 
 <script>
 import { postTransaction } from '@/api-connectors/api-connector';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'buy-product-notification',
@@ -67,19 +68,12 @@ export default {
                 // use these values to update the user state
                 this.$store.commit('changeUser', createdTransaction.toUser);
 
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `${this.props.item.data.product.name} was refunded`,
-                });
+                displaySuccessNotification(`${this.props.item.data.product.name} was refunded`);
+
                 this.props.item.data.callback();
                 this.props.close();
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
     },

@@ -99,6 +99,7 @@
 <script>
 import { getProducts, deleteProduct } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
 
 export default {
     name: 'product-tab',
@@ -229,18 +230,10 @@ export default {
             try {
                 await deleteProduct(this.productToBeDeleted.id);
                 this.showConfirmationDialog = false;
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `Deleted product: ${this.productToBeDeleted.name}`,
-                });
+                displaySuccessNotification(`Deleted product: ${this.productToBeDeleted.name}`);
                 this.productToBeDeleted = null;
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             this.loadProducts();
         },

@@ -62,6 +62,7 @@
 <script>
 import { postTransaction } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
+import { displayErrorNotification, displayBuyingNotification } from '@/utils/notifications';
 
 export default {
     name: 'product-card',
@@ -100,28 +101,20 @@ export default {
                 changedUser.password = this.user.password;
                 this.$store.commit('changeUser', changedUser);
 
-                this.$notify({
-                    group: 'transaction',
-                    title: 'Success',
-                    type: 'info',
-                    duration: 8000,
-                    text: `You bought ${this.product.name}`,
-                    data: {
+                displayBuyingNotification(
+                    `You bought ${this.product.name}`,
+                    {
                         product: this.product,
                         transaction: this.transaction,
                         callback: () => {
                             this.product.stock = this.product.stock + 1;
                         },
                     },
-                });
+                );
 
                 this.snackbar = true;
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
         },
     },

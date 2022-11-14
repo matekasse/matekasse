@@ -143,6 +143,9 @@ import {
 } from '@/plugins/validation-rules';
 import { mapState } from 'vuex';
 
+import { displayErrorNotification, displaySuccessNotification } from '@/utils/notifications';
+
+
 export default {
     name: 'edit-product-modal',
 
@@ -323,17 +326,9 @@ export default {
                     this.uploadedFile = null;
                 }
 
-                this.$notify({
-                    title: 'Success',
-                    type: 'success',
-                    text: `Saved product: ${this.editProduct.name}`,
-                });
+                displaySuccessNotification(`Saved product: ${this.editProduct.name}`);
             } catch (error) {
-                this.$notify({
-                    title: 'Error',
-                    type: 'error',
-                    text: error.message,
-                });
+                displayErrorNotification(error.message);
             }
             this.$emit('productsChanged', this.editProduct);
             this.close();
