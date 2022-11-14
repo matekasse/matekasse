@@ -21,7 +21,7 @@ requireComponent.keys().forEach((fileName) => {
     // Get PascalCase name of component
     const componentName = fileName
     // Remove the "./_" from the beginning
-        .replace(/([a-z])+(-([a-z])*)*\//, '')
+        .replace(/(([a-z])+(-([a-z])*)*\/)+/, '')
         .replace(/^\.\//, '')
     // Remove the file extension from the end
         .replace(/\.\w+$/, '');

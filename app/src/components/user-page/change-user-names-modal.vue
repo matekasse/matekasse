@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { patchUser } from '@/utils/api-connector';
+import { patchUser } from '@/api-connectors/api-connector';
 
 export default {
     name: 'change-user-names-modal',

@@ -77,7 +77,7 @@
 <script>
 import jwt from 'jsonwebtoken';
 import { notEmpty } from '@/plugins/validation-rules';
-import { loginUser, getUserById, getConstants } from '@/utils/api-connector';
+import { loginUser, getUserById, getConstants } from '@/api-connectors/api-connector';
 
 export default {
     name: 'login',
@@ -95,21 +95,21 @@ export default {
 
     methods: {
         async login() {
-            const user = {
+            const userFormValues = {
                 name: this.username,
                 password: this.password,
             };
             try {
-                const token = await loginUser(user);
+                const token = await loginUser(userFormValues);
                 this.$store.commit('changeJwt', token);
-
                 const decodedToken = jwt.decode(token, { complete: true });
 
-                const userRes = await getUserById(decodedToken.payload.id);
-                this.$store.commit('initUser', userRes);
+                const user = await getUserById(decodedToken.payload.id);
+                this.$store.commit('initUser', user);
 
                 const constants = await getConstants();
                 this.$store.commit('changeConstants', constants);
+
                 if (token) {
                     this.$router.push('/menu');
                 }

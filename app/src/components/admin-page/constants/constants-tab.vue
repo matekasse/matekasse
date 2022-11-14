@@ -39,7 +39,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { patchConstants, getConstants } from '@/utils/api-connector';
+import { patchConstants, getConstants } from '@/api-connectors/api-connector';
 
 export default {
     name: 'constants-tab',

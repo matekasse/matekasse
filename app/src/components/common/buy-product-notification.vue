@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { postTransaction } from '@/utils/api-connector';
+import { postTransaction } from '@/api-connectors/api-connector';
 
 export default {
     name: 'buy-product-notification',
@@ -62,6 +62,9 @@ export default {
 
             try {
                 const createdTransaction = await postTransaction(storno);
+
+                // toUser has the newest values of the logged in user.
+                // use these values to update the user state
                 this.$store.commit('changeUser', createdTransaction.toUser);
 
                 this.$notify({

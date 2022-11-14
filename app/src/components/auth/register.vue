@@ -83,7 +83,7 @@
 
 <script>
 import { notEmpty, passwordsMatch } from '@/plugins/validation-rules';
-import { postUser, loginUser, getConstants } from '@/utils/api-connector';
+import { postUser, loginUser, getConstants } from '@/api-connectors/api-connector';
 
 export default {
     name: 'register',
@@ -114,18 +114,18 @@ export default {
                     isSystemUser: false,
                     isDisabled: false,
                 };
-                const user = await postUser(newUser);
+                const createdUser = await postUser(newUser);
                 const token = await loginUser(newUser);
-                user.password = this.password;
-                this.$store.commit('initUser', user);
+                createdUser.password = this.password;
+                this.$store.commit('initUser', createdUser);
+
+                const constants = await getConstants();
+                this.$store.commit('changeConstants', constants);
 
                 if (token) {
                     this.$store.commit('changeJwt', token);
                     this.$router.push('/menu');
                 }
-
-                const constants = await getConstants();
-                this.$store.commit('changeConstants', constants);
             } catch (error) {
                 this.$notify({
                     title: 'Error',

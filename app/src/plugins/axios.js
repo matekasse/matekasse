@@ -9,6 +9,8 @@ const http = axios.create({
     },
 });
 
+
+// Use jwt token in every request
 http.interceptors.request.use(
     (config) => {
         const conf = config;
@@ -39,6 +41,8 @@ function forceLogout() {
     window.location = '/';
 }
 
+
+// Refresh jwt token or log out if not authenticated
 http.interceptors.response.use(undefined, (err) => {
     const error = err;
 

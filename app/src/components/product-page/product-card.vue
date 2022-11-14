@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { postTransaction } from '@/utils/api-connector';
+import { postTransaction } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
 
 export default {
@@ -99,6 +99,7 @@ export default {
                 const changedUser = this.transaction.fromUser;
                 changedUser.password = this.user.password;
                 this.$store.commit('changeUser', changedUser);
+
                 this.$notify({
                     group: 'transaction',
                     title: 'Success',
@@ -113,6 +114,7 @@ export default {
                         },
                     },
                 });
+
                 this.snackbar = true;
             } catch (error) {
                 this.$notify({

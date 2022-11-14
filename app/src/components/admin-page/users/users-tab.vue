@@ -131,7 +131,7 @@
 </template>
 
 <script>
-import { getUsers, patchUser } from '@/utils/api-connector';
+import { getUsers, patchUser } from '@/api-connectors/api-connector';
 import { mapState } from 'vuex';
 
 export default {

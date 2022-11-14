@@ -58,7 +58,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getUserTransactions } from '@/utils/api-connector';
+import { getUserTransactions } from '@/api-connectors/api-connector';
 
 export default {
     name: 'user-card',
@@ -135,10 +135,14 @@ export default {
             this.transactions.forEach(
                 (transaction) => {
                     const creationDate = transaction.createdAt;
+
+                    // Format XX:XX:XX
                     const styledTime = `${creationDate.toDateString()}
                         ${(creationDate.getHours() < 10 ? '0' : '')}${creationDate.getHours()}:`
                         + `${(creationDate.getMinutes() < 10 ? '0' : '')}${creationDate.getMinutes()}:`
                         + `${(creationDate.getSeconds() < 10 ? '0' : '')}${creationDate.getSeconds()}`;
+
+                    // add formatting information to transactions
                     if (transaction.typeOfTransaction === 'order') {
                         Object.assign(transaction, {
                             createdAt: styledTime,
