@@ -51,4 +51,4 @@ jobs:
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
       - name: Run tests chromium
-        run: cd testcafe && yarn testcafe "chromium:headless" tests
+        run: cd testcafe && chromium --version && yarn testcafe "chromium:headless" tests
