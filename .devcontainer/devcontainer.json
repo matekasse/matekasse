@@ -11,7 +11,7 @@
             "dockerDashComposeVersion": "v2"
             },
         "ghcr.io/devcontainers/features/node:1": {
-            "version": "22",
+            "version": "18",
         }
     },
     // add any required extensions that must be pre-installed in the devcontainer
