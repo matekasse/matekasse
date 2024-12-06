@@ -14,7 +14,7 @@ COPY ./app/package.json .
 RUN yarn install --non-interactive --network-timeout 600000
 
 COPY ./app .
-RUN export NODE_OPTIONS=--openssl-legacy-provider yarn build
+RUN yarn build
 
 
 FROM node:18-buster-slim
