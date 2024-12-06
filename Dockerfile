@@ -14,7 +14,7 @@ COPY ./app/package.json .
 RUN yarn install --non-interactive --network-timeout 600000
 
 COPY ./app .
-RUN yarn build
+RUN export NODE_OPTIONS=--openssl-legacy-provider yarn build
 
 
 FROM node:18-buster-slim
@@ -33,7 +33,7 @@ COPY ./api/package.json .
 RUN yarn install --non-interactive --network-timeout 600000
 
 COPY ./api .
-RUN yarn build
+RUN  yarn build
 
 COPY --from=build-frontend /app/dist ./public
 ENTRYPOINT [ "yarn", "start" ]
