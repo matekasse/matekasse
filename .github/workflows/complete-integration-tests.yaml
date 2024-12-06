@@ -25,7 +25,7 @@ jobs:
         run: |
           sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
       - name: Start docker environment
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
       - name: Run tests firefox
@@ -47,7 +47,7 @@ jobs:
         run: |
           sed -i 's|0.0.0.0:1337|0.0.0.0:8080|g' docker-compose.yaml
       - name: Start docker environment
-        run: docker-compose up -d
+        run: docker compose up -d
       - name: Install testcafe and dependencies
         run: cd testcafe && yarn install
       - name: Run tests chromium
