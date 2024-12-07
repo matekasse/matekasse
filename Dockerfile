@@ -1,4 +1,4 @@
-FROM node:16-buster-slim as build-frontend
+FROM node:18-buster-slim as build-frontend
 
 RUN apt-get update && \
     apt-get upgrade -y
@@ -17,7 +17,7 @@ COPY ./app .
 RUN yarn build
 
 
-FROM node:16-buster-slim
+FROM node:18-buster-slim
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -33,7 +33,7 @@ COPY ./api/package.json .
 RUN yarn install --non-interactive --network-timeout 600000
 
 COPY ./api .
-RUN yarn build
+RUN  yarn build
 
 COPY --from=build-frontend /app/dist ./public
 ENTRYPOINT [ "yarn", "start" ]

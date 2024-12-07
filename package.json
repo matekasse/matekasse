@@ -19,9 +19,9 @@
         "husky": "^8.0.1"
     },
     "resolutions": {
-        "@types/node": "^16.11.39"
+        "@types/node": "^18"
     },
     "engines": {
-        "node": "^16.11.39"
+        "node": "^18"
     }
 }
